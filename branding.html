@@ -1,0 +1,3014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branding | Design Nerd</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;600;900&family=Inter:wght@100..900&family=Space+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #000;
+            --accent-orange: rgba(255, 94, 0, 0.15); 
+            --secondary-accent: #ff6a00;
+            --text-grey: rgba(255, 255, 255, 0.4);
+            --font-main: 'Epilogue', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        body { 
+            background: var(--bg-dark); 
+            color: #fff; 
+            font-family: var(--font-main);
+            margin: 0;
+            overflow-x: hidden;
+            cursor: none; 
+        }
+
+        /* CUSTOM COMET CURSOR */
+        #cursor-canvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9998;
+        }
+        #cursor {
+            position: fixed; width: 10px; height: 10px; background: #fff;
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            box-shadow: 0 0 15px #fff, 0 0 30px var(--secondary-accent);
+            transform: translate(-50%, -50%);
+        }
+
+        /* HERO FULL */
+        .hero-full {
+            height: 100vh; width: 100%; position: relative;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .hero-bg-container { position: absolute; inset: 0; z-index: 1; }
+        .space-bg-branding { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+        .space-bg-branding::before {
+            content: ""; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%;
+            background: radial-gradient(ellipse at center, var(--accent-orange) 0%, transparent 60%);
+            filter: blur(100px); animation: rotate-vortex 30s linear infinite;
+        }
+        @keyframes rotate-vortex { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .hero-bg-image { width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0.7; mix-blend-mode: screen; z-index: 1; position: relative; }
+        .hero-orange-glow { position: absolute; inset: 0; z-index: 3; background: radial-gradient(circle at center, rgba(255, 120, 0, 0.15) 0%, transparent 80%); pointer-events: none; }
+        .hero-grain { position: absolute; inset: 0; pointer-events: none; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.15; z-index: 10; }
+
+        .cat-nav { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+        .back-link { text-decoration: none; color: #fff; font-size: 0.65rem; letter-spacing: 3px; font-weight: 900; opacity: 0.4; transition: 0.3s; }
+        .back-link:hover { opacity: 1; color: var(--secondary-accent); }
+
+        /* CLIENT SECTION styles */
+        [data-gsap="reveal-up"] {
+            opacity: 0; transform: translateY(30px);
+        }
+
+        .mission-line {
+            display: block;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        .mission-line-inner {
+            display: block;
+            transform: translateY(100%);
+            opacity: 0;
+        }
+
+        .client-section {
+            background: #000; padding: 120px 8vw; min-height: 100vh;
+            display: flex; align-items: center; position: relative; z-index: 20;
+        }
+        .client-grid {
+            display: grid; grid-template-columns: 32% 68%; width: 100%; gap: 5vw;
+            align-items: start;
+        }
+
+        .subtle-label {
+            display: block; font-size: 0.65rem; letter-spacing: 5px; color: #fff;
+            opacity: 0.5; margin-bottom: 0; font-family: var(--font-mono); font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        .client-left {
+            display: flex; flex-direction: column; justify-content: space-between;
+            height: 100%; min-height: 400px;
+        }
+        .client-info-top {
+            display: flex; flex-direction: column;
+        }
+        .client-title {
+            font-size: clamp(3rem, 6vw, 5rem); font-weight: 900; line-height: 0.8; margin: 0;
+            letter-spacing: -0.05em; transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            color: #fff;
+            transform-origin: left center;
+        }
+        .iit-delhi-label {
+            font-size: 28px; font-weight: 900; color: #fff;
+            margin: 24px 0 0 0; font-family: var(--font-main);
+            opacity: 0; transform: translateY(20px);
+            letter-spacing: -0.04em; line-height: 1;
+        }
+        .client-title:hover {
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+        .client-footer {
+            margin-top: auto; display: flex; flex-direction: column; gap: 12px;
+            opacity: 0; transform: translateY(20px);
+        }
+        .client-footer .monospaced {
+            font-size: 0.75rem; letter-spacing: 2px; color: rgba(255,255,255,0.4);
+            font-family: var(--font-mono); text-transform: uppercase;
+        }
+        .client-footer.revealed {
+            opacity: 1; transform: translateY(0);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .client-right {
+            max-width: 700px; padding-left: 0;
+        }
+        .mission-top {
+            margin-bottom: 100px;
+        }
+        .mission-text {
+            font-size: clamp(1.5rem, 2.8vw, 2.5rem); line-height: 1.2; font-weight: 600;
+            color: #fff; letter-spacing: -0.02em; text-align: left;
+            margin-top: 24px;
+        }
+        .italic-accent {
+            font-family: 'Times New Roman', Times, serif; font-style: italic; 
+            color: var(--secondary-accent); font-weight: 300;
+            letter-spacing: -0.01em; padding: 0 4px; display: inline-block;
+        }
+
+        .client-sub-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+            opacity: 0; transform: translateY(30px);
+        }
+        .body-text {
+            font-size: 0.95rem; line-height: 1.7; color: rgba(255,255,255,0.5);
+            font-weight: 300; margin: 0;
+            max-width: 320px;
+        }
+        .sub-col .subtle-label {
+            margin-bottom: 15px; font-size: 0.65rem;
+        }
+
+        [data-gsap="stagger-reveal"] > div {
+            opacity: 0; transform: translateY(30px);
+        }
+
+        .soft-glow-left {
+            position: absolute; left: 10%; top: 40%; width: 300px; height: 300px;
+            background: radial-gradient(circle, var(--accent-orange) 0%, transparent 70%);
+            filter: blur(80px); opacity: 0.2; pointer-events: none; z-index: 2;
+        }
+
+        /* VERBAL IDENTITY SECTION */
+        .verbal-section {
+            background: #000; padding: 120px 8vw; position: relative;
+            min-height: 150vh; display: flex; align-items: start;
+        }
+        .verbal-bg {
+            position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background: radial-gradient(circle at 20% 40%, #0B0F2A 0%, #000 70%);
+            animation: bg-drift 15s ease-in-out infinite alternate;
+        }
+        @keyframes bg-drift { from { opacity: 0.6; transform: scale(1); } to { opacity: 0.9; transform: scale(1.1); } }
+        
+        .verbal-grain {
+            position: absolute; inset: 0; z-index: 2; pointer-events: none;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.05; mix-blend-mode: screen;
+        }
+
+        .verbal-progress-container {
+            position: absolute; top: 120px; left: 8vw; right: 8vw; height: 1px;
+            background: rgba(255,255,255,0.05); z-index: 10;
+        }
+        .verbal-progress-bar {
+            width: 0%; height: 100%; background: var(--secondary-accent);
+            box-shadow: 0 0 10px var(--secondary-accent);
+        }
+
+        .verbal-grid {
+            display: grid; grid-template-columns: 35% 65%; width: 100%; gap: 100px;
+            position: relative; z-index: 5; margin-top: 60px;
+        }
+
+        .verbal-left { 
+            display: flex; flex-direction: column; height: fit-content; 
+            position: sticky; top: 120px;
+        }
+        .verbal-heading {
+            font-size: 28px; font-weight: 600; line-height: 1.2; margin: 0;
+            color: #fff; letter-spacing: 2px; text-transform: uppercase;
+        }
+        .verbal-label { margin-bottom: 25px; }
+
+        .verbal-list {
+            display: flex; flex-direction: column; gap: 40px;
+        }
+        .verbal-item {
+            padding: 30px 0; border-top: 1px solid rgba(255,255,255,0.05);
+            opacity: 0.3; transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative;
+        }
+        .verbal-item.active {
+            opacity: 1; transform: scale(1.02);
+        }
+        .verbal-item-header {
+            display: flex; align-items: start; gap: 20px; cursor: pointer;
+        }
+        .verbal-number {
+            font-family: var(--font-mono); font-size: 1rem; color: #fff;
+            transition: text-shadow 0.3s ease;
+        }
+        .verbal-item.active .verbal-number { text-shadow: 0 0 10px #fff; }
+        .verbal-title {
+            font-size: 1.8rem; font-weight: 600; margin: 0; color: #fff;
+        }
+
+        .verbal-content {
+            padding-left: 45px; height: 0; overflow: hidden; opacity: 0;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: translateY(20px);
+        }
+        .verbal-item.active .verbal-content {
+            height: auto; padding-top: 20px; opacity: 0.6; transform: translateY(0);
+        }
+
+        .verbal-underline {
+            position: absolute; top: -1px; left: 0; width: 0%; height: 1.5px;
+            background: var(--secondary-accent); box-shadow: 0 0 10px var(--secondary-accent);
+            transition: width 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .verbal-item.active .verbal-underline { width: 100%; }
+
+        /* LOGO INTRO SECTION */
+        .logo-intro-section {
+            background: #000; height: 50vh; min-height: 400px;
+            position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-wrapper {
+            position: relative; width: 100%; max-width: 1200px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .branding-logo {
+            height: 72px; width: auto; z-index: 10; position: relative;
+        }
+        .logo-trail {
+            position: absolute; left: 50%; height: 36px; 
+            background: linear-gradient(to right, #1A1AFF, #5A3FFF, #B86BFF, transparent);
+            filter: blur(25px); opacity: 0; z-index: 5;
+            transform-origin: left center; width: 0;
+            pointer-events: none; transform: translateY(-50%); top: 50%;
+        }
+
+        /* REDACTION SECTION (BRAND STORY) */
+        .redaction-section {
+            background: radial-gradient(circle at 40% 60%, #0B0F2A 0%, #000 70%); 
+            color: #fff; min-height: 100vh;
+            padding: 120px 8vw 140px; position: relative; z-index: 30;
+            display: flex; flex-direction: column; align-items: flex-start;
+        }
+        .redaction-label {
+            font-size: 0.65rem; letter-spacing: 4px; color: rgba(255,255,255,0.3);
+            margin-bottom: 16px; font-family: var(--font-mono); text-transform: uppercase;
+        }
+        .redaction-heading {
+            font-size: 34px; font-weight: 900; line-height: 0.9; margin: 0 0 48px 0;
+            color: #fff; letter-spacing: -0.04em;
+        }
+        .redact-container { max-width: 1000px; position: relative; }
+        .redact-paragraph {
+            font-family: var(--font-main);
+            font-size: 28px; line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0;
+            transition: opacity 1s ease;
+        }
+        
+        .redact-word {
+            position: relative; color: #fff; display: inline-block;
+            transition: all 0.6s ease; font-family: var(--font-main);
+            margin: 0 2px;
+        }
+        .redact-word::before, .redact-word::after {
+            content: ""; position: absolute; left: -2%; width: 0%; height: 3px;
+            background: #d40000; z-index: 2; border-radius: 100px;
+            pointer-events: none; transition: width 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .redact-word::before { 
+            top: 50%; transform: translateY(-50%) rotate(-2.2deg) skewX(-15deg); 
+            opacity: 0.9; height: 3px; 
+            background: #d40000;
+            box-shadow: none; clip-path: none;
+            border-radius: 4px;
+        }
+        .redact-word::after { display: none; } /* Removing second cut */
+        
+        .redact-word:nth-child(even)::before { 
+            transform: translateY(-50%) rotate(1.8deg) skewX(12deg); 
+        }
+        .redact-word:nth-child(3n)::before { 
+            transform: translateY(-50%) rotate(-3.5deg) skewX(-20deg); 
+        }
+        .redact-word.active::before { width: 106%; }
+        
+        .highlight-word {
+            color: var(--secondary-accent); font-weight: 300; 
+            font-family: 'Times New Roman', Times, serif; font-style: italic;
+            transition: all 1s ease; opacity: 1; position: relative; z-index: 5;
+            letter-spacing: -0.01em; padding: 0 2px;
+        }
+
+        /* VISUAL ARCHITECTURE SECTION */
+        .visual-architecture-section {
+            background: #000; padding: 120px 60px; min-height: 100vh;
+            display: flex; flex-direction: column; position: relative; z-index: 20;
+        }
+        .architecture-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+            margin-top: 100px; width: 100%;
+        }
+        .arch-item {
+            border-left: 1px solid rgba(255,255,255,0.1); padding-left: 30px;
+            opacity: 0; transform: translateY(30px);
+        }
+        .arch-number {
+            font-family: var(--font-mono); font-size: 0.7rem; color: var(--secondary-accent);
+            display: block; margin-bottom: 20px;
+        }
+        .arch-title {
+            font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 15px;
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        .arch-desc {
+            font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .arch-preview {
+            height: 200px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            position: relative;
+        }
+        .grid-blueprint {
+            width: 100%; height: 100%; opacity: 0.2;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .color-chip { width: 60px; height: 60px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); }
+        .type-specimen { font-size: 4rem; font-weight: 900; color: #fff; opacity: 0.8; }
+
+        /* ATMOSPHERIC CINEMATIC FLOW */
+        .clarity-section {
+            background: #000; height: 100vh; position: relative;
+            overflow: hidden; z-index: 30; display: flex; align-items: center;
+        }
+        .noise-overlay {
+            position: absolute; inset: 0; z-index: 50; opacity: 0.1; pointer-events: none;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            mix-blend-mode: overlay;
+        }
+        .dust-container { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+        .dust-mote {
+            position: absolute; width: 2px; height: 2px; background: #fff;
+            border-radius: 50%; opacity: 0; filter: blur(1px);
+        }
+        .flow-container {
+            position: relative; width: 100%; height: 600px;
+            display: flex; align-items: center; justify-content: flex-start;
+            /* Wider mask to include the logo area */
+            mask-image: linear-gradient(to right, black 60%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, black 60%, transparent 100%);
+        }
+        .flow-mass {
+            position: absolute; left: -10vw; width: 90vw; height: 140%;
+            background: radial-gradient(circle at 10% 50%, #1A1AFF 0%, #B86BFF 30%, #FF6BFF 60%, transparent 85%);
+            filter: blur(120px); opacity: 0.6; z-index: 1;
+        }
+        .flow-beam {
+            position: absolute; left: 0; width: 100vw; height: 120px;
+            background: radial-gradient(ellipse at 15% 50%, rgba(255,255,255,0.8) 0%, #FFB8FF 40%, transparent 80%);
+            filter: blur(50px); opacity: 0; z-index: 3;
+            transform-origin: left center;
+        }
+        .flow-core-glow {
+            position: absolute; left: 0; width: 100vw; height: 400px;
+            background: radial-gradient(circle at 10% 50%, rgba(255,255,255,0.3) 0%, transparent 80%);
+            filter: blur(80px); opacity: 0; z-index: 2;
+        }
+        .flow-logo-wrap {
+            position: absolute; left: 60%; top: 50%; transform: translate(-50%, -50%) scale(0.85);
+            z-index: 40; opacity: 0; pointer-events: none;
+        }
+        .flow-logo { height: 75px; filter: drop-shadow(0 0 20px rgba(255,255,255,0.4)); }
+
+        /* VERBAL IDENTITY - PERSONALITY SECTION */
+        .personality-section {
+            background: #000; padding: 120px 72px; min-height: 100vh;
+            display: flex; align-items: flex-start; position: relative; z-index: 20;
+        }
+        .personality-grid {
+            display: grid; grid-template-columns: 35% 65%; gap: 48px; width: 100%;
+        }
+        .personality-left { position: sticky; top: 120px; padding-right: 40px; }
+        .personality-right { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-right: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .personality-card {
+            padding: 40px; border-top: 1px solid rgba(255,255,255,0.08); 
+            border-left: 1px solid rgba(255,255,255,0.08);
+            background: transparent; transition: background 0.3s ease, border-color 0.3s ease;
+            opacity: 0;
+        }
+        .personality-card:hover { background: #111; border-color: rgba(255,255,255,0.15); }
+        
+        .p-number { font-family: var(--font-mono); font-size: 0.7rem; opacity: 0.4; margin-bottom: 24px; display: block; }
+        .p-title { font-size: 22px; font-weight: 600; color: #fff; margin-bottom: 16px; }
+        .p-desc { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+
+        .persona-label { font-size: 13px; letter-spacing: 3px; opacity: 0.5; text-transform: uppercase; display: block; margin-bottom: 16px; }
+        .persona-heading { font-size: 40px; font-weight: 600; color: #fff; margin-bottom: 24px; }
+        .persona-body { font-size: 17px; color: rgba(255,255,255,0.8); line-height: 1.6; max-width: 420px; }
+        .persona-body p { margin-bottom: 16px; }
+        .persona-body strong { color: #fff; font-weight: 600; }
+
+        /* FOOTER */
+        .case-footer {
+            background: #000; padding: 120px 8vw; border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex; flex-direction: column; gap: 80px; position: relative; z-index: 50;
+        }
+        .footer-cta { display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .cta-text { font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; line-height: 0.9; margin: 30px 0; }
+        .next-btn { 
+            text-decoration: none; color: #fff; font-size: 1rem; letter-spacing: 4px; border: 1px solid #fff;
+            padding: 20px 40px; border-radius: 100px; transition: 0.4s;
+        }
+        .next-btn:hover { background: #fff; color: #000; }
+        .footer-meta { display: flex; justify-content: space-between; align-items: center; opacity: 0.4; font-family: var(--font-mono); font-size: 0.7rem; }
+        .monospaced { letter-spacing: 2px; }
+        .top-btn { background: none; border: none; color: #fff; cursor: pointer; letter-spacing: 2px; }
+
+        /* BLAST & UTILS (IMPROVED Z-INDEX) */
+        .nuclear-flash {
+            position: fixed; width: 100px; height: 100px; background: radial-gradient(circle, #fff 0%, var(--secondary-accent) 40%, transparent 70%);
+            border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%);
+            filter: blur(60px); opacity: 0; mix-blend-mode: screen;
+        }
+        .shockwave { position: fixed; border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); opacity: 0.8; z-index: 99998; pointer-events: none; }
+        .spark { position: fixed; width: 6px; height: 1.5px; background: var(--secondary-accent); border-radius: 100px; z-index: 99998; pointer-events: none; }
+        
+        .shooting-star-particle {
+            position: fixed; width: 15px; height: 15px; background: #fff;
+            border-radius: 50%; z-index: 99997; box-shadow: 0 0 30px var(--secondary-accent);
+            pointer-events: none;
+        }
+        .shooting-star-trail {
+            position: fixed; height: 3px; background: linear-gradient(to left, var(--secondary-accent), transparent);
+            z-index: 99996; opacity: 0.8;
+        }
+        /* VERBAL IDENTITY - BRAND VOICE SECTION */
+        .voice-section {
+            background: #000; padding: 120px 72px; min-height: 110vh;
+            display: flex; align-items: center; position: relative; z-index: 20;
+        }
+        .voice-grid {
+            display: grid; grid-template-columns: 40% 60%; gap: 64px; width: 100%; align-items: flex-start;
+        }
+        .voice-left { position: sticky; top: 120px; }
+        .voice-sliders { margin: 48px 0; }
+        .slider-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
+        .slider-label { min-width: 100px; opacity: 0.8; }
+        .slider-track { height: 1px; background: rgba(255,255,255,0.15); flex: 1; margin: 0 24px; position: relative; }
+        .slider-dot { position: absolute; top: 50%; left: 0%; width: 8px; height: 8px; background: var(--secondary-accent); border-radius: 50%; transform: translate(-50%, -50%); transition: box-shadow 0.3s ease; }
+        .slider-item:hover .slider-dot { box-shadow: 0 0 15px var(--secondary-accent); }
+        
+        .voice-right {
+            position: relative; border-radius: 20px; overflow: hidden;
+            background: linear-gradient(135deg, #0a1128 0%, #1c0b1f 50%, #2b0b14 100%);
+            min-height: 700px; display: flex; flex-direction: column; padding: 60px;
+        }
+        .chat-ui-card {
+            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px;
+            padding: 40px; display: flex; flex-direction: column; gap: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .chat-message { display: flex; flex-direction: column; gap: 8px; opacity: 0; transform: translateY(20px); transition: transform 0.3s ease; }
+        .chat-message:hover { transform: translateY(-3px); }
+        .chat-sender { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 1.5px; opacity: 0.4; text-transform: uppercase; }
+        .chat-bubble {
+            padding: 24px; border-radius: 12px; font-size: 15px; line-height: 1.6;
+            max-width: 85%; position: relative;
+        }
+        .msg-you { align-self: flex-start; }
+        .bubble-you { border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); }
+        .msg-uxism { align-self: flex-end; text-align: left; }
+        .bubble-uxism { background: #fff; color: #000; border-radius: 12px 12px 0 12px; font-weight: 500; }
+        .bubble-uxism::after {
+            content: ''; position: absolute; bottom: 0; right: -8px; width: 0; height: 0;
+            border-left: 8px solid #fff; border-top: 8px solid transparent;
+        }
+
+        /* POSITIONING STATEMENT (TIGHTENED) */
+        .positioning-section {
+            background: #000; padding: 120px 8vw 32px; min-height: auto;
+            display: flex; flex-direction: column; justify-content: flex-start;
+            position: relative; z-index: 20;
+        }
+        .pos-header { margin-bottom: 80px; text-align: left; }
+        .pos-block { margin-bottom: 72px; text-align: left; opacity: 0; transform: translateY(20px); }
+        .pos-block:last-child { margin-bottom: 0; }
+        .pos-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 12px; display: block; }
+        .pos-line { font-size: 28px; line-height: 1.5; color: rgba(255,255,255,0.4); font-weight: 400; margin: 0; padding: 0; }
+        .pos-highlight { font-family: 'Times New Roman', Times, serif; font-style: italic; color: #ff6a00; font-weight: 500; font-size: 28px; }
+        .pos-block.revealed { opacity: 1; transform: translateY(0); transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1); }
+        .pos-block.revealed .pos-highlight { opacity: 1; }
+
+        /* HALF-HEIGHT IMAGE SHOWCASE (CINEMATIC OVERLAP) */
+        .half-image-section {
+            background: #000; width: 100%; height: 50vh; overflow: visible;
+            margin-top: -20px; padding: 0 8vw;
+            position: relative; z-index: 25; 
+        }
+        .half-image-section .inner-reveal { width: 100%; height: 100%; overflow: hidden; transform: scale(1.1); opacity: 0; border: 1px solid rgba(255,255,255,0.05); }
+        .half-image-section img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9); }
+
+        .half-image-section img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9); }
+
+        /* SUB BRANDING SECTION (REFINED) */
+        .sub-brand-section {
+            background: #000; padding: 80px 8vw 120px; min-height: 60vh;
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; position: relative; z-index: 20;
+        }
+        .sub-brand-left { display: flex; flex-direction: column; justify-content: flex-start; }
+        .sub-brand-text h2 { 
+            font-size: 28px; line-height: 1.5; font-weight: 400; color: rgba(255,255,255,0.4); 
+            max-width: 700px; margin-bottom: 40px;
+        }
+        .sub-brand-right { display: flex; justify-content: center; align-items: flex-start; position: relative; padding-top: 20px; }
+        
+        .ux-orb {
+            width: 180px; height: 180px;
+            background: radial-gradient(circle, rgba(162, 0, 255, 0.1) 0%, transparent 80%);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            position: relative; overflow: visible;
+            box-shadow: 0 0 30px rgba(162, 0, 255, 0.1);
+            animation: fluid-morph 8s ease-in-out infinite;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* Rounded Gradient Border Hack */
+        .ux-orb::before {
+            content: ""; position: absolute; inset: -2px;
+            padding: 2px; border-radius: inherit;
+            background: linear-gradient(135deg, #a200ff, #ff0099, #6a11cb);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            opacity: 0.8; animation: stroke-glow 4s ease-in-out infinite;
+        }
+
+        .ux-orb-logo {
+            width: 60px; height: auto; z-index: 5;
+            animation: logo-sway 8s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+            pointer-events: none;
+        }
+
+        .orb-particles {
+            position: absolute; inset: 0; border-radius: inherit; overflow: hidden;
+            -webkit-mask-image: radial-gradient(circle, #fff 40%, transparent 80%);
+            mask-image: radial-gradient(circle, #fff 40%, transparent 80%);
+        }
+        .orb-particle {
+            position: absolute; width: 4px; height: 4px; border-radius: 50%;
+            background: linear-gradient(to bottom, #a200ff, #ff0099);
+            opacity: 0; filter: blur(1px);
+        }
+
+        @keyframes particle-rise {
+            0% { transform: translateY(100px) scale(0); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
+        @keyframes particle-scatter {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(30px); }
+        }
+
+        @keyframes fluid-morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: translate(0, 0); }
+            33% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; transform: translate(10px, -10px); }
+            66% { border-radius: 50% 40% 30% 60% / 40% 50% 60% 50%; transform: translate(-8px, 12px); }
+        }
+
+        @keyframes stroke-glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; filter: blur(1px); } }
+
+        @keyframes logo-sway {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(10px, -10px); }
+            66% { transform: translate(-8px, 12px); }
+        }
+        
+        .sub-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 0; grid-column: 1 / span 2; }
+        .sub-footer-left { max-width: 560px; }
+        .sub-footer-left .body-text { margin-top: 0; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.5); }
+        .sub-footer-tags { display: flex; gap: 24px; margin-top: 32px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; opacity: 0.5; text-transform: uppercase; }
+
+        .cta-button {
+            background: transparent; border: 1px solid rgba(255,255,255,0.15);
+            padding: 24px 48px; border-radius: 100px; color: #fff;
+            display: flex; gap: 10px; align-items: center; cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            font-size: 1.1rem; min-width: 320px;
+        }
+        .cta-button:hover { background: rgba(255,255,255,0.05); border-color: #fff; transform: scale(1.05); box-shadow: 0 0 30px rgba(255,255,255,0.1); }
+        .cta-static { font-weight: 400; opacity: 0.6; }
+        .cta-dynamic { font-weight: 500; min-width: 5px; border-right: 2px solid #fff; padding-right: 5px; animation: cursor-blink 0.8s infinite; }
+        @keyframes cursor-blink { 0%, 100% { border-color: transparent; } 50% { border-color: #fff; } }
+
+        /* VIBRANT GRADIENT REVEAL (PREMIUM) */
+        .flashy-reveal-section {
+            background: #000; width: 100%; height: 70vh; overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+            position: relative; z-index: 20;
+        }
+        .reveal-logo-container { position: relative; width: 320px; height: 320px; display: flex; justify-content: center; align-items: center; }
+        
+        .reveal-logo { 
+            width: 220px; height: auto; opacity: 0;
+            filter: brightness(5) contrast(1.5) blur(20px) hue-rotate(45deg);
+            transform: scale(0.6);
+            transition: all 1.8s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: 15;
+        }
+        
+        /* Gradient Aura */
+        .logo-gradient-aura {
+            position: absolute; inset: -50px;
+            background: radial-gradient(circle, rgba(162, 0, 255, 0.6) 0%, rgba(255, 0, 153, 0.4) 30%, transparent 70%);
+            opacity: 0; filter: blur(50px); z-index: 5;
+            transform: scale(0.5);
+        }
+        /* VISUAL IDENTITY INTRO SECTION (SWISS GRID) */
+        .identity-intro-section {
+            width: 100%; height: 100vh; background: #000;
+            position: relative; overflow: hidden; display: flex; padding: 80px 8vw;
+            z-index: 20; font-family: 'Inter', -apple-system, sans-serif;
+        }
+        .bg-glow-iris {
+            position: absolute; top: -20%; left: -10%; width: 60vw; height: 60vw;
+            background: radial-gradient(circle, rgba(20, 30, 90, 0.4) 0%, transparent 70%);
+            z-index: 1; filter: blur(80px);
+        }
+        
+        .id-top-labels {
+            position: absolute; top: 80px; left: 8vw; right: 10vw;
+            display: flex; justify-content: space-between; z-index: 10;
+        }
+        .pro-label { font-size: 14px; opacity: 0.4; letter-spacing: 3px; color: #fff; }
+        .sys-label { font-size: 14px; color: #6f6f6f; letter-spacing: 3px; text-transform: uppercase; }
+
+        .id-left-heading {
+            flex: 1; display: flex; align-items: flex-end; padding-bottom: 5vh; z-index: 10;
+        }
+        .id-left-heading h1 {
+            font-size: 34px; font-weight: 600; line-height: 0.95;
+            color: #eaeaea; max-width: 500px; margin: 0;
+        }
+
+        .id-right-list {
+            flex: 1.2; display: flex; flex-direction: column; justify-content: flex-end;
+            align-items: flex-end; padding-bottom: 8vh; z-index: 10;
+        }
+        .id-list-item {
+            width: 80%; display: flex; align-items: center; gap: 40px;
+            padding: 32px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer; transition: all 0.4s ease; transform: translateY(30px); opacity: 0;
+        }
+        .item-num { font-size: 20px; color: #8a8a8a; font-weight: 400; width: 40px; }
+        .item-title { font-size: clamp(24px, 2.5vw, 32px); color: #eaeaea; font-weight: 500; }
+        
+        .id-list-item:hover { background: rgba(255,255,255,0.02); }
+        .id-list-item:hover .item-title { color: #fff; transform: translateX(10px); }
+
+        /* REVEAL LOGO (RESTORED) */
+        .flashy-reveal-section.revealed .reveal-logo { opacity: 1; transform: scale(1); filter: brightness(1) contrast(1) blur(0) hue-rotate(0deg); }
+        .flashy-reveal-section.revealed .logo-gradient-aura { opacity: 1; transform: scale(1.5); transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1); animation: aura-breathing 4s ease-in-out infinite alternate 1.5s; }
+
+        @keyframes aura-breathing { 0% { opacity: 0.3; transform: scale(1.4); } 100% { opacity: 0.6; transform: scale(1.6); } }
+
+        /* The Gradient "Flash" Overlay */
+        .gradient-flash-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, #a200ff, #ff0099, #6a11cb, #2575fc);
+            background-size: 300% 300%;
+            opacity: 0; pointer-events: none; z-index: 40;
+            mix-blend-mode: screen;
+        }
+
+        /* CLIENT FOOTER (RESTORED) */
+        .client-footer { display: flex; flex-direction: column; gap: 8px; opacity: 0; transform: translateY(30px); }
+        .client-footer.revealed { opacity: 1 !important; transform: translateY(0) !important; transition: all 1s cubic-bezier(0.19, 1, 0.22, 1); }
+
+        /* IMAGE SHOWCASE SECTION */
+        .image-reveal-section {
+            background: #000; padding: 0 72px 120px; min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            position: relative; z-index: 20;
+        }
+        .image-inner-container {
+            width: 100%; max-width: 1400px; position: relative;
+            border: 1px solid rgba(255,255,255,0.05); /* very subtle grid-like border */
+            overflow: hidden; opacity: 0; transform: scale(1.05);
+        }
+        .reveal-img { width: 100%; height: auto; display: block; filter: brightness(0.95); }
+        .image-overlay-tint {
+            position: absolute; inset: 0; background: rgba(255, 106, 0, 0.12); /* Subtle orange feel */
+            mix-blend-mode: overlay; pointer-events: none; z-index: 5;
+        }
+
+        @keyframes reveal-glow { 0% { filter: brightness(3) blur(10px); color: #fff; } 100% { filter: brightness(1) blur(0); color: var(--text-grey); } }
+        .nuclear-glow-reveal { animation: reveal-glow 1.5s ease-out forwards; }
+
+        /* MARK CONSTRUCTION SECTION */
+        .mark-construction-section {
+            background: #050505;
+            background: radial-gradient(circle at 100% 50%, #0a0a1a 0%, #050505 80%);
+            padding: 120px 8vw 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 20;
+            opacity: 0; /* Starts hidden for GSAP reveal */
+        }
+        .mark-grid {
+            width: 100%;
+            max-width: 1400px;
+            display: grid;
+            grid-template-columns: 40% 60%;
+            gap: 120px;
+            align-items: center;
+        }
+        .mark-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .mark-label-small {
+            display: block;
+            font-size: 14px;
+            letter-spacing: 0.2em;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            font-family: var(--font-mono);
+        }
+        .mark-h {
+            font-size: 34px;
+            font-weight: 600;
+            color: #EAEAEA;
+            line-height: 1.2;
+            margin: 0;
+            font-family: var(--font-main);
+        }
+        .mark-right {
+            display: flex;
+            align-items: center;
+        }
+        .mark-body-text {
+            font-size: 18px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 600px;
+            margin: 0;
+            font-family: var(--font-main);
+        }
+
+        @media (max-width: 900px) {
+            .mark-grid { grid-template-columns: 1fr; gap: 40px; }
+            .mark-construction-section { padding: 80px 8vw; }
+        }
+
+        /* DUAL FRAME SECTION */
+        .dual-frame-section {
+            background: #000;
+            padding: 80px 8vw;
+            position: relative;
+            z-index: 20;
+            overflow: hidden;
+        }
+        .frames-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 500px;
+        }
+        .frame-item {
+            flex: 1;
+            max-width: 500px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 4px;
+            cursor: grab;
+            transition: border-color 0.3s ease, background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            touch-action: none;
+        }
+        .frame-item:active { cursor: grabbing; }
+        .frame-item:hover { border-color: rgba(255,106,0,0.3); background: rgba(255,255,255,0.04); }
+        .frame-item img { width: 100%; height: auto; pointer-events: none; }
+        
+        .divider-line {
+            width: 1px;
+            height: 120px;
+            background: linear-gradient(to bottom, transparent, rgba(255,106,0,0.4), transparent);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.6;
+        }
+        @media (max-width: 900px) {
+            .frames-container { flex-direction: column; gap: 60px; }
+            .divider-line { width: 80px; height: 1px; background: linear-gradient(to right, transparent, rgba(255,106,0,0.4), transparent); }
+        }
+
+        /* TYPOGRAPHY SECTION */
+        .typography-section {
+            width: 100%; height: 100vh; background: #000;
+            display: flex; position: relative; z-index: 20; overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+        .typo-left {
+            flex: 1; background: #000; padding: 120px 8vw;
+            display: flex; flex-direction: column; justify-content: flex-start;
+            position: relative;
+        }
+        .typo-label {
+            font-size: 12px; letter-spacing: 0.25em; color: rgba(255,255,255,0.5);
+            margin-bottom: 24px; text-transform: uppercase;
+        }
+        .typo-main-h {
+            font-size: 34px; font-weight: 700; line-height: 1.1;
+            color: #eaeaea; margin: 0; opacity: 0;
+        }
+        .typo-meta-row {
+            display: flex; gap: 40px; margin-top: 32px;
+            font-size: 12px; color: rgba(255,255,255,0.6); opacity: 0;
+        }
+        .typo-big-sample {
+            position: absolute; bottom: -30px; left: 8vw;
+            font-size: clamp(200px, 20vw, 300px); font-weight: 600;
+            color: rgba(255,255,255,0.9); line-height: 1;
+            letter-spacing: -0.05em; pointer-events: none;
+            opacity: 0; transform: translateY(40px);
+        }
+
+        .typo-right {
+            flex: 1; position: relative;
+            display: flex; align-items: center; justify-content: center;
+            padding: 80px;
+        }
+        .glass-panel {
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(80, 0, 255, 0.4), rgba(0, 100, 255, 0.3), rgba(255, 0, 150, 0.3));
+            backdrop-filter: blur(80px); -webkit-backdrop-filter: blur(80px);
+            opacity: 0.8; z-index: 1;
+        }
+        .typo-content-grid {
+            position: relative; z-index: 10;
+            display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px;
+            width: 100%; max-width: 900px;
+            padding-top: 40px;
+            align-self: stretch;
+            opacity: 0;
+        }
+        .typo-body {
+            font-size: 12px; line-height: 1.8; color: rgba(255,255,255,0.5);
+            margin: 0;
+        }
+
+        @media (max-width: 1000px) {
+            .typography-section { flex-direction: column; height: auto; }
+            .typo-left { height: 100vh; }
+            .typo-right { padding: 80px 8vw; min-height: 60vh; }
+        }
+
+        /* WEIGHT SHOWCASE SECTION */
+        .weight-showcase-section {
+            width: 100%; height: 100vh; background: #050505;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; z-index: 20;
+            font-family: 'Inter', sans-serif;
+        }
+        .liquid-bg {
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(80, 0, 255, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 70%, rgba(255, 0, 150, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 60%, rgba(0, 120, 255, 0.15) 0%, transparent 50%);
+            filter: blur(100px);
+            opacity: 0.6;
+            z-index: 1;
+            animation: moveGradient 20s infinite alternate ease-in-out;
+        }
+        @keyframes moveGradient {
+            0% { transform: scale(1) translate(0,0); }
+            100% { transform: scale(1.2) translate(50px, -50px); }
+        }
+        .weight-vignette {
+            position: absolute; inset: 0;
+            background: radial-gradient(circle, transparent 20%, #050505 100%);
+            pointer-events: none; z-index: 2;
+        }
+        
+        .weight-nav {
+            position: absolute; top: 60px; left: 8vw;
+            display: flex; gap: 40px; z-index: 10;
+        }
+        .weight-indicator {
+            font-size: 12px; letter-spacing: 0.2em; color: rgba(255,255,255,0.3);
+            text-transform: uppercase; transition: color 0.5s ease, text-shadow 0.5s ease;
+            position: relative; display: flex; align-items: center; gap: 10px;
+        }
+        .weight-indicator span { font-weight: 400; }
+        .weight-indicator.active { color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.4); }
+        .weight-indicator.active::after {
+            content: ''; position: absolute; bottom: -8px; left: 0; width: 100%; height: 1px;
+            background: #fff; transform: scaleX(1); transform-origin: left;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .weight-meta-bottom {
+            position: absolute; bottom: 60px; right: 8vw;
+            display: flex; gap: 40px; z-index: 50;
+            font-size: 11px; color: rgba(255,255,255,0.7);
+            letter-spacing: 0.15em; text-transform: uppercase;
+        }
+
+        .focus-letter-wrap {
+            position: relative; z-index: 5;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .focus-letter {
+            font-size: clamp(250px, 30vw, 400px);
+            font-weight: 400; /* Will be animated */
+            color: #EAEAEA;
+            line-height: 1;
+            margin: 0;
+            user-select: none;
+            text-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        /* NAMING SECTION */
+        .naming-section {
+            width: 100%; height: 400px;
+            position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: flex-start;
+            background: #000;
+        }
+        .naming-bg-wrap {
+            position: absolute; inset: 0; z-index: 1;
+        }
+        .naming-bg {
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: center;
+            transform: scale(1.05); /* Initial zoom */
+        }
+        .naming-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.1) 100%);
+            z-index: 2;
+        }
+        .naming-content {
+            position: relative; z-index: 3;
+            max-width: 580px; padding-left: 100px;
+            display: flex; flex-direction: column; gap: 16px;
+            opacity: 0; transform: translateY(30px);
+        }
+        .naming-label {
+            font-size: 12px; letter-spacing: 2px; color: rgba(255,255,255,0.4);
+            text-transform: uppercase; font-weight: 400;
+        }
+        .naming-h {
+            font-size: 28px; font-weight: 500; color: #fff; margin: 0;
+        }
+        .naming-p {
+            font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.65);
+            margin: 0; font-family: 'Inter', sans-serif;
+        }
+        .naming-micro {
+            font-size: 12px; color: rgba(255,255,255,0.35); font-style: italic;
+        }
+        .italic-accent {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: var(--secondary-accent);
+            letter-spacing: 0;
+            font-weight: normal;
+        }
+
+        /* SPLIT SHOWCASE */
+        .split-showcase {
+            width: 100%; height: 75vh; min-height: 500px;
+            display: flex; background: #000;
+            position: relative; overflow: hidden; z-index: 20;
+        }
+        .showcase-left {
+            flex: 1; background: #000; padding: 80px;
+            display: flex; align-items: center; justify-content: center; position: relative;
+        }
+        .showcase-right {
+            flex: 1; position: relative;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+            background: #0d0d1e; /* Deep navy base */
+        }
+        .mark-gradient-bg {
+            position: absolute; inset: 0;
+            background: 
+                radial-gradient(at 100% 0%, #4a1cfb 0%, transparent 50%),
+                radial-gradient(at 0% 100%, #ff1ca2 0%, transparent 50%),
+                radial-gradient(at 50% 50%, #2b0b5e 0%, #0d0d1e 100%);
+            opacity: 0.8;
+            animation: pulseGlow 8s infinite alternate ease-in-out;
+        }
+
+        .logotype-center {
+            position: relative; z-index: 10;
+            width: 240px; opacity: 0; transform: translateY(20px);
+        }
+        .logotype-img { width: 100%; height: auto; }
+
+        .logomark-center {
+            position: relative; z-index: 10;
+            width: 140px; opacity: 0; transform: scale(0.9);
+        }
+        .logomark-img {
+            width: 100%; height: auto;
+            filter: drop-shadow(0 0 30px rgba(74, 28, 251, 0.3));
+        }
+        .logomark-center:hover .logomark-img {
+            transform: rotate(3deg) scale(1.1);
+            filter: drop-shadow(0 0 40px rgba(120, 80, 255, 0.7));
+        }
+
+        /* PALETTE SECTION */
+        .palette-section {
+            width: 100%; height: 100vh;
+            position: relative; overflow: hidden;
+            background: #000;
+            padding: 100px 8vw;
+            display: flex; flex-direction: column; justify-content: space-between;
+            z-index: 20;
+        }
+        .palette-bg {
+            position: absolute; inset: 0; z-index: 1; pointer-events: none;
+        }
+        .palette-blob {
+            position: absolute; width: 60vw; height: 60vw;
+            filter: blur(120px); opacity: 0.15;
+            border-radius: 50%;
+        }
+        .blob-blue { top: -20%; left: -10%; background: #0b1cff; opacity: 0.1; }
+        .blob-purple { top: 10%; left: 10%; background: #8a2be2; opacity: 0.05; }
+        .blob-pink { display: none; }
+
+        .palette-top {
+            position: relative; z-index: 10;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            flex-wrap: wrap; gap: 40px;
+        }
+        .palette-h {
+            font-size: 36px; font-weight: 500; color: #fff; margin: 0;
+            margin-top: 12px;
+        }
+        .palette-desc {
+            font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.6);
+            max-width: 420px; margin: 0; padding-top: 40px;
+        }
+
+        .palette-visual-wrap {
+            position: relative; z-index: 10;
+            width: 100%; display: flex; flex-direction: column; align-items: center;
+            padding-bottom: 80px;
+        }
+        .color-labels-row {
+            width: auto;
+            display: flex; gap: 270px;
+            font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,0.4);
+            text-transform: uppercase; margin-bottom: 24px;
+        }
+        .palette-main-text {
+            font-size: 82px;
+            font-weight: 500; line-height: 1;
+            background: linear-gradient(90deg, #fff, #0b1cff, #a855f7, #ff6ec7, #fff);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            text-align: center;
+            opacity: 0; transform: translateY(40px) scale(0.98);
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.5px;
+            animation: textGradientFlow 12s linear infinite;
+        }
+        @keyframes textGradientFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+        .color-labels-row span { opacity: 0; transform: translateY(10px); }
+
+        /* SWATCH SECTION */
+        .swatches-section {
+            width: 100%; position: relative; z-index: 20;
+            background: #000;
+        }
+        .swatch-row {
+            height: 120px; width: 100%;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 8vw; position: relative;
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            cursor: pointer;
+            overflow: hidden;
+            opacity: 0; transform: translateX(-40px);
+        }
+        .swatch-row:hover {
+            filter: brightness(1.1);
+            padding-left: 10vw;
+        }
+        /* Liquid Highlight Beam on Hover */
+        .swatch-row::before {
+            content: ""; position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            pointer-events: none;
+        }
+        .swatch-row:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .swatch-row::after {
+            content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+            background: rgba(255,255,255,0.03);
+            pointer-events: none;
+        }
+
+        .swatch-name {
+            font-size: 14px; font-weight: 500; letter-spacing: 2px;
+            color: #fff; text-transform: uppercase;
+            transform: translateX(-20px); opacity: 0; transition: all 0.6s ease;
+        }
+        .swatch-info {
+            display: flex; gap: 40px;
+            font-family: var(--font-mono);
+            font-size: 11px; color: rgba(255,255,255,0.7);
+            transform: translateX(20px); opacity: 0; transition: all 0.6s ease;
+        }
+        .swatch-row.is-visible .swatch-name,
+        .swatch-row.is-visible .swatch-info {
+            transform: translateX(0); opacity: 1;
+        }
+        .info-group { display: flex; flex-direction: column; gap: 4px; }
+        .info-label { opacity: 0.4; font-size: 9px; letter-spacing: 1px; }
+
+        @media (max-width: 900px) {
+            .swatch-info { gap: 20px; }
+            .swatch-row { height: 100px; padding: 0 4vw; }
+            .info-group span:last-child { font-size: 9px; }
+        }
+        /* PALETTE COMPOSITION SECTION */
+        .composition-section {
+            width: 100%; height: 95vh;
+            background: #050505;
+            position: relative; overflow: hidden;
+            padding: 100px 8vw;
+            display: flex; flex-direction: column;
+            z-index: 20;
+        }
+        .composition-top {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            position: relative; z-index: 30;
+        }
+        .comp-h { font-size: 32px; color: #fff; margin: 12px 0 0 0; }
+        .comp-desc { 
+            font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.6); 
+            max-width: 420px; margin: 0; padding-top: 20px;
+        }
+
+        .composition-canvas {
+            flex: 1; position: relative;
+            width: 100%; max-width: 1200px; margin: 0 auto;
+        }
+        .comp-card {
+            position: absolute; border-radius: 6px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            padding: 12px; display: flex; flex-direction: column;
+            transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.4s ease;
+            cursor: pointer; opacity: 0; transform: translateY(60px);
+        }
+        .comp-card:hover {
+            transform: translateY(-8px) scale(1.02) !important;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+            z-index: 50 !important;
+        }
+        .card-label { font-size: 10px; font-weight: 500; letter-spacing: 1px; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+        .card-label.light { color: rgba(0,0,0,0.3); }
+
+        /* Specific Card Placements */
+        .card-pink { background: #FF4FD8; width: 340px; height: 180px; left: 5%; top: 15%; z-index: 5; }
+        .card-blue { 
+            background: linear-gradient(135deg, #1A2AFF, #0a1166); 
+            width: 440px; height: 260px; left: 30%; top: 25%; z-index: 2;
+            overflow: hidden;
+        }
+        .card-blue::after {
+            content: ""; position: absolute; inset: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent);
+            filter: blur(20px);
+        }
+        .card-purple { background: #6A4DFF; width: 280px; height: 160px; left: 15%; top: 40%; z-index: 10; }
+        .card-black { background: #010101; width: 300px; height: 140px; left: 45%; top: 60%; z-index: 4; }
+        .card-white { background: #FFFFFF; width: 140px; height: 100px; left: 42%; top: 65%; z-index: 15; border: 1px solid rgba(0,0,0,0.05); }
+        .card-grey { background: #CFCFCF; width: 200px; height: 240px; right: 5%; top: 20%; z-index: 3; }
+
+        @media (max-width: 900px) {
+            .comp-card { width: 140px !important; height: 80px !important; }
+            .composition-top { flex-direction: column; gap: 40px; }
+            .card-blue { width: 200px !important; height: 120px !important; }
+        }
+
+        /* GRADIENT SET SECTION */
+        .gradient-set-section {
+            width: 100%; height: 100vh;
+            position: relative; overflow: hidden;
+            background: #0d0d1e;
+            padding: 100px 8vw;
+            display: flex; flex-direction: column;
+            z-index: 20; color: #fff;
+        }
+        .gradient-canvas {
+            position: absolute; inset: 0; z-index: 1;
+            background: #0d0d1e;
+            overflow: hidden;
+        }
+        .gradient-blob {
+            position: absolute; border-radius: 50%;
+            filter: blur(120px); opacity: 0.4;
+            animation: blobLiquid 15s infinite alternate ease-in-out;
+        }
+        .gb-pink { width: 80vw; height: 80vw; background: #ff4fd8; bottom: -20%; left: -10%; opacity: 0.3; }
+        .gb-blue { width: 70vw; height: 70vw; background: #1a2aff; top: 10%; left: 10%; opacity: 0.25; animation-delay: -5s; }
+        .gb-indigo { width: 90vw; height: 90vw; background: #4a1cfb; top: -10%; right: -10%; opacity: 0.2; animation-delay: -10s; }
+        
+        @keyframes blobLiquid {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(5%, 5%) scale(1.1); }
+            100% { transform: translate(-5%, 2%) scale(1); }
+        }
+
+        .grain-texture {
+            position: absolute; inset: 0; z-index: 2;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+            opacity: 0.05; pointer-events: none; mix-blend-mode: overlay;
+        }
+
+        .gs-top {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            position: relative; z-index: 10;
+        }
+
+        /* DOTS / NODES */
+        .node-container {
+            position: absolute; inset: 0; z-index: 5;
+            pointer-events: none;
+        }
+        .gs-node {
+            position: absolute; width: 64px; height: 64px;
+            border: 1.5px solid rgba(255,255,255,0.7);
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.05);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; font-size: 9px; letter-spacing: 1px;
+            pointer-events: auto; cursor: pointer;
+            opacity: 0; transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .gs-node::after {
+            content: ""; position: absolute; bottom: -6px;
+            width: 0; height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid rgba(255,255,255,0.7);
+        }
+        .gs-node:hover {
+            transform: scale(1.15) !important;
+            background: rgba(255,255,255,0.15);
+            border-color: #fff; box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+        .node-code { font-weight: 800; color: #fff; margin-bottom: 2px; }
+        .node-val { opacity: 0.6; }
+
+        /* Placements */
+        .n1 { left: 15%; top: 30%; }
+        .n2 { left: 45%; top: 40%; }
+        .n3 { left: 75%; top: 35%; }
+        .n4 { left: 25%; top: 65%; }
+        .n5 { left: 55%; top: 70%; }
+        .n6 { left: 80%; top: 60%; }
+        .n7 { left: 40%; top: 20%; }
+
+
+        /* EXPLORING CULTURE SECTION */
+        .culture-section {
+            width: 100%; height: 100vh; position: relative; z-index: 20;
+            background: #000; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .culture-bg {
+            position: absolute; inset: 0;
+            background-image: url('branding new page/culture-bg-hero.png');
+            background-size: cover; background-position: center;
+            filter: blur(30px); opacity: 0.7;
+            z-index: 1;
+        }
+        .culture-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(13, 13, 43, 0.5), rgba(0,0,0,0.6));
+            z-index: 2;
+        }
+
+        .culture-side-text {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            font-size: 14px; font-weight: 700; letter-spacing: 12px;
+            color: rgba(255,255,255,0.5); text-transform: uppercase;
+            font-size: 15px; font-weight: 700; letter-spacing: 8px;
+            color: rgba(255,255,255,0.6); text-transform: uppercase;
+            z-index: 10; pointer-events: none;
+        }
+        .culture-left { left: 8vw; }
+        .culture-right { right: 8vw; }
+
+        .culture-collage {
+            position: relative; width: 50vw; height: 70vh;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 20;
+        }
+        .culture-card {
+            position: absolute; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            opacity: 0; 
+            transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.6s ease;
+            cursor: pointer;
+        }
+        .culture-card img { width: 100%; height: 100%; object-fit: cover; }
+        .culture-card:hover { transform: scale(1.05) !important; z-index: 100 !important; box-shadow: 0 40px 100px rgba(26, 42, 255, 0.2); }
+
+        /* HERO-ORBIT LOGIC */
+        .cc-1 { 
+            width: 260px; height: 360px; z-index: 10; 
+            transform: scale(1.05); filter: contrast(1.1);
+        } /* HERO CENTER */
+        
+        .cc-2 { width: 140px; height: 100px; left: 5%; top: 10%; z-index: 4; transform: rotate(-3deg); } /* Top Left */
+        .cc-3 { width: 180px; height: 130px; right: 5%; top: 15%; z-index: 6; transform: rotate(3deg); } /* Top Right */
+        .cc-4 { width: 150px; height: 210px; left: 8%; bottom: 10%; z-index: 8; transform: rotate(-2deg); } /* Bottom Left */
+        .cc-5 { width: 130px; height: 170px; right: 10%; bottom: 12%; z-index: 2; transform: rotate(3deg); } /* Bottom Right */
+        .cc-6 { width: 90px; height: 90px; top: -5%; left: 45%; z-index: 12; border: 1.5px solid rgba(255,255,255,0.2); } /* Center Top Floating */
+
+        @media (max-width: 1100px) {
+            .culture-collage { width: 90vw; }
+            .culture-side-text { display: none; }
+            .cc-1 { width: 200px; height: 280px; }
+        }
+        .social-links-footer {
+            position: absolute; bottom: 60px; right: 5vw;
+            display: flex; flex-direction: row; align-items: center; gap: 30px;
+            z-index: 100;
+        }
+        .social-link {
+            text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.3); text-transform: uppercase;
+            transition: all 0.4s ease;
+        }
+        .social-link:hover {
+            color: #fff; text-shadow: 0 0 15px rgba(26, 42, 255, 0.6);
+        }
+
+        /* MORE PROJECTS SECTION */
+        .more-work-section {
+            width: 100%; padding: 150px 8vw; background: #000;
+            position: relative; z-index: 30;
+        }
+        .more-work-label {
+            font-size: 11px; letter-spacing: 4px; color: rgba(255,255,255,0.4);
+            margin-bottom: 60px; display: block;
+        }
+        .more-work-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 80px;
+        }
+        .more-work-card {
+            text-decoration: none; display: block; group;
+            padding-bottom: 30px; transition: all 0.5s ease;
+        }
+        .more-work-card:hover {
+            transform: translateY(-10px);
+        }
+        .mw-cat {
+            font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.4);
+            display: block; margin-bottom: 24px; text-transform: uppercase;
+            font-family: var(--font-main);
+        }
+        .mw-title {
+            font-size: clamp(24px, 2.5vw, 32px); font-weight: 500; color: #fff; line-height: 1.1;
+            opacity: 0.4; transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            font-family: var(--font-main);
+        }
+        .more-work-card:hover .mw-title { 
+            opacity: 1; transform: translateX(12px); color: #ff6a00; 
+        }
+
+        @media (max-width: 1000px) {
+            .more-work-grid { grid-template-columns: 1fr; gap: 40px; }
+            .mw-title { font-size: 24px; }
+        }
+
+        @media (max-width: 900px) {
+            .culture-collage { width: 100%; height: 60vh; transform: scale(0.7); }
+            .culture-side-text { display: none; }
+        }
+
+        @media (max-width: 900px) {
+            .apps-grid { display: flex; flex-direction: column; gap: 40px; }
+            .apps-top { flex-direction: column; gap: 30px; }
+            .app-card { margin-top: 0 !important; }
+        }
+        /* HYBRID STICKY + MINIMALIST LIST */
+        .identity-sticky-section {
+            background: #000; padding: 120px 8vw; position: relative;
+            min-height: 120vh; display: flex; align-items: start;
+            z-index: 20;
+        }
+        .id-sticky-grid {
+            display: grid; grid-template-columns: 35% 65%; width: 100%; gap: 100px;
+            position: relative; z-index: 5;
+        }
+        .id-sticky-left {
+            display: flex; flex-direction: column; height: fit-content; 
+            position: sticky; top: 15vh;
+        }
+        .id-sticky-heading {
+            font-size: 28px; font-weight: 600; line-height: 1.2; margin: 0;
+            color: #fff; letter-spacing: 2px; text-transform: uppercase;
+        }
+
+        /* REVERTING TO PREVIOUS LIST STYLE */
+        .id-sticky-right {
+            display: flex; flex-direction: column; padding-top: 5vh;
+        }
+        .id-list-item {
+            width: 100%; display: flex; align-items: center; gap: 40px;
+            padding: 35px 0; position: relative;
+            cursor: pointer; border-top: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .id-list-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.08); }
+        
+        .id-list-item::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0%; height: 1.5px;
+            background: #ff8800; transition: width 0.6s ease;
+        }
+        .id-list-item:hover::after { width: 100%; }
+
+        .item-num { font-family: 'Courier New', monospace; font-size: 16px; color: #6f6f6f; width: 60px; }
+        .item-title { font-size: 28px; color: #fff; font-weight: 600; transition: all 0.4s ease; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .id-list-item:hover .item-title { color: #ff8800; transform: translateX(20px); }
+        .id-list-item:hover .item-num { color: #fff; }
+
+        /* Floating Preview */
+        .id-floating-preview {
+            position: fixed; width: 340px; height: 220px; 
+            border: 1px solid rgba(255, 136, 0, 0.2); 
+            backdrop-filter: blur(20px); background: rgba(0,0,0,0.4);
+            pointer-events: none; opacity: 0; transform: translate(-50%, -50%) scale(0.9);
+            z-index: 1000; transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
+            display: flex; justify-content: center; align-items: center; overflow: hidden;
+            border-radius: 8px; left: 0; top: 0;
+        }
+        .id-floating-preview img {
+            width: 100%; height: 100%; object-fit: cover; opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        /* HOME-STYLE LIQUID GLASS NAVBAR */
+        .liquid-nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 25px 8vw; z-index: 10000;
+            background: rgba(0, 0, 0, 0.05); backdrop-filter: blur(25px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.5s ease; border-radius: 0; transform: none;
+        }
+        
+        .ln-left { display: flex; align-items: center; gap: 15px; }
+        .ln-logo { font-size: 16px; font-weight: 700; letter-spacing: 2px; color: #fff; text-transform: uppercase; }
+        .ln-project { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 2px; }
+
+        .ln-right { display: flex; align-items: center; gap: 40px; }
+        .ln-item {
+            text-decoration: none; font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.5); text-transform: uppercase; 
+            transition: all 0.4s ease; padding: 0; background: none; border-radius: 0;
+        }
+        .ln-item:hover, .ln-item.active { color: #fff; transform: none; background: none; }
+        .ln-item.active { color: #ff8800; border-bottom: 1.5px solid #ff8800; padding-bottom: 5px; }
+
+        .ln-resume { color: #ff8800 !important; font-weight: 900; }
+        .ln-resume:hover { text-shadow: 0 0 15px rgba(255,136,0,0.5); }
+
+        @media (max-width: 800px) {
+            .ln-right { gap: 20px; }
+            .ln-project { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cursor-canvas"></canvas>
+    <div id="cursor"></div>
+
+    <!-- CASE-SPECIFIC LIQUID GLASS NAV -->
+    <nav class="liquid-nav">
+        <div class="ln-left">
+            <a href="index.html?skipLoader=true" class="ln-item" style="opacity: 0.8;">← BACK</a>
+        </div>
+        <div class="ln-right">
+            <a href="#mission-trigger" class="ln-item active">Overview</a>
+            <a href="#visuals-trigger" class="ln-item">Visuals</a>
+            <a href="#system-trigger" class="ln-item">System</a>
+            <a href="https://your-resume-link.com" target="_blank" class="ln-item ln-resume">RESUME ↗</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero-full">
+            <div class="hero-bg-container">
+                <div class="space-bg-branding"></div>
+                <div class="hero-bg-image" style="background-image: url('branding new page/culture-bg-hero.png');"></div>
+                <div class="hero-orange-glow"></div>
+                <div class="hero-grain"></div>
+            </div>
+        </section>
+
+        <section class="client-section" id="mission-trigger">
+            <div class="client-grid">
+                <div class="client-left">
+                    <div class="client-info-top">
+                        <span class="subtle-label client-reveal">THE CLIENT</span>
+                        <h2 class="iit-delhi-label client-reveal">IIT DELHI</h2>
+                    </div>
+                    <div class="client-footer">
+                        <span class="monospaced">2025</span>
+                        <span class="monospaced">UX Learning Community</span>
+                    </div>
+                </div>
+
+                <div class="client-right">
+                    <div class="mission-top">
+                        <span class="subtle-label mission-fade-in">MISSION</span>
+                        <div class="mission-text">
+                            <span class="mission-line"><span class="mission-line-inner">Design a simple and structured way</span></span>
+                            <span class="mission-line"><span class="mission-line-inner">for designers to learn user experience</span></span>
+                            <span class="mission-line"><span class="mission-line-inner">by focusing on <span class="italic-accent" data-typewrite="clarity,"></span> <span class="italic-accent" data-typewrite="fundamentals,"></span></span></span>
+                            <span class="mission-line"><span class="mission-line-inner">and <span class="italic-accent" data-typewrite="real understanding"></span> instead of</span></span>
+                            <span class="mission-line"><span class="mission-line-inner">tools and trends.</span></span>
+                        </div>
+                    </div>
+
+                    <div class="client-sub-grid">
+                        <div class="sub-col">
+                            <span class="subtle-label">ABOUT</span>
+                            <p class="body-text">
+                                UXISM is a UX learning community started during an internship at IIT Delhi. 
+                                It focuses on helping designers understand user experience in a simple and practical way.
+                            </p>
+                        </div>
+                        <div class="sub-col">
+                            <span class="subtle-label">PROCESS</span>
+                            <p class="body-text">
+                                The approach combines structured thinking with real-world practice. 
+                                Instead of following trends, it focuses on fundamentals, user understanding, and clear problem solving.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="verbal-section">
+            <div class="verbal-bg"></div>
+            <div class="verbal-grain"></div>
+            <div class="soft-glow-left"></div>
+
+            <div class="verbal-grid">
+                <div class="verbal-left">
+                    <span class="subtle-label verbal-label" data-gsap="reveal-up">uxism</span>
+                    <h2 class="verbal-heading" data-gsap="reveal-up">Verbal<br>Identity</h2>
+                </div>
+
+                <div class="verbal-right">
+                    <div class="verbal-list">
+                        <div class="verbal-item" data-verbal="1">
+                            <div class="verbal-underline"></div>
+                            <div class="verbal-item-header">
+                                <span class="verbal-number">01</span>
+                                <h3 class="verbal-title">Brand Story</h3>
+                            </div>
+                            <div class="verbal-content">
+                                <p>UXISM started as a small idea during an internship at IIT Delhi.<br> 
+                                It was built from observing how designers struggle with learning UX in a clear and structured way.</p>
+                            </div>
+                        </div>
+
+                        <div class="verbal-item" data-verbal="2">
+                            <div class="verbal-underline"></div>
+                            <div class="verbal-item-header">
+                                <span class="verbal-number">02</span>
+                                <h3 class="verbal-title">Brand Personality</h3>
+                            </div>
+                            <div class="verbal-content">
+                                <p>Simple, practical, and highly intentional. <br>
+                                It avoids the noise and focuses on the core principles that make design work in the real world.</p>
+                            </div>
+                        </div>
+
+                        <div class="verbal-item" data-verbal="3">
+                            <div class="verbal-underline"></div>
+                            <div class="verbal-item-header">
+                                <span class="verbal-number">03</span>
+                                <h3 class="verbal-title">Brand Voice</h3>
+                            </div>
+                            <div class="verbal-content">
+                                <p>Honest, direct, and focused on clear problem solving. <br>
+                                It speaks directly to the designer’s mindset, removing complexity while keeping depth.</p>
+                            </div>
+                        </div>
+
+                        <div class="verbal-item" data-verbal="4">
+                            <div class="verbal-underline"></div>
+                            <div class="verbal-item-header">
+                                <span class="verbal-number">04</span>
+                                <h3 class="verbal-title">Positioning</h3>
+                            </div>
+                            <div class="verbal-content">
+                                <p>The bridge between raw design tools and deep user understanding. <br>
+                                UXISM positions itself as the fundamental layer of learning for modern designers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="logo-intro-section" id="visuals-trigger">
+            <div class="logo-wrapper">
+                <div class="logo-trail"></div>
+                <img src="branding new page/Frame 474.png" alt="UXISM Logo" class="branding-logo">
+            </div>
+        </section>
+
+        <section class="redaction-section">
+            <span class="redaction-label">VERBAL IDENTITY</span>
+            <h2 class="redaction-heading">Brand Story</h2>
+
+            <div class="redact-container">
+                <p class="redact-paragraph">
+                    <span class="highlight-word">UXISM started</span> <span class="redact-word">as a complex system</span> <span class="redact-word">with too many tools,</span> <span class="redact-word">scattered resources,</span> <span class="redact-word">and unclear learning paths.</span> <span class="highlight-word">to simplify learning</span> <span class="redact-word">Designers tried to learn faster,</span> <span class="redact-word">follow trends,</span> <span class="redact-word">and</span> <span class="highlight-word">focus on</span> <span class="redact-word">output instead of</span> <span class="highlight-word">understanding users and fundamentals.</span>
+                </p>
+            </div>
+        </section>
+        <section class="clarity-section" id="flow-trigger">
+            <div class="noise-overlay"></div>
+            <div class="dust-container" id="dust-motes"></div>
+            <div class="flow-container">
+                <div class="flow-mass"></div>
+                <div class="flow-core-glow"></div>
+                <div class="flow-beam"></div>
+            </div>
+            <div class="flow-logo-wrap">
+                <img src="branding new page/Frame 474.png" alt="UXISM Logo" class="flow-logo">
+            </div>
+        </section>
+
+        <!-- VERBAL IDENTITY PERSONALITY -->
+        <section class="personality-section" id="personality-trigger">
+            <div class="personality-grid">
+                <div class="personality-left">
+                    <span class="persona-label">VERBAL IDENTITY</span>
+                    <h2 class="persona-heading">Personality</h2>
+                    <div class="persona-body">
+                        <p>UXISM is built on <span class="italic-accent">clarity</span>, <span class="italic-accent">structure</span>, and <span class="italic-accent">thoughtful learning</span>. It avoids noise and focuses on what truly matters — <span class="italic-accent">understanding</span> users and fundamentals.</p>
+                        <p>The communication is simple, direct, and intentional, helping designers learn without confusion.</p>
+                    </div>
+                </div>
+                <div class="personality-right">
+                    <div class="personality-card">
+                        <span class="p-number">01</span>
+                        <h3 class="p-title">Clear & Structured</h3>
+                        <p class="p-desc">Everything is designed to be easy to follow, removing confusion and focusing on fundamentals.</p>
+                    </div>
+                    <div class="personality-card">
+                        <span class="p-number">02</span>
+                        <h3 class="p-title">Simple & Accessible</h3>
+                        <p class="p-desc">Learning UX should feel approachable, not overwhelming or complex.</p>
+                    </div>
+                    <div class="personality-card">
+                        <span class="p-number">03</span>
+                        <h3 class="p-title">Thoughtful & Intentional</h3>
+                        <p class="p-desc">Every decision is made with purpose, focusing on real understanding instead of trends.</p>
+                    </div>
+                    <div class="personality-card">
+                        <span class="p-number">04</span>
+                        <h3 class="p-title">Calm & Focused</h3>
+                        <p class="p-desc">The experience avoids noise and distraction, helping designers think clearly.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IMAGE SHOWCASE -->
+        <section class="image-reveal-section" id="image-showcase">
+            <div class="image-inner-container">
+                <div class="image-overlay-tint"></div>
+                <img src="branding new page/1.png" alt="UXISM Showcase" class="reveal-img">
+            </div>
+        </section>
+
+        <!-- VERBAL IDENTITY - BRAND VOICE -->
+        <section class="voice-section" id="voice-trigger">
+            <div class="voice-grid">
+                <div class="voice-left">
+                    <span class="persona-label">VERBAL IDENTITY</span>
+                    <h2 class="persona-heading">Brand Voice</h2>
+                    
+                    <div class="voice-sliders">
+                        <div class="slider-item">
+                            <span class="slider-label">Formal</span>
+                            <div class="slider-track"><div class="slider-dot" data-val="75%"></div></div>
+                            <span class="slider-label" style="text-align: right;">Friendly</span>
+                        </div>
+                        <div class="slider-item">
+                            <span class="slider-label">Complex</span>
+                            <div class="slider-track"><div class="slider-dot" data-val="85%"></div></div>
+                            <span class="slider-label" style="text-align: right;">Simple</span>
+                        </div>
+                        <div class="slider-item">
+                            <span class="slider-label">Serious</span>
+                            <div class="slider-track"><div class="slider-dot" data-val="70%"></div></div>
+                            <span class="slider-label" style="text-align: right;">Playful</span>
+                        </div>
+                        <div class="slider-item">
+                            <span class="slider-label">Technical</span>
+                            <div class="slider-track"><div class="slider-dot" data-val="80%"></div></div>
+                            <span class="slider-label" style="text-align: right;">Human</span>
+                        </div>
+                        <div class="slider-item">
+                            <span class="slider-label">Exclusive</span>
+                            <div class="slider-track"><div class="slider-dot" data-val="90%"></div></div>
+                            <span class="slider-label" style="text-align: right;">Accessible</span>
+                        </div>
+                        <div class="slider-item">
+                            <span class="slider-label">Controlled</span>
+                            <div class="slider-track"><div class="slider-dot" data-val="65%"></div></div>
+                            <span class="slider-label" style="text-align: right;">Expressive</span>
+                        </div>
+                    </div>
+
+                    <div class="persona-body">
+                        <p>UXISM communicates in a simple, clear, and human way. It avoids jargon and focuses on making complex ideas easy to understand.</p>
+                        <p>The tone is <span class="italic-accent">calm</span>, <span class="italic-accent">thoughtful</span>, and <span class="italic-accent">accessible</span> — helping designers learn without overwhelm.</p>
+                    </div>
+                </div>
+
+                <div class="voice-right">
+                    <div class="chat-ui-card">
+                        <div class="chat-message msg-you">
+                            <span class="chat-sender">You</span>
+                            <div class="chat-bubble bubble-you">Hi, I want to learn UX but everything feels confusing. Where should I start?</div>
+                        </div>
+                        <div class="chat-message msg-uxism">
+                            <span class="chat-sender">UXISM</span>
+                            <div class="chat-bubble bubble-uxism">Start simple. Focus on understanding users, not tools. Learn how people think, observe behavior, and build from there.</div>
+                        </div>
+                        <div class="chat-message msg-you">
+                            <span class="chat-sender">You</span>
+                            <div class="chat-bubble bubble-you">So I don’t need to learn everything at once?</div>
+                        </div>
+                        <div class="chat-message msg-uxism">
+                            <span class="chat-sender">UXISM</span>
+                            <div class="chat-bubble bubble-uxism">Exactly. Clarity comes from small steps, not complexity.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- POSITIONING STATEMENT -->
+        <section class="positioning-section" id="pos-trigger">
+            <div class="pos-header" style="margin-bottom: 100px;">
+                <span class="persona-label">VERBAL IDENTITY</span>
+                <h2 class="persona-heading">Positioning Statement</h2>
+            </div>
+
+            <div class="pos-block">
+                <span class="pos-label">FOR</span>
+                <h2 class="pos-line">Every <span class="pos-highlight">designer & student</span> who wants to move beyond tools and trends.</h2>
+            </div>
+            
+            <div class="pos-block">
+                <span class="pos-label">UXISM ACTS AS</span>
+                <h2 class="pos-line">A structured & <span class="pos-highlight">intentional learning ecosystem</span></h2>
+            </div>
+
+            <div class="pos-block">
+                <span class="pos-label">THAT</span>
+                <h2 class="pos-line"><span class="pos-highlight">Simplifies</span> the noise & <span class="pos-highlight">strengthens</span> the core foundation</h2>
+            </div>
+
+            <div class="pos-block">
+                <span class="pos-label">SO THEY CAN</span>
+                <h2 class="pos-line">Focus on <span class="pos-highlight">clarity & real understanding</span> instead.</h2>
+            </div>
+        </section>
+
+        <!-- HALF IMAGE SHOWCASE -->
+        <section class="half-image-section" id="half-img-trigger">
+            <div class="inner-reveal">
+                <img src="branding new page/2.png" alt="UXISM Detail Showcase">
+            </div>
+        </section>
+
+        <!-- SUB BRANDING -->
+        <section class="sub-brand-section" id="sub-brand-trigger">
+            <div class="sub-brand-left">
+                <div class="sub-brand-text">
+                    <span class="persona-label">SUB BRANDING</span>
+                    <h2>UXISM is a focus-driven <span class="italic-accent">learning layer</span> that acts as a <span class="italic-accent">fundamental guide</span> on the platform. It's designed to be <span class="italic-accent">approachable</span> & <span class="italic-accent">empathetic</span>.</h2>
+                </div>
+            </div>
+
+            <div class="sub-brand-right">
+                <div class="ux-orb">
+                    <div class="orb-particles">
+                        <!-- Generative Particles -->
+                        <div class="orb-particle" style="left: 20%; animation: particle-rise 4s infinite 0.2s, particle-scatter 5s ease-in-out infinite;"></div>
+                        <div class="orb-particle" style="left: 45%; animation: particle-rise 6s infinite 1s, particle-scatter 7s ease-in-out infinite;"></div>
+                        <div class="orb-particle" style="left: 70%; animation: particle-rise 5s infinite 2.5s, particle-scatter 4s ease-in-out infinite;"></div>
+                        <div class="orb-particle" style="left: 30%; animation: particle-rise 7s infinite 0.8s, particle-scatter 6s ease-in-out infinite;"></div>
+                        <div class="orb-particle" style="left: 80%; animation: particle-rise 4s infinite 1.5s, particle-scatter 5s ease-in-out infinite;"></div>
+                        <div class="orb-particle" style="left: 55%; animation: particle-rise 5s infinite 3s, particle-scatter 8s ease-in-out infinite;"></div>
+                        <div class="orb-particle" style="left: 15%; animation: particle-rise 8s infinite 0.5s, particle-scatter 6s ease-in-out infinite;"></div>
+                        <div class="orb-particle" style="left: 65%; animation: particle-rise 6s infinite 2s, particle-scatter 5s ease-in-out infinite;"></div>
+                    </div>
+                    <img src="branding new page/Frame 474.png" alt="UXISM Logo" class="ux-orb-logo">
+                </div>
+            </div>
+
+            <div class="sub-footer">
+                <div class="sub-footer-left">
+                    <p class="body-text">Whether you're starting fresh or refining your core, UXISM helps you focus on what truly matters — clarity, thinking, and real understanding.</p>
+                    <div class="sub-footer-tags">
+                        <span>FUNDAMENTALS</span>
+                        <span>THINKING</span>
+                        <span>CLARITY</span>
+                        <span>RESEARCH</span>
+                    </div>
+                </div>
+
+                <div class="sub-cta-wrap">
+                    <button class="cta-button">
+                        <span class="cta-static">Explore</span>
+                        <span class="cta-dynamic" id="dynamic-text"></span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="flashy-reveal-section" id="logo-flash-trigger">
+            <div class="gradient-flash-overlay"></div>
+            <div class="reveal-logo-container">
+                <div class="logo-gradient-aura"></div>
+                <img src="branding new page/12.png" alt="UXISM Flash Reveal" class="reveal-logo">
+            </div>
+            <span class="persona-label" style="position: absolute; bottom: 40px; opacity: 0.3; letter-spacing: 4px;">AUTHENTIC BRANDING SYSTEM</span>
+        </section>
+
+        <!-- STICKY VISUAL IDENTITY SECTION -->
+        <section class="identity-sticky-section" id="system-trigger">
+            <div class="id-sticky-grid">
+                <div class="id-sticky-left">
+                    <span class="subtle-label" style="margin-bottom: 25px;">uxism</span>
+                    <h2 class="id-sticky-heading">Visual<br>Identity</h2>
+                </div>
+                
+                <div class="id-sticky-right">
+                    <div class="id-list-item">
+                        <span class="item-num">01</span>
+                        <span class="item-title">Mark Construction</span>
+                    </div>
+                    <div class="id-list-item">
+                        <span class="item-num">02</span>
+                        <span class="item-title">Typography</span>
+                    </div>
+                    <div class="id-list-item">
+                        <span class="item-num">03</span>
+                        <span class="item-title">Color Palette</span>
+                    </div>
+                    <div class="id-list-item">
+                        <span class="item-num">04</span>
+                        <span class="item-title">Gradients</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mark-construction-section" id="mark-construction-trigger">
+            <div class="mark-grid">
+                <div class="mark-left">
+                    <span class="mark-label-small">VISUAL IDENTITY</span>
+                    <h2 class="mark-h">Mark Construction</h2>
+                </div>
+                <div class="mark-right">
+                    <p class="mark-body-text">
+                        The mark is designed to represent <span class="italic-accent">clarity</span> in <span class="italic-accent">motion</span>. 
+                        It draws from <span class="italic-accent">structured thinking</span> and progressive flow, symbolizing how UXISM helps designers move from confusion to <span class="italic-accent">understanding</span>. 
+                        The form reflects <span class="italic-accent">direction</span>, intent, and continuous <span class="italic-accent">growth</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="dual-frame-section">
+            <div class="frames-container">
+                <div class="frame-item" data-frame="7">
+                    <img src="branding new page/Frame 7.png" alt="Construction Frame 7">
+                </div>
+                <div class="divider-line"></div>
+                <div class="frame-item" data-frame="21">
+                    <img src="branding new page/Frame 21.png" alt="Construction Frame 21">
+                </div>
+            </div>
+        </section>
+
+        <section class="typography-section" id="typo-trigger">
+            <div class="typo-left">
+                <span class="typo-label">TYPOGRAPHY</span>
+                <h2 class="typo-main-h">Inter</h2>
+                <div class="typo-meta-row">
+                    <span>Primary</span>
+                    <span>Variable font</span>
+                    <span>Google Fonts</span>
+                </div>
+                <div class="typo-big-sample">Aa12345</div>
+            </div>
+            <div class="typo-right">
+                <div class="glass-panel"></div>
+                <div class="typo-content-grid">
+                    <div class="typo-col">
+                        <p class="typo-body">
+                            Inter is a highly versatile sans serif designed for clarity and readability across digital interfaces. 
+                            It maintains consistency across weights while preserving visual balance and legibility.
+                        </p>
+                    </div>
+                    <div class="typo-col">
+                        <p class="typo-body">
+                            UXISM uses Inter to ensure a clean, modern, and accessible typographic system that supports structured thinking and clear communication.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="weight-showcase-section">
+            <div class="liquid-bg"></div>
+            <div class="weight-vignette"></div>
+            
+            <div class="weight-nav">
+                <div class="weight-indicator active" data-w="400">01 REGULAR</div>
+                <div class="weight-indicator" data-w="500">02 MEDIUM</div>
+                <div class="weight-indicator" data-w="700">03 BOLD</div>
+            </div>
+
+            <div class="focus-letter-wrap">
+                <h1 class="focus-letter">a</h1>
+            </div>
+
+            <div class="weight-meta-bottom">
+                <span>TYPOGRAPHY</span>
+                <span>INTER</span>
+                <span>Google fonts</span>
+            </div>
+        </section>
+
+        <section class="naming-section" id="naming-trigger">
+            <div class="naming-bg-wrap">
+                <img src="branding new page/2.png" alt="UXISM Naming Concept" class="naming-bg">
+            </div>
+            <div class="naming-overlay"></div>
+            
+            <div class="naming-content">
+                <span class="naming-label">VISUAL IDENTITY</span>
+                <h2 class="naming-h">The name: UXISM</h2>
+                <p class="naming-p">
+                    UXISM comes from “<span class="italic-accent">UX</span>” and “<span class="italic-accent">ism</span>” where “<span class="italic-accent">ism</span>” represents a <span class="italic-accent">movement</span>, a shared belief, a way of thinking. <br>
+                    Not just a skill, but a <span class="italic-accent">mindset</span> shaped by <span class="italic-accent">clarity</span>, <span class="italic-accent">fundamentals</span>, and a deeper <span class="italic-accent">understanding</span> of design.
+                </p>
+                <span class="naming-micro">It’s not about tools. It’s about how you think.</span>
+            </div>
+        </section>
+
+        <section class="split-showcase" id="split-showcase-trigger">
+            <div class="showcase-left">
+                <span class="side-label" style="position: absolute; top: 80px; left: 8vw;">Logotype</span>
+                <div class="logotype-center">
+                    <img src="branding new page/4.png" alt="Logotype" class="logotype-img">
+                </div>
+            </div>
+            
+            <div class="showcase-right">
+                <div class="mark-gradient-bg"></div>
+                <div class="side-label" style="position: absolute; top: 80px; left: 8vw;">Logomark</div>
+                
+                <div class="logomark-center">
+                    <img src="branding new page/Frame 474.png" alt="Logomark Symbol" class="logomark-img">
+                </div>
+            </div>
+        </section>
+
+        <section class="palette-section" id="palette-trigger">
+            <div class="palette-bg">
+                <div class="palette-blob blob-blue"></div>
+                <div class="palette-blob blob-purple"></div>
+                <div class="palette-blob blob-pink"></div>
+            </div>
+
+            <div class="palette-top">
+                <div class="palette-tl">
+                    <span class="side-label">VISUAL IDENTITY</span>
+                    <h2 class="palette-h">Color Palette</h2>
+                </div>
+                <div class="palette-desc" style="text-align: left; padding-top: 10px;">
+                    The spectrum of colors, ranging from blue to pink, was carefully chosen to give the brand 
+                    a more fun and accessible appearance for our target audience of recent graduates. 
+                    We aimed to move away from a corporate aesthetic and make the job-seeking 
+                    experience more enjoyable.
+                </div>
+            </div>
+
+            <div class="palette-visual-wrap">
+                <div class="color-labels-row">
+                    <span>BLACK</span>
+                    <span>SCAMPI</span>
+                    <span>GUNSMOKE</span>
+                </div>
+                <h1 class="palette-main-text">UXISM Blue → UXISM Pink</h1>
+            </div>
+        </section>
+
+        <section class="swatches-section">
+            <!-- 1. BLACK CORE -->
+            <div class="swatch-row" style="background: #010101;">
+                <div class="swatch-name">BLACK CORE</div>
+                <div class="swatch-info">
+                    <div class="info-group"><span class="info-label">HEX</span><span>#010101</span></div>
+                    <div class="info-group"><span class="info-label">RGB</span><span>1, 1, 1</span></div>
+                    <div class="info-group"><span class="info-label">CMYK</span><span>0, 0, 0, 100</span></div>
+                </div>
+            </div>
+
+            <!-- 2. DEEP NIGHT BLUE -->
+            <div class="swatch-row" style="background: #0B1026;">
+                <div class="swatch-name">DEEP NIGHT BLUE</div>
+                <div class="swatch-info">
+                    <div class="info-group"><span class="info-label">HEX</span><span>#0B1026</span></div>
+                    <div class="info-group"><span class="info-label">RGB</span><span>11, 16, 38</span></div>
+                    <div class="info-group"><span class="info-label">CMYK</span><span>71, 58, 0, 85</span></div>
+                </div>
+            </div>
+
+            <!-- 3. UXISM BLUE -->
+            <div class="swatch-row" style="background: #1A2AFF;">
+                <div class="swatch-name">UXISM BLUE</div>
+                <div class="swatch-info">
+                    <div class="info-group"><span class="info-label">HEX</span><span>#1A2AFF</span></div>
+                    <div class="info-group"><span class="info-label">RGB</span><span>26, 42, 255</span></div>
+                    <div class="info-group"><span class="info-label">CMYK</span><span>90, 84, 0, 0</span></div>
+                </div>
+            </div>
+
+            <!-- 4. TRANSITION PURPLE -->
+            <div class="swatch-row" style="background: #6A4DFF;">
+                <div class="swatch-name">TRANSITION PURPLE</div>
+                <div class="swatch-info">
+                    <div class="info-group"><span class="info-label">HEX</span><span>#6A4DFF</span></div>
+                    <div class="info-group"><span class="info-label">RGB</span><span>106, 77, 255</span></div>
+                    <div class="info-group"><span class="info-label">CMYK</span><span>58, 70, 0, 0</span></div>
+                </div>
+            </div>
+
+            <!-- 5. UXISM PINK -->
+            <div class="swatch-row" style="background: #FF4FD8;">
+                <div class="swatch-name">UXISM PINK</div>
+                <div class="swatch-info">
+                    <div class="info-group"><span class="info-label">HEX</span><span>#FF4FD8</span></div>
+                    <div class="info-group"><span class="info-label">RGB</span><span>255, 79, 216</span></div>
+                    <div class="info-group"><span class="info-label">CMYK</span><span>0, 69, 15, 0</span></div>
+                </div>
+            </div>
+
+            <!-- 6. SOFT GLOW PINK -->
+            <div class="swatch-row" style="background: #FF9AE6;">
+                <div class="swatch-name" style="color: #000;">SOFT GLOW PINK</div>
+                <div class="swatch-info" style="color: rgba(0,0,0,0.6);">
+                    <div class="info-group"><span class="info-label" style="color: #000;">HEX</span><span>#FF9AE6</span></div>
+                    <div class="info-group"><span class="info-label" style="color: #000;">RGB</span><span>255, 154, 230</span></div>
+                    <div class="info-group"><span class="info-label" style="color: #000;">CMYK</span><span>0, 40, 10, 0</span></div>
+                </div>
+            </div>
+
+            <!-- 7. CHALK PINK -->
+            <div class="swatch-row" style="background: #FFE3FB;">
+                <div class="swatch-name" style="color: #000;">CHALK PINK</div>
+                <div class="swatch-info" style="color: rgba(0,0,0,0.6);">
+                    <div class="info-group"><span class="info-label" style="color: #000;">HEX</span><span>#FFE3FB</span></div>
+                    <div class="info-group"><span class="info-label" style="color: #000;">RGB</span><span>255, 227, 251</span></div>
+                    <div class="info-group"><span class="info-label" style="color: #000;">CMYK</span><span>0, 11, 2, 0</span></div>
+                </div>
+            </div>
+
+            <!-- 8. PEARL MIST -->
+            <div class="swatch-row" style="background: #F9F9FF;">
+                <div class="swatch-name" style="color: #000;">PEARL MIST</div>
+                <div class="swatch-info" style="color: rgba(0,0,0,0.6);">
+                    <div class="info-group"><span class="info-label" style="color: #000;">HEX</span><span>#F9F9FF</span></div>
+                    <div class="info-group"><span class="info-label" style="color: #000;">RGB</span><span>249, 249, 255</span></div>
+                    <div class="info-group"><span class="info-label" style="color: #000;">CMYK</span><span>2, 2, 0, 0</span></div>
+                </div>
+            </div>
+
+            <!-- 9. PURE WHITE -->
+            <div class="swatch-row" style="background: #FFFFFF;">
+                <div class="swatch-name" style="color: #000;">PURE WHITE</div>
+                <div class="swatch-info" style="color: rgba(0,0,0,0.6);">
+                    <div class="info-group"><span class="info-label" style="color: #000;">HEX</span><span>#FFFFFF</span></div>
+                    <div class="info-group"><span class="info-label" style="color: #000;">RGB</span><span>255, 255, 255</span></div>
+                    <div class="info-group"><span class="info-label" style="color: #000;">CMYK</span><span>0, 0, 0, 0</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="composition-section" id="comp-trigger">
+            <div class="composition-top">
+                <div class="palette-tl">
+                    <span class="side-label" style="color: rgba(255,255,255,0.4);">VISUAL IDENTITY</span>
+                    <h2 class="comp-h">Palette Design</h2>
+                </div>
+                <div class="comp-desc">
+                    UXISM’s palette is designed as a fluid system — where colors don’t exist in isolation, but interact and evolve. <br><br>
+                    From deep structure to expressive tones, the system balances clarity, emotion, and visual depth.
+                </div>
+            </div>
+
+            <div class="composition-canvas">
+                <div class="comp-card card-pink" data-speed="0.05"><span class="card-label">UXISM PINK</span></div>
+                <div class="comp-card card-blue" data-speed="0.1"><span class="card-label">UXISM BLUE</span></div>
+                <div class="comp-card card-purple" data-speed="0.15"><span class="card-label">TRANSITION PURPLE</span></div>
+                <div class="comp-card card-black" data-speed="0.2"><span class="card-label">BLACK CORE</span></div>
+                <div class="comp-card card-white" data-speed="0.08"><span class="card-label light">PURE WHITE</span></div>
+                <div class="comp-card card-grey" data-speed="0.12"><span class="card-label light">SOFT GREY</span></div>
+            </div>
+        </section>
+
+        <section class="gradient-set-section" id="gs-trigger">
+            <div class="gradient-canvas">
+                <div class="gradient-blob gb-pink"></div>
+                <div class="gradient-blob gb-blue"></div>
+                <div class="gradient-blob gb-indigo"></div>
+                <div class="grain-texture"></div>
+            </div>
+
+            <div class="gs-top">
+                <div class="palette-tl">
+                    <span class="side-label">VISUAL IDENTITY</span>
+                    <h2 class="palette-h" style="font-size: 36px;">Gradient Set</h2>
+                </div>
+                <div class="comp-desc" style="color: rgba(255,255,255,0.6);">
+                    UXISM gradients are designed to feel fluid and adaptive — blending structure with expression across interfaces. <br><br>
+                    They create depth, motion, and a modern visual language that reflects clarity, transition, and human-centered thinking.
+                </div>
+            </div>
+
+            <div class="node-container">
+                <div class="gs-node n1" data-v="0.05"><div class="node-code">UX01</div><div class="node-val">232</div></div>
+                <div class="gs-node n2" data-v="0.1"><div class="node-code">UX02</div><div class="node-val">049</div></div>
+                <div class="gs-node n3" data-v="0.15"><div class="node-code">UX03</div><div class="node-val">027</div></div>
+                <div class="gs-node n4" data-v="0.08"><div class="node-code">UX04</div><div class="node-val">152</div></div>
+                <div class="gs-node n5" data-v="0.12"><div class="node-code">UX05</div><div class="node-val">385</div></div>
+                <div class="gs-node n6" data-v="0.06"><div class="node-code">UX06</div><div class="node-val">3D0</div></div>
+                <div class="gs-node n7" data-v="0.14"><div class="node-code">UX07</div><div class="node-val">BAF</div></div>
+            </div>
+        </section>
+
+
+        </section>
+
+        <section class="culture-section" id="culture-trigger">
+            <div class="culture-bg"></div>
+            <div class="culture-overlay"></div>
+            <div class="hero-grain"></div>
+
+            <div class="culture-side-text culture-left">UXISM</div>
+            <div class="culture-side-text culture-right">ESSENCE</div>
+
+            <div class="culture-collage">
+                <div class="culture-card cc-1" data-v="0.05"><img src="branding new page/Frame 471.jpg" alt="Culture 01"></div>
+                <div class="culture-card cc-2" data-v="0.1"><img src="branding new page/1.png" alt="Culture 02"></div>
+                <div class="culture-card cc-3" data-v="0.12"><img src="branding new page/Frame 472.jpg" alt="Culture 03"></div>
+                <div class="culture-card cc-4" data-v="0.08"><img src="branding new page/image 25.jpg" alt="Culture 04"></div>
+                <div class="culture-card cc-5" data-v="0.15"><img src="branding new page/2.png" alt="Culture 05"></div>
+                <div class="culture-card cc-6" data-v="0.06"><img src="branding new page/Frame 473.jpg" alt="Culture 06"></div>
+            </div>
+
+            <div class="social-links-footer">
+                <a href="https://www.instagram.com/ux.ism/" target="_blank" class="social-link">UXISM Instagram</a>
+                <a href="https://www.linkedin.com/company/uxism/posts/?feedView=all" target="_blank" class="social-link">UXISM LinkedIn</a>
+                <a href="https://www.uxism.org/" target="_blank" class="social-link">UXISM Website</a>
+            </div>
+        </section>
+
+        <!-- MORE WORK DISCOVERY -->
+        <section class="more-work-section">
+            <span class="more-work-label">EXPLORE MORE PROJECTS</span>
+            <div class="more-work-grid">
+                <a href="illustration.html" class="more-work-card">
+                    <span class="mw-cat">DIGITAL ART</span>
+                    <h3 class="mw-title">Illustration ↗</h3>
+                </a>
+                <a href="ui-ux.html" class="more-work-card">
+                    <span class="mw-cat">INTERFACE DESIGN</span>
+                    <h3 class="mw-title">UI/UX Design ↗</h3>
+                </a>
+                <a href="motion.html" class="more-work-card">
+                    <span class="mw-cat">VISUAL MOTION</span>
+                    <h3 class="mw-title">Motion Graphics ↗</h3>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+
+    <script>
+        window.addEventListener('load', () => {
+            const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+            requestAnimationFrame(raf);
+
+            gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+            const setupCursor = () => {
+                const cursor = document.getElementById('cursor'); const canvas = document.getElementById('cursor-canvas'); const ctx = canvas.getContext('2d');
+                if(!cursor || !canvas) return; canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+                let mx = window.innerWidth/2, my = window.innerHeight/2, history = [];
+                window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+                document.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; gsap.to(cursor, { x: mx, y: my, duration: 0.1, ease: "none" }); history.push({ x: mx, y: my, age: 0 }); });
+                gsap.ticker.add(() => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height); if (history.length < 2) return;
+                    for(let i = 0; i < history.length - 1; i++) {
+                        let p1 = history[i], p2 = history[i+1]; p1.age += 1;
+                        let alpha = Math.max(0, 1 - (history.length - i) * 0.04), lineWidth = Math.max(0.5, i * 0.5);
+                        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.strokeStyle = `rgba(255, 106, 0, ${alpha})`; ctx.lineWidth = lineWidth; ctx.lineCap = 'round'; ctx.stroke();
+                    }
+                    history = history.filter(p => p.age < 20);
+                });
+            };
+            setupCursor();
+
+            const setupAtmosphere = () => {
+                const container = document.getElementById('dust-motes');
+                if(!container) return;
+                for(let i=0; i<20; i++) {
+                    const mote = document.createElement('div');
+                    mote.className = 'dust-mote';
+                    container.appendChild(mote);
+                    gsap.set(mote, { x: gsap.utils.random(0, window.innerWidth), y: gsap.utils.random(0, window.innerHeight), opacity: 0 });
+                    gsap.to(mote, {
+                        y: "-=100", opacity: gsap.utils.random(0.1, 0.4), x: "+=50",
+                        duration: gsap.utils.random(3, 6), repeat: -1, yoyo: true, ease: "sine.inOut", delay: i*0.2
+                    });
+                }
+            };
+            setupAtmosphere();
+
+            // MISSION SECTION ANIMATIONS
+            const missionTL = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#mission-trigger",
+                    start: "top 80%",
+                }
+            });
+
+            missionTL.from(".client-section", {
+                opacity: 0,
+                y: 30,
+                duration: 1.2,
+                ease: "power3.out"
+            })
+            .to(".client-reveal", {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.15,
+                ease: "power2.out"
+            }, "-=0.8")
+            .to(".mission-line-inner", {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                stagger: 0.15,
+                ease: "expo.out",
+                onComplete: () => {
+                    const typeSpans = document.querySelectorAll('.mission-text .italic-accent');
+                    if (typeSpans.length === 0) return;
+                    typeSpans.forEach((span, i) => {
+                        const text = span.getAttribute('data-typewrite');
+                        if (!text) return;
+                        let current = ""; span.innerText = "";
+                        gsap.delayedCall(i * 0.7, () => {
+                            const itv = setInterval(() => {
+                                if (current.length < text.length) { 
+                                    current += text[current.length]; 
+                                    span.innerText = current; 
+                                } else { 
+                                    clearInterval(itv); 
+                                    if (text.toLowerCase().includes('real')) {
+                                        triggerShootingStar(span);
+                                    }
+                                }
+                            }, 50);
+                        });
+                    });
+                }
+            }, "-=0.4")
+            .to(".client-sub-grid", {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power2.out"
+            }, "-=0.6");
+
+            // MOUSE MOVE MICRO-INTERACTION
+            document.querySelector('.client-section').addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const xPos = (clientX / window.innerWidth - 0.5) * 2;
+                const yPos = (clientY / window.innerHeight - 0.5) * 2;
+                
+                // Grouping all left and right elements to move them together for perfect alignment
+                gsap.to(".client-title, .iit-delhi-label, .subtle-label, .mission-text, .client-footer", {
+                    x: xPos,
+                    y: yPos,
+                    duration: 0.6,
+                    ease: "power2.out"
+                });
+            });
+
+            const reveals = gsap.utils.toArray('[data-gsap="reveal-up"]');
+            reveals.forEach((el) => {
+                gsap.to(el, { opacity: 1, y: 0, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 90%", onEnter: () => {
+                    const typeSpans = el.querySelectorAll('[data-typewrite]');
+                    typeSpans.forEach((span, i) => {
+                        const text = span.getAttribute('data-typewrite');
+                        let current = ""; span.innerText = "";
+                        gsap.delayedCall(i * 0.5, () => {
+                            const itv = setInterval(() => {
+                                if (current.length < text.length) { current += text[current.length]; span.innerText = current; }
+                                else { clearInterval(itv); }
+                            }, 60);
+                        });
+                    });
+                }}});
+            });
+
+            function triggerShootingStar(startEl) {
+                const endEl = document.querySelector('.client-footer');
+                const startRect = startEl.getBoundingClientRect(); const endRect = endEl.getBoundingClientRect();
+                const star = document.createElement('div'); star.className = 'shooting-star-particle';
+                star.style.left = `${startRect.left}px`; star.style.top = `${startRect.top}px`; document.body.appendChild(star);
+                gsap.to(star, { x: endRect.left - startRect.left, y: endRect.top - startRect.top, duration: 1.2, ease: "power2.inOut", onComplete: () => { star.remove(); triggerNuclearBlast(endRect.left, endRect.top, endEl); } });
+            }
+
+            function triggerNuclearBlast(x, y, target) {
+                const flash = document.createElement('div'); flash.className = 'nuclear-flash';
+                flash.style.left = `${x}px`; flash.style.top = `${y}px`; document.body.appendChild(flash);
+                gsap.to(flash, { width: 500, height: 500, opacity: 0.8, duration: 0.3, onComplete: () => gsap.to(flash, { opacity: 0, onComplete: () => flash.remove() }) });
+                for(let i=0; i<3; i++) {
+                    const sw = document.createElement('div'); sw.className = 'shockwave'; sw.style.left = `${x}px`; sw.style.top = `${y}px`; document.body.appendChild(sw);
+                    gsap.to(sw, { width: 400 + i*100, height: 400 + i*100, opacity: 0, duration: 1, delay: i*0.1, onComplete: () => sw.remove() });
+                }
+                target.classList.add('revealed', 'nuclear-glow-reveal');
+            }
+
+            gsap.to('.verbal-progress-bar', { width: '100%', ease: 'none', scrollTrigger: { trigger: '.verbal-section', start: 'top top', end: 'bottom bottom', scrub: true } });
+            const verbalItems = gsap.utils.toArray('.verbal-item');
+            verbalItems.forEach((item) => { ScrollTrigger.create({ trigger: item, start: "top 60%", end: "top 20%", onToggle: self => item.classList.toggle('active', self.isActive) }); });
+
+            gsap.to('.logo-trail', { width: "400px", opacity: 0.8, scrollTrigger: { trigger: '.logo-intro-section', start: "top 60%", end: "bottom 20%", scrub: 1 } });
+            
+            const redactTimeline = gsap.timeline({ scrollTrigger: { trigger: '.redaction-section', start: "top top", end: "+=1500", pin: true, scrub: 1, anticipatePin: 1 } });
+            redactTimeline.to('.redact-word', { className: "redact-word active", stagger: 0.1 });
+
+            // SNAPPY ATMOSPHERIC FLOW (REDUCED SCROLL)
+            const flowTL = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#flow-trigger",
+                    start: "top top",
+                    end: "+=1200", 
+                    pin: true,
+                    scrub: 1.5 // Increased scrub for weighted physics smoothness
+                }
+            });
+
+            // Ambient Drift
+            gsap.to(".flow-mass", {
+                x: "+=20", y: "+=10", duration: 6, repeat: -1, yoyo: true, ease: "sine.inOut"
+            });
+
+            flowTL.from(".flow-mass", { x: "-40vw", opacity: 0, duration: 2, ease: "power3.out" })
+            .to(".flow-core-glow", { opacity: 0.5, duration: 1, ease: "power2.inOut" }, "-=1")
+            .to(".flow-beam", {
+                opacity: 1, scaleX: 1.4, height: 35,
+                duration: 2, ease: "expo.inOut"
+            }, "-=0.5")
+            .to(".flow-logo-wrap", {
+                opacity: 1, left: "70%", scale: 1,
+                duration: 1.5, ease: "expo.out",
+                onStart: () => {
+                    gsap.to(".flow-logo", { filter: "drop-shadow(0 0 45px #FF6BFF) brightness(1.2)", duration: 0.8, yoyo: true, repeat: 1 });
+                }
+            }, "-=1")
+            .to(".flow-container", {
+                opacity: 0.5, duration: 1
+            }, "-=0.5");
+
+            // PERSONALITY SECTION ANIMATION
+            gsap.to(".personality-card", {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: "#personality-trigger",
+                    start: "top 80%"
+                }
+            });
+
+            // IMAGE REVEAL ANIMATION (SQUARE 1)
+            gsap.to(".image-inner-container", {
+                opacity: 1,
+                scale: 1,
+                duration: 1.5,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: "#image-showcase",
+                    start: "top 70%"
+                }
+            });
+
+            // HALF IMAGE REVEAL (BANNER 2)
+            gsap.to(".half-image-section .inner-reveal", {
+                opacity: 1,
+                scale: 1,
+                duration: 1.5,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: "#half-img-trigger",
+                    start: "top 80%"
+                }
+            });
+
+            // BRAND VOICE ANIMATIONS
+            const voiceTL = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#voice-trigger",
+                    start: "top 60%",
+                }
+            });
+
+            // Sliders Animation
+            voiceTL.to(".slider-dot", {
+                left: (i, el) => el.getAttribute('data-val'),
+                duration: 1.5,
+                stagger: 0.1,
+                ease: "expo.out"
+            });
+
+            // Chat Animation (Snappy Reveal)
+            voiceTL.to(".chat-message", {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: "power2.out"
+            }, "-=0.8");
+
+            // POSITIONING SECTION ANIMATION
+            const posBlocks = gsap.utils.toArray('.pos-block');
+            posBlocks.forEach((block, i) => {
+                gsap.to(block, {
+                    scrollTrigger: {
+                        trigger: block,
+                        start: "top 85%",
+                        onEnter: () => block.classList.add('revealed')
+                    }
+                });
+            });
+
+            // SUB BRANDING ANIMATION
+            gsap.to("#sub-brand-trigger > *", {
+                opacity: 1,
+                y: 0,
+                stagger: 0.2,
+                scrollTrigger: {
+                    trigger: "#sub-brand-trigger",
+                    start: "top 70%"
+                }
+            });
+
+
+            // GRADIENT IMPACT REVEAL
+            ScrollTrigger.create({
+                trigger: "#logo-flash-trigger",
+                start: "top 60%",
+                onEnter: () => {
+                    const section = document.getElementById('logo-flash-trigger');
+                    const flash = section.querySelector('.gradient-flash-overlay');
+                    section.classList.add('revealed');
+                    
+                    // Trigger Gradient Flash Explosion
+                    gsap.timeline()
+                        .to(flash, { opacity: 1, backgroundPosition: "100% 100%", duration: 0.3, ease: "none" })
+                        .to(flash, { opacity: 0, duration: 1.5, ease: "power2.out" });
+                }
+            });
+
+            // TYPEWRITER EFFECT
+            const words = [
+                "UX fundamentals",
+                "design thinking",
+                "real UX problems",
+                "UX clarity",
+                "research methods",
+                "meaningful experiences",
+                "UX basics"
+            ];
+            let wordIdx = 0;
+            let charIdx = 0;
+            let isDeleting = false;
+            const target = document.getElementById('dynamic-text');
+
+            function type() {
+                const currentWord = words[wordIdx];
+                if (!target) return;
+                if (isDeleting) {
+                    target.innerText = currentWord.substring(0, charIdx - 1);
+                    charIdx--;
+                } else {
+                    target.innerText = currentWord.substring(0, charIdx + 1);
+                    charIdx++;
+                }
+
+                let speed = isDeleting ? 30 : 70;
+                if (!isDeleting && charIdx === currentWord.length) {
+                    speed = 2000;
+                    isDeleting = true;
+                } else if (isDeleting && charIdx === 0) {
+                    isDeleting = false;
+                    wordIdx = (wordIdx + 1) % words.length;
+                    speed = 500;
+                }
+                setTimeout(type, speed);
+            }
+            if(target) type();
+
+            // MARK CONSTRUCTION REVEAL
+            gsap.to(".mark-construction-section", {
+                opacity: 1,
+                duration: 1.5,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: "#mark-construction-trigger",
+                    start: "top 80%"
+                }
+            });
+            gsap.from(".mark-body-text", {
+                y: 20,
+                opacity: 0,
+                duration: 1.2,
+                delay: 0.5,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: "#mark-construction-trigger",
+                    start: "top 80%"
+                }
+            });
+
+            // DUAL FRAME SLIDE-OUT REVEAL (PREMIUM)
+            gsap.from(".divider-line", {
+                scaleY: 0,
+                opacity: 0,
+                duration: 2,
+                delay: 1,
+                ease: "expo.out",
+                scrollTrigger: { trigger: ".dual-frame-section", start: "top 80%" }
+            });
+            gsap.from(".frame-item[data-frame='7']", {
+                x: 0,
+                scale: 0.8,
+                filter: "blur(20px)",
+                opacity: 0,
+                duration: 2,
+                ease: "expo.out",
+                scrollTrigger: { trigger: ".dual-frame-section", start: "top 80%" }
+            });
+            gsap.from(".frame-item[data-frame='21']", {
+                xPercent: -120, // Effectively starting from Frame 7's position in the flex grid
+                scale: 0.8,
+                filter: "blur(20px)",
+                opacity: 0,
+                duration: 2,
+                ease: "expo.out",
+                scrollTrigger: { trigger: ".dual-frame-section", start: "top 80%" }
+            });
+
+            // DRAGGABLE SWAP FOR DUAL FRAMES (ENHANCED)
+            gsap.registerPlugin(Draggable);
+            const items = document.querySelectorAll('.frame-item');
+            items.forEach((item, i) => {
+                const other = items[i === 0 ? 1 : 0];
+                Draggable.create(item, {
+                    type: "x,y",
+                    edgeResistance: 0.65,
+                    onDragStart: function() { gsap.to(this.target, { scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.4)", zIndex: 100, duration: 0.2 }); },
+                    onRelease: function() {
+                        const targetRect = other.getBoundingClientRect();
+                        const dragRect = this.target.getBoundingClientRect();
+                        
+                        // Check if center of dragged item is close to center of other item
+                        const dist = Math.sqrt(Math.pow(targetRect.left - dragRect.left, 2) + Math.pow(targetRect.top - dragRect.top, 2));
+                        
+                        if (dist < 400) {
+                            // Swap positions (simplified logic for swap effect)
+                            const tl = gsap.timeline();
+                            tl.to(this.target, { x: 0, y: 0, duration: 0.5, ease: "power2.out" })
+                              .add(() => {
+                                  // Visually swap src if we really want a swap, or just return to 0
+                                  // For a "swap", I'll just snap back for now or implement better swap
+                                  // User said "place change ho skte h"
+                                  // I'll swap the HTML content for a true swap feel
+                                  const temp = this.target.innerHTML;
+                                  this.target.innerHTML = other.innerHTML;
+                                  other.innerHTML = temp;
+                                  gsap.from([this.target, other], { opacity: 0, scale: 0.9, duration: 0.4, stagger: 0.1 });
+                              });
+                        } else {
+                            gsap.to(this.target, { x: 0, y: 0, scale: 1, zIndex: 1, duration: 0.5, ease: "elastic.out(1, 0.75)" });
+                        }
+                    }
+                });
+            });
+
+            // MAGNETIC CURSOR FOLLOW (3D TILT)
+            const frameSection = document.querySelector('.dual-frame-section');
+            if (frameSection) {
+                frameSection.addEventListener('mousemove', (e) => {
+                    const { clientX, clientY } = e;
+                    const rect = frameSection.getBoundingClientRect();
+                    const x = (clientX - rect.left) / rect.width - 0.5; // range -0.5 to 0.5
+                    const y = (clientY - rect.top) / rect.height - 0.5;
+                    
+                    items.forEach((item) => {
+                        const draggableInstance = Draggable.get(item);
+                        if (!draggableInstance || !draggableInstance.isDragging) {
+                            gsap.to(item, {
+                                x: x * 80, // slightly more movement
+                                y: y * 60,
+                                rotationY: x * 30, // Tilt more dramatically
+                                rotationX: -y * 25,
+                                duration: 1,
+                                ease: "power2.out"
+                            });
+                        }
+                    });
+                });
+
+                frameSection.addEventListener('mouseleave', () => {
+                    items.forEach((item) => {
+                        const draggableInstance = Draggable.get(item);
+                        if (!draggableInstance || !draggableInstance.isDragging) {
+                            gsap.to(item, {
+                                x: 0, 
+                                y: 0, 
+                                rotationY: 0, 
+                                rotationX: 0, 
+                                duration: 1.2, 
+                                ease: "power3.out"
+                            });
+                        }
+                    });
+                });
+            }
+
+            // TYPOGRAPHY SECTION ANIMATIONS
+            const typoTL = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#typo-trigger",
+                    start: "top 60%"
+                }
+            });
+            typoTL.to(".typo-main-h", { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" })
+                  .to(".typo-meta-row", { opacity: 1, duration: 1, ease: "power2.out" }, "-=0.8")
+                  .to(".typo-big-sample", { opacity: 0.9, y: 0, duration: 1.5, ease: "expo.out" }, "-=1")
+                  .to(".typo-content-grid", { opacity: 1, duration: 1.5, ease: "power2.out" }, "-=1");
+
+            // WEIGHT SHOWCASE ANIMATION LOOP
+            const letter = document.querySelector('.focus-letter');
+            const indicators = document.querySelectorAll('.weight-indicator');
+            const targetWeights = [400, 500, 700];
+            let currentWeightIdx = 0;
+
+            function cycleWeight() {
+                currentWeightIdx = (currentWeightIdx + 1) % targetWeights.length;
+                const nextWeight = targetWeights[currentWeightIdx];
+
+                gsap.to(letter, {
+                    fontWeight: nextWeight,
+                    duration: 1.2,
+                    ease: "power2.inOut",
+                    onStart: () => {
+                        indicators.forEach((ind, i) => {
+                            if (i === currentWeightIdx) ind.classList.add('active');
+                            else ind.classList.remove('active');
+                        });
+                    }
+                });
+            }
+
+            // Start the loop (Total 6s for the full 3-weight cycle)
+            setInterval(cycleWeight, 2000);
+
+            // NAMING SECTION ANIMATION
+            gsap.to(".naming-content", {
+                opacity: 1, y: 0, duration: 1.2, ease: "power2.out",
+                scrollTrigger: { trigger: "#naming-trigger", start: "top 60%" }
+            });
+            gsap.to(".naming-bg", {
+                scale: 1.1, ease: "none",
+                scrollTrigger: {
+                    trigger: "#naming-trigger",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // SPLIT SHOWCASE ANIMATIONS
+            const splitTL = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#split-showcase-trigger",
+                    start: "top 60%"
+                }
+            });
+            splitTL.to(".logotype-center", {
+                opacity: 1, y: 0, duration: 1.2, ease: "power3.out"
+            })
+            .to(".logomark-center", {
+                opacity: 1, scale: 1, duration: 1.2, ease: "expo.out"
+            }, "-=0.8");
+
+            // PALETTE ANIMATION
+            const paletteTL = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#palette-trigger",
+                    start: "top 60%"
+                }
+            });
+            paletteTL.to(".palette-main-text", {
+                opacity: 1, y: 0, scale: 1, duration: 2, ease: "expo.out"
+            })
+            .to(".color-labels-row span", {
+                opacity: 0.4, y: 0, duration: 1, stagger: 0.2, ease: "power2.out"
+            }, "-=1.2");
+
+            // Interactive Background Blobs
+            const paletteSection = document.querySelector('.palette-section');
+            paletteSection.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const xPos = (clientX / window.innerWidth - 0.5) * 60;
+                const yPos = (clientY / window.innerHeight - 0.5) * 60;
+                
+                gsap.to(".blob-blue", { x: xPos, y: yPos, duration: 1.5, ease: "power1.out" });
+                gsap.to(".blob-purple", { x: -xPos, y: -yPos, duration: 1.5, ease: "power1.out" });
+            });
+
+            // Subtle base pulse
+            gsap.to(".palette-blob", {
+                scale: 1.1, duration: 8, repeat: -1, yoyo: true, ease: "sine.inOut"
+            });
+
+            // SWATCHES SECTION ANIMATION (Alternating)
+            document.querySelectorAll('.swatch-row').forEach((row, i) => {
+                gsap.to(row, {
+                    opacity: 1, x: 0, duration: 1.2, delay: i * 0.1, ease: "power4.out",
+                    scrollTrigger: {
+                        trigger: row,
+                        start: "top 90%"
+                    },
+                    onStart: () => {
+                        gsap.set(row, { x: i % 2 === 0 ? -100 : 100 });
+                    },
+                    onComplete: () => {
+                        row.classList.add('is-visible');
+                    }
+                });
+            });
+
+            // COMPOSITION SECTION ANIMATION
+            gsap.to(".comp-card", {
+                opacity: 1, y: 0, duration: 1.2, stagger: 0.1, ease: "power3.out",
+                scrollTrigger: {
+                    trigger: "#comp-trigger",
+                    start: "top 60%"
+                }
+            });
+
+            // Parallax effect on cards
+            document.querySelectorAll('.comp-card').forEach(card => {
+                const speed = parseFloat(card.getAttribute('data-speed'));
+                gsap.to(card, {
+                    yPercent: -100 * speed,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#comp-trigger",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+
+            // GRADIENT NODES ANIMATION
+            gsap.to(".gs-node", {
+                opacity: 1, scale: 1, duration: 1.2, stagger: 0.15, ease: "back.out(1.7)",
+                scrollTrigger: {
+                    trigger: "#gs-trigger",
+                    start: "top 50%"
+                }
+            });
+
+            // Parallax floating nodes
+            document.querySelectorAll('.gs-node').forEach(node => {
+                const v = parseFloat(node.getAttribute('data-v'));
+                gsap.to(node, {
+                    yPercent: -150 * v,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#gs-trigger",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+
+                // Idle floating
+                gsap.to(node, {
+                    y: "+=15", x: "+=5", duration: 3 + Math.random() * 2,
+                    repeat: -1, yoyo: true, ease: "sine.inOut", delay: Math.random()
+                });
+            });
+
+            // CULTURE SECTION ANIMATION
+            gsap.to(".cc-1", {
+                opacity: 1, scale: 1.05, duration: 1.5, ease: "power4.out",
+                scrollTrigger: { trigger: "#culture-trigger", start: "top 60%" }
+            });
+            gsap.to(".culture-card:not(.cc-1)", {
+                opacity: 1, y: 0, duration: 1.2, stagger: 0.1, ease: "expo.out",
+                scrollTrigger: { trigger: "#culture-trigger", start: "top 60%" }
+            });
+
+            // Parallax & Float on collage cards
+            document.querySelectorAll('.culture-card').forEach(card => {
+                const v = parseFloat(card.getAttribute('data-v'));
+                gsap.to(card, {
+                    yPercent: -100 * v,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#culture-trigger",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+
+                // Idle floating
+                gsap.to(card, {
+                    y: "+=15", x: "+=10", duration: 4 + Math.random() * 2,
+                    repeat: -1, yoyo: true, ease: "sine.inOut"
+                });
+            });
+
+            // PREMIUM VISUAL IDENTITY REVEAL
+            const idIntroTL = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#system-trigger",
+                    start: "top 70%"
+                }
+            });
+
+            idIntroTL.to(".id-left-heading h1", {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: "expo.out"
+            })
+            .to(".id-list-item", {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: 0.1,
+                ease: "power3.out"
+            }, "-=0.8");
+
+            // PREVIEW LOGIC DISABLED
+
+            // Liquid Nav Active Scroll
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.ln-item:not(.back-pill)');
+            
+            window.addEventListener('scroll', () => {
+                let current = "";
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.pageYOffset >= sectionTop - 250) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const hr = link.getAttribute('href');
+                    if (hr && hr.includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Smooth Scroll for Nav
+            navLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if(href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if(target) lenis.scrollTo(target);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

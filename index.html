@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Nerd | Cinematic 3D Portfolio</title>
+    <meta name="description" content="A unique, cinematic, and immersive 3D portfolio experience.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&family=Playfair+Display:ital,wght@0,900;1,900&family=Momo+Signature&family=Caveat:wght@400..700&family=Kalam:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- CDNs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+</head>
+
+<body class="dark-theme">
+    <!-- ULTRA-PREMIUM MINIMAL LOADER -->
+    <div id="loader">
+        <div class="space-bg"></div>
+        <div id="loader-particles"></div> <!-- New Particle Layer -->
+        <div class="loader-overlay"></div>
+
+        <div class="loading-data-side">
+            <span class="stat-value" id="side-percent">0%</span>
+            <div class="side-log">
+                <p>> GRID.LAYOUT.ACTIVE</p>
+            </div>
+        </div>
+
+        <div class="loader-content">
+            <span class="system-tag">SYNCING DESIGN SYSTEM</span>
+
+            <div class="loader-greeting-container">
+                <h1 id="loader-greeting">Hello</h1>
+            </div>
+
+            <div class="loader-bar-container">
+                <div id="loader-bar"></div>
+            </div>
+
+            <div class="btn-group" id="btn-group" style="display: none;">
+                <button id="enter-btn">
+                    <span class="btn-text-main text-reveal">Designer</span>
+                    <span class="btn-subtext">CLICK TO REVEAL VISUAL STORY</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas for Three.js -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- UI Overlay -->
+    <div id="ui-layer">
+        <header>
+            <div class="logo">DESIGN NERD.</div>
+            <nav class="main-nav">
+                <a href="javascript:void(0)" onclick="lenis.scrollTo('#work')" class="nav-link">WORK</a>
+                <a href="javascript:void(0)" onclick="lenis.scrollTo('#about')" class="nav-link">ABOUT</a>
+                <a href="https://your-resume-link.com" target="_blank" class="nav-btn resume-btn">
+                    <span class="btn-text">RESUME</span>
+                    <span class="arrow">↗</span>
+                </a>
+            </nav>
+        </header>
+
+        <main>
+            <!-- SECTION 1: INTRO (HERO) -->
+            <section id="hero" class="scene">
+                <div class="content">
+                    <h2 class="sub-heading" data-gsap="fade-up"><span id="typewriter"></span><span
+                            class="cursor">|</span></h2>
+                    <h1 class="main-heading" data-gsap="reveal"><span>DESIGN<br><span class="italic">NERD.</span></span>
+                    </h1>
+                    <p class="scroll-hint" data-gsap="fade-in">SCROLL TO BEGIN JOURNEY</p>
+                </div>
+            </section>
+
+            <!-- SECTION 2: TRANSITION (INSIDE) -->
+            <section id="transition-scene" class="scene spacer">
+                <!-- Highlighting depth -->
+            </section>
+
+            <!-- SECTION: ABOUT -->
+            <section id="about" class="scene content-grid">
+                <div class="about-text">
+                    <span class="section-tag">PERSONAL STORY</span>
+                    <h2>A DESIGNER <br>DRIVEN BY <span class="highlight">DETAILS.</span></h2>
+                    <p>Hi, I’m Manish Chandra Joshi. I’m a UI/UX and Visual Designer with hands-on experience shaping
+                        digital products, brand identities, and interactive prototypes. My background spans design,
+                        visual communication, and real-world creative problem-solving, which helps me approach every
+                        project with clarity and purpose.</p>
+                </div>
+                <div class="about-gallery design-layout">
+                    <!-- Layout Rings -->
+                    <div class="layout-ring ring-1"></div>
+                    <div class="layout-ring ring-2"></div>
+
+                    <!-- Floating Design Elements -->
+                    <div class="floating-element node-dot"></div>
+                    <div class="floating-element node-line"></div>
+                    <div class="floating-element node-rect"></div>
+
+                    <!-- Main Profile (Primary) -->
+                    <div class="about-image-wrapper primary main-node">
+                        <div class="about-img" style="background-image: url('images/about-me-1.jpg')"></div>
+                    </div>
+
+                    <!-- Side Node 1 (Secondary) -->
+                    <div class="node-container node-1">
+                        <div class="about-image-wrapper secondary sub-node">
+                            <div class="about-img" style="background-image: url('images/about-me.jpg')"></div>
+                        </div>
+                        <!-- Orbiting Icons -->
+                        <div class="orbit-icon icon-plus">+</div>
+                        <div class="orbit-icon icon-square"></div>
+                    </div>
+
+                    <!-- Side Node 2 (Third) -->
+                    <div class="node-container node-2">
+                        <div class="about-image-wrapper third sub-node">
+                            <div class="about-img" style="background-image: url('images/about-me-3.jpg')"></div>
+                        </div>
+                        <!-- Orbiting Icons -->
+                        <div class="orbit-icon icon-dot"></div>
+                        <div class="orbit-icon icon-line"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: WORK (VERTICAL STACKING) -->
+            <section id="work" class="scene work-stack-section">
+                <!-- Background Dual Ribbons (Reference Style) -->
+                <div class="work-marquee ribbon-top">
+                    <div class="marquee-inner">
+                        <span>SELECTED WORK <span class="sparkle-small">✦</span> SELECTED WORK <span
+                                class="sparkle-small">✦</span> SELECTED WORK <span class="sparkle-small">✦</span>
+                            SELECTED WORK <span class="sparkle-small">✦</span> SELECTED WORK <span
+                                class="sparkle-small">✦</span> SELECTED WORK</span>
+                        <span>SELECTED WORK <span class="sparkle-small">✦</span> SELECTED WORK <span
+                                class="sparkle-small">✦</span> SELECTED WORK <span class="sparkle-small">✦</span>
+                            SELECTED WORK <span class="sparkle-small">✦</span> SELECTED WORK <span
+                                class="sparkle-small">✦</span> SELECTED WORK</span>
+                        <span>SELECTED WORK <span class="sparkle-small">✦</span> SELECTED WORK <span
+                                class="sparkle-small">✦</span> SELECTED WORK <span class="sparkle-small">✦</span>
+                            SELECTED WORK <span class="sparkle-small">✦</span> SELECTED WORK <span
+                                class="sparkle-small">✦</span> SELECTED WORK</span>
+                    </div>
+                </div>
+
+                <div class="work-marquee ribbon-bottom">
+                    <div class="marquee-inner inner-reverse">
+                        <span>SELECTED WORK <span class="sparkle-small">✦</span> SELECTED WORK <span
+                                class="sparkle-small">✦</span> SELECTED WORK <span class="sparkle-small">✦</span>
+                            SELECTED WORK <span class="sparkle-small">✦</span> SELECTED WORK <span
+                                class="sparkle-small">✦</span> SELECTED WORK</span>
+                        <span>SELECTED WORK <span class="sparkle-small">✦</span> SELECTED WORK <span
+                                class="sparkle-small">✦</span> SELECTED WORK <span class="sparkle-small">✦</span>
+                            SELECTED WORK <span class="sparkle-small">✦</span> SELECTED WORK <span
+                                class="sparkle-small">✦</span> SELECTED WORK</span>
+                        <span>SELECTED WORK <span class="sparkle-small">✦</span> SELECTED WORK <span
+                                class="sparkle-small">✦</span> SELECTED WORK <span class="sparkle-small">✦</span>
+                            SELECTED WORK <span class="sparkle-small">✦</span> SELECTED WORK <span
+                                class="sparkle-small">✦</span> SELECTED WORK</span>
+                    </div>
+                </div>
+
+                <div class="work-stack-container">
+                    <!-- Project 1 -->
+                    <div class="project-card-wrapper" data-tilt="-5">
+                        <a href="branding.html" class="project-card">
+                            <div class="project-header">
+                                <h3 class="p-title">Branding</h3>
+                            </div>
+                            <div class="project-image-inner">
+                                <div class="project-image"
+                                    style="background-image: url('branding new page/culture-bg-hero.png')">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-card-wrapper" data-tilt="3">
+                        <a href="illustration.html" class="project-card">
+                            <div class="project-header">
+                                <h3 class="p-title">Illustration</h3>
+                            </div>
+                            <div class="project-image-inner">
+                                <div class="project-image"
+                                    style="background-image: url('https://images.unsplash.com/photo-1614850523296-e811cfbaf163?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-card-wrapper" data-tilt="-2">
+                        <a href="ui-ux.html" class="project-card">
+                            <div class="project-header">
+                                <h3 class="p-title">UI/UX</h3>
+                            </div>
+                            <div class="project-image-inner">
+                                <div class="project-image"
+                                    style="background-image: url('UI case study new page/kj.png')">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div class="project-card-wrapper" data-tilt="4">
+                        <a href="motion.html" class="project-card">
+                            <div class="project-header">
+                                <h3 class="p-title">Motion Graphics</h3>
+                            </div>
+                            <div class="project-image-inner">
+                                <div class="project-image"
+                                    style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: DESIGN PROCESS (MINIMALIST GRID) -->
+            <section id="process" class="scene process-grid-section">
+                <div class="process-header-v2">
+                    <span class="section-tag">MY PROCESS</span>
+                    <h2 class="process-main-heading">
+                        <span class="sparkle">✦</span> I don't follow a rigid framework, <br>
+                        my process adapts to the problem, <br>
+                        moving from understanding to shipping <br>
+                        through collaboration <span class="sparkle">✦</span>
+                    </h2>
+                </div>
+
+                <div class="process-steps-grid">
+                    <!-- Step 1 -->
+                    <div class="process-card">
+                        <span class="step-label">STEP 01</span>
+                        <h3>Research</h3>
+                        <p>Gaining an understanding of the problem and our customers, gathering relevant data and
+                            context.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="process-card">
+                        <span class="step-label">STEP 02</span>
+                        <h3>Problem definition</h3>
+                        <p>After getting more context, going a step further to properly frame the problem that I'm
+                            trying to solve.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="process-card">
+                        <span class="step-label">STEP 03</span>
+                        <h3>User journey mapping</h3>
+                        <p>Before getting into the design exploration, taking the time to map out the user journeys &
+                            stories.</p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="process-card">
+                        <span class="step-label">STEP 04</span>
+                        <h3>Design explorations</h3>
+                        <p>Exploring various possible design solutions and seeking feedback from relevant stakeholders.
+                        </p>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="process-card">
+                        <span class="step-label">STEP 05</span>
+                        <h3>Usability testing</h3>
+                        <p>After settling on some design directions, carry out usability tests with users to test ease
+                            of use.</p>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div class="process-card">
+                        <span class="step-label">STEP 06</span>
+                        <h3>Handoff and monitoring</h3>
+                        <p>Handing off all design-related assets to developers as well as monitoring relevant
+                            performance.</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- SECTION 4: EXPERIENCE & PRACTICE (RIBBON & SCATTER) -->
+            <section id="experience" class="scene experience-ribbon-section">
+                <!-- XP Ribbons (Match Selected Work Style) -->
+                <div class="xp-marquee-container">
+                    <div class="work-marquee ribbon-top-xp">
+                        <div class="marquee-inner">
+                            <span>EXPERIENCE & PRACTICE <span class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE</span>
+                            <span>EXPERIENCE & PRACTICE <span class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE</span>
+                            <span>EXPERIENCE & PRACTICE <span class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE</span>
+                        </div>
+                    </div>
+                    <div class="work-marquee ribbon-bottom-xp">
+                        <div class="marquee-inner inner-reverse">
+                            <span>EXPERIENCE & PRACTICE <span class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE</span>
+                            <span>EXPERIENCE & PRACTICE <span class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE</span>
+                            <span>EXPERIENCE & PRACTICE <span class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE <span
+                                    class="sparkle-small">✦</span> EXPERIENCE & PRACTICE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="experience-focus-card">
+                    <div class="xp-label">CORE PRACTICES</div>
+                    <h2 class="xp-main-title">I design experiences<br>that solve real problems.</h2>
+
+                    <div id="iit-delhi-trigger" class="iit-badge">
+                        <div class="badge-inner">
+                            <div class="badge-title">INTERNSHIP @ IIT DELHI <span class="sparkle">✦</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Hidden Scatter Images -->
+                    <div class="scatter-container">
+                        <img src="internship/WhatsApp Image 2026-03-24 at 7.27.33 PM.jpeg"
+                            class="scatter-img size-wide">
+                        <img src="internship/WhatsApp Image 2026-03-24 at 7.27.34 PM.jpeg" class="scatter-img size-sq">
+                        <img src="internship/WhatsApp Image 2026-03-24 at 7.29.43 PM (1).jpeg"
+                            class="scatter-img size-vert">
+                        <img src="internship/WhatsApp Image 2026-03-24 at 7.29.43 PM.jpeg"
+                            class="scatter-img size-wide">
+                        <img src="internship/WhatsApp Image 2026-03-24 at 7.29.44 PM (1).jpeg"
+                            class="scatter-img size-sq">
+                        <img src="internship/WhatsApp Image 2026-03-24 at 7.29.44 PM.jpeg"
+                            class="scatter-img size-vert">
+                        <img src="internship/WhatsApp Image 2026-03-24 at 7.36.11 PM.jpeg"
+                            class="scatter-img size-wide">
+                        <img src="internship/WhatsApp Image 2026-03-24 at 7.36.12 PM.jpeg" class="scatter-img size-sq">
+                        <img src="internship/WhatsApp Image 2026-03-24 at 7.36.13 PM (1).jpeg"
+                            class="scatter-img size-vert">
+                        <img src="internship/WhatsApp Image 2026-03-24 at 7.36.13 PM (2).jpeg"
+                            class="scatter-img size-wide">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: WHEN I'M NOT DESIGNING (CINEMATIC REBUILD) -->
+
+            <!-- SECTION: WHEN I'M NOT DESIGNING (TICKET-STYLE BENTO REBUILD) -->
+            <section id="not-designing" class="nd-bento-section">
+                <!-- ND Marquee Ribbons -->
+                <div class="nd-marquee-container">
+                    <div class="work-marquee ribbon-top-nd">
+                        <div class="marquee-inner">
+                            <span>BEYOND THE PIXELS <span class="sparkle-small">✦</span> LIFE & STORIES <span
+                                    class="sparkle-small">✦</span> BEYOND THE PIXELS <span
+                                    class="sparkle-small">✦</span> LIFE & STORIES <span class="sparkle-small">✦</span>
+                                BEYOND THE PIXELS <span class="sparkle-small">✦</span> LIFE & STORIES <span
+                                    class="sparkle-small">✦</span> BEYOND THE PIXELS <span
+                                    class="sparkle-small">✦</span> LIFE & STORIES</span>
+                            <span>BEYOND THE PIXELS <span class="sparkle-small">✦</span> LIFE & STORIES <span
+                                    class="sparkle-small">✦</span> BEYOND THE PIXELS <span
+                                    class="sparkle-small">✦</span> LIFE & STORIES <span class="sparkle-small">✦</span>
+                                BEYOND THE PIXELS <span class="sparkle-small">✦</span> LIFE & STORIES <span
+                                    class="sparkle-small">✦</span> BEYOND THE PIXELS <span
+                                    class="sparkle-small">✦</span> LIFE & STORIES</span>
+                        </div>
+                    </div>
+                    <div class="work-marquee ribbon-bottom-nd">
+                        <div class="marquee-inner inner-reverse">
+                            <span>BEYOND THE PIXELS <span class="sparkle-small">✦</span> LIFE & STORIES <span
+                                    class="sparkle-small">✦</span> BEYOND THE PIXELS <span
+                                    class="sparkle-small">✦</span> LIFE & STORIES <span class="sparkle-small">✦</span>
+                                BEYOND THE PIXELS <span class="sparkle-small">✦</span> LIFE & STORIES <span
+                                    class="sparkle-small">✦</span> BEYOND THE PIXELS <span
+                                    class="sparkle-small">✦</span> LIFE & STORIES</span>
+                            <span>BEYOND THE PIXELS <span class="sparkle-small">✦</span> LIFE & STORIES <span
+                                    class="sparkle-small">✦</span> BEYOND THE PIXELS <span
+                                    class="sparkle-small">✦</span> LIFE & STORIES <span class="sparkle-small">✦</span>
+                                BEYOND THE PIXELS <span class="sparkle-small">✦</span> LIFE & STORIES <span
+                                    class="sparkle-small">✦</span> BEYOND THE PIXELS <span
+                                    class="sparkle-small">✦</span> LIFE & STORIES</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nd-header-v3">
+                    <span class="section-tag"><img
+                            src="when i was not designing/WhatsApp Image 2026-03-24 at 6.58.43 PM.jpeg"
+                            class="mini-tag-img"> BEYOND THE PIXELS</span>
+                    <div class="nd-header-story-previews">
+                        <div class="story-circle"><img
+                                src="when i was not designing/WhatsApp Image 2026-03-24 at 7.01.38 PM.jpeg"></div>
+                        <div class="story-circle"><img
+                                src="when i was not designing/WhatsApp Image 2026-03-24 at 7.09.16 PM.jpeg"></div>
+                        <div class="story-circle"><img
+                                src="when i was not designing/WhatsApp Image 2026-03-24 at 7.19.27 PM.jpeg"></div>
+                    </div>
+                    <h2 class="nd-main-heading">When I’m not <br>designing.</h2>
+                </div>
+
+                <!-- 3D ORBIT GALLERY (REPLACING ROADMAP) -->
+                <div class="nd-orbit-container">
+                    <div class="nd-orbit-track">
+                        <!-- TICKET 01 -->
+                        <div class="nd-orbit-card" style="--i: 0; --r: 15deg;">
+                            <div class="ticket-card-inner">
+                                <div class="ticket-header">
+                                    <span class="serial">#ND-00101</span>
+                                    <span class="badge">MEMORIES</span>
+                                </div>
+                                <div class="ticket-body">
+                                    <img src="when i was not designing/WhatsApp Image 2025-09-29 at 2.12.06 AM.jpeg"
+                                        class="card-img-full">
+                                </div>
+                                <div class="ticket-footer">
+                                    <span class="barcode">||||||||||||||||</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TICKET 02 -->
+                        <div class="nd-orbit-card" style="--i: 1; --r: -10deg;">
+                            <div class="ticket-card-inner">
+                                <div class="ticket-header">
+                                    <span class="serial">#ND-00102</span>
+                                </div>
+                                <div class="ticket-body">
+                                    <img src="when i was not designing/WhatsApp Image 2025-12-10 at 12.11.44 PM.jpeg"
+                                        class="card-img-full">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TICKET 03 -->
+                        <div class="nd-orbit-card" style="--i: 2; --r: 25deg;">
+                            <div class="ticket-card-inner">
+                                <div class="ticket-header">
+                                    <span class="serial">#ND-00103</span>
+                                </div>
+                                <div class="ticket-body">
+                                    <img src="when i was not designing/WhatsApp Image 2026-03-24 at 6.58.43 PM.jpeg"
+                                        class="card-img-full">
+                                </div>
+                                <div class="ticket-footer">
+                                    <span class="barcode">|||||||||||</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TICKET 04 -->
+                        <div class="nd-orbit-card" style="--i: 3; --r: -5deg;">
+                            <div class="ticket-card-inner">
+                                <div class="ticket-header">
+                                    <span class="serial">#ND-00104</span>
+                                </div>
+                                <div class="ticket-body">
+                                    <img src="when i was not designing/WhatsApp Image 2026-03-24 at 7.01.38 PM.jpeg"
+                                        class="card-img-full">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TICKET 05 -->
+                        <div class="nd-orbit-card" style="--i: 4; --r: 45deg;">
+                            <div class="ticket-card-inner">
+                                <div class="ticket-header">
+                                    <span class="serial">#ND-00105</span>
+                                </div>
+                                <div class="ticket-body">
+                                    <img src="when i was not designing/WhatsApp Image 2026-03-24 at 7.09.16 PM.jpeg"
+                                        class="card-img-full">
+                                </div>
+                                <div class="ticket-footer">
+                                    <span class="serial">00105</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TICKET 06 -->
+                        <div class="nd-orbit-card" style="--i: 5; --r: -20deg;">
+                            <div class="ticket-card-inner">
+                                <div class="ticket-header">
+                                    <span class="serial">#ND-00106</span>
+                                </div>
+                                <div class="ticket-body">
+                                    <img src="when i was not designing/WhatsApp Image 2026-03-24 at 7.19.27 PM.jpeg"
+                                        class="card-img-full">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+            <!-- SECTION 5: DEEP DIVE (3D Environment) -->
+            <section id="deep-dive" class="scene spacer">
+                <!-- Transitions handled in Three.js -->
+            </section>
+
+            <!-- SECTION 6: CTA (REMOVED) -->
+            <section id="cta" class="scene">
+                <!-- Content removed per user request -->
+            </section>
+        </main>
+
+        <!-- MAIN FOOTER -->
+        <footer class="main-footer">
+            <div class="footer-grid">
+                <!-- CTA & LINKS LAYER -->
+                <div class="footer-content">
+                    <div class="footer-cta-box">
+                        <span class="footer-tag">HAVE A PROJECT IN MIND?</span>
+                        <a href="mailto:joshi.manishchandra@gmail.com" class="footer-large-link">LET'S <span
+                                class="italic">TALK</span> <span class="arrow">↗</span></a>
+                    </div>
+
+                    <div class="footer-links-row">
+                        <div class="footer-col">
+                            <span class="col-title">SOCIALS</span>
+                            <a href="https://www.instagram.com/nerddesigner.me/" target="_blank"
+                                rel="noopener noreferrer" class="f-link monospaced">INSTAGRAM</a>
+                            <a href="https://www.linkedin.com/in/joshimanishdesign/" target="_blank"
+                                rel="noopener noreferrer" class="f-link monospaced">LINKEDIN</a>
+                            <a href="https://www.behance.net/manishchandra11" target="_blank" rel="noopener noreferrer"
+                                class="f-link monospaced">BEHANCE</a>
+                        </div>
+                        <div class="footer-col">
+                            <span class="col-title">LOCAL TIME</span>
+                            <span class="f-data monospaced" id="footer-time">17:26 PM GMT+5:30</span>
+                            <span class="f-data monospaced">DELHI, INDIA</span>
+                        </div>
+                        <div class="footer-col right-align">
+                            <span class="col-title">GET IN TOUCH</span>
+                            <a href="mailto:joshi.manishchandra@gmail.com"
+                                class="f-link monospaced footer-email-link">joshi.manishchandra@gmail.com</a>
+                            <span class="f-data monospaced status-green">• ONLINE & AVAILABLE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-base">
+                    <div class="progress-wrap monospaced">
+                        SCROLL PROGRESS: <span id="progress-val">0%</span>
+                    </div>
+                    <button id="back-to-top" class="top-btn" onclick="lenis.scrollTo(0)">BACK TO TOP ↑</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Custom Comet Cursor -->
+    <canvas id="cursor-canvas"></canvas>
+    <div id="cursor"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illustration | Design Nerd</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <style>
+        body { background: #000; overflow-x: hidden; }
+        .cat-nav { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+        .back-link { text-decoration: none; color: #fff; font-size: 0.65rem; letter-spacing: 3px; font-weight: 900; opacity: 0.5; transition: opacity 0.3s; }
+        .back-link:hover { opacity: 1; }
+        /* --- DYNAMIC DISCOVERY SECTION (SYNCED 1:1 FROM BRANDING) --- */
+        .more-work-section {
+            background: #000;
+            padding: 120px 8vw;
+            position: relative;
+            z-index: 20;
+        }
+
+        .more-work-label {
+            font-size: 11px;
+            letter-spacing: 4px;
+            opacity: 0.4;
+            display: block;
+            margin-bottom: 48px;
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        .more-work-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .more-work-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 56px 48px;
+            text-decoration: none;
+            transition: background 0.4s ease;
+            position: relative;
+        }
+
+        .more-work-card:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .mw-cat {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .mw-title {
+            font-size: clamp(24px, 2.5vw, 32px);
+            font-weight: 500;
+            color: #fff;
+            opacity: 0.4;
+            margin: 0;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .more-work-card:hover .mw-title {
+            color: #ff33cc; /* ILLUSTRATION ACCENT */
+            opacity: 1;
+            transform: translateX(12px);
+        }
+
+        #id-preview {
+            position: fixed;
+            width: 340px;
+            height: 210px;
+            top: 0; left: 0;
+            pointer-events: none;
+            z-index: 10000;
+            opacity: 0;
+            transform: scale(0.9) translate(-50%, -50%);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        #id-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <nav class="cat-nav">
+        <a href="index.html?skipLoader=true" class="back-link">BACK TO HOME</a>
+        <a href="https://your-resume-link.com" target="_blank" class="resume-btn">RESUME ↗</a>
+    </nav>
+
+    <main>
+        <section class="cat-hero">
+            <h1 class="cat-title">DIGITAL ART</h1>
+        </section>
+
+        <div class="ticker-wrap">
+            <div class="ticker-track">
+                <span>DIGITAL ILLUSTRATION • CHARACTER DESIGN • SURREALISM • FINE LINES • VISUAL STORYTELLING • </span>
+                <span>DIGITAL ILLUSTRATION • CHARACTER DESIGN • SURREALISM • FINE LINES • VISUAL STORYTELLING • </span>
+            </div>
+        </div>
+
+        <section class="window-stack-container">
+            <div class="window-card" data-gsap="reveal-card">
+                <div class="window-header">
+                    <div class="window-dot" style="background: #ff33cc;"></div>
+                    <div class="window-dot" style="background: #cc33ff;"></div>
+                    <div class="window-dot" style="background: #33ccff;"></div>
+                    <div class="window-title">Art_01 // COSMIC TRAVELER</div>
+                </div>
+                <div class="window-body">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200" class="window-img" alt="Cosmic Illustration">
+                </div>
+                <div class="window-info">
+                    <h4>Cosmic Traveler</h4>
+                    <p>A surreal exploration of space and geometry, blending fine-line art with vibrant neon gradients.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="records-section">
+            <span class="section-tag" style="margin-bottom: 40px; display: block;">SKETCHES & PROCESS</span>
+            <div class="records-grid">
+                <div class="record-item">
+                    <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=800" class="record-img" alt="Sketch 1">
+                </div>
+                <div class="record-item">
+                    <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&q=80&w=800" class="record-img" alt="Sketch 2">
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPLORE MORE PROJECTS SECTION (SYNCED 1:1) -->
+        <section class="more-work-section">
+            <span class="more-work-label">EXPLORE MORE PROJECTS</span>
+            <div class="more-work-grid">
+                <a href="branding.html" class="more-work-card" data-preview="branding new page/culture-bg-hero.png">
+                    <span class="mw-cat">BRAND IDENTITY</span>
+                    <h3 class="mw-title">Branding <span>↗</span></h3>
+                </a>
+                <a href="ui-ux.html" class="more-work-card" data-preview="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800">
+                    <span class="mw-cat">INTERFACE DESIGN</span>
+                    <h3 class="mw-title">UI/UX Design <span>↗</span></h3>
+                </a>
+                <a href="motion.html" class="more-work-card" data-preview="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800">
+                    <span class="mw-cat">VISUAL MOTION</span>
+                    <h3 class="mw-title">Motion Graphics <span>↗</span></h3>
+                </a>
+            </div>
+        </section>
+
+        <!-- FLOATING PREVIEW CONTAINER -->
+        <div id="id-preview">
+            <img src="" id="id-preview-img">
+        </div>
+
+        <footer class="cat-footer">
+            <div class="footer-monogram">DA.</div>
+            <button class="top-btn" onclick="lenis.scrollTo(0)" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 20px; border-radius: 100px; cursor: pointer; font-size: 0.6rem; letter-spacing: 2px; float: right;">BACK TO TOP ↑</button>
+        </footer>
+    </main>
+
+    <script>
+        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.from('.cat-title', { y: 200, autoAlpha: 0, duration: 1.5, ease: 'expo.out', delay: 0.5 });
+        const cards = gsap.utils.toArray('.window-card');
+        cards.forEach((card, i) => {
+            const tilt = (i % 2 === 0) ? -2 : 2;
+            gsap.set(card, { rotationZ: tilt });
+            gsap.from(card, { y: 150, autoAlpha: 0, scale: 0.9, scrollTrigger: { trigger: card, start: 'top 95%', end: 'top 60%', scrub: true } });
+            gsap.to(card, { y: -100, scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: 1.5 } });
+        });
+        // PREVIEW LOGIC
+
+        // STAGGER REVEAL
+        gsap.from(".more-work-card", {
+            opacity: 0, y: 40, duration: 1.2, stagger: 0.15, ease: "expo.out",
+            scrollTrigger: { trigger: ".more-work-section", start: "top 80%" }
+        });
+    </script>
+</body>
+</html>

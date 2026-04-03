@@ -1,0 +1,4642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI / UX | Design Nerd</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&family=Epilogue:wght@300;600;900&family=Inter:wght@400;600;700&family=Space+Mono&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #000;
+            --accent-orange: rgba(255, 94, 0, 0.15);
+            --secondary-accent-hero: #ff6a00;
+        }
+
+        body {
+            background: #000;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        .cat-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #fff;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            font-weight: 900;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        /* CUSTOM COMET CURSOR */
+        #cursor-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        #cursor {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 15px #fff, 0 0 30px var(--secondary-accent-hero);
+            transform: translate(-50%, -50%);
+        }
+
+        /* HERO FULL (BRANDING STYLE) */
+        .hero-full {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            overflow: hidden;
+            background: #000;
+            padding-bottom: 10vh;
+        }
+
+        .hero-bg-container {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .space-bg-branding {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .space-bg-branding::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(ellipse at center, var(--accent-orange) 0%, transparent 60%);
+            filter: blur(100px);
+            animation: rotate-vortex 30s linear infinite;
+        }
+
+        @keyframes rotate-vortex {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .hero-bg-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.7;
+            mix-blend-mode: screen;
+            z-index: 1;
+            position: relative;
+        }
+
+        .hero-purple-glow {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            background: radial-gradient(circle at center, rgba(118, 112, 254, 0.15) 0%, transparent 80%);
+            pointer-events: none;
+        }
+
+        .hero-grain {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.15;
+            z-index: 10;
+        }
+
+        /* PREMIUM CASE STUDY SECTION (SPACE THEME) */
+        .case-study-section {
+            background-color: #0A0A0B;
+            padding: 34px 24px;
+            display: flex;
+            justify-content: center;
+            color: #fff;
+            position: relative;
+            z-index: 5;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .cs-atmosphere {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 106, 0, 0.03) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .cs-container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            gap: 100px;
+            align-items: start;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cs-left {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .cs-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #94A3B8;
+            width: fit-content;
+            margin-bottom: 12px;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cs-label {
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #7670FE;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            opacity: 0.8;
+        }
+
+        .cs-heading {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.015em;
+            color: #FFFFFF;
+            margin: 0;
+            font-family: 'Inter', Helvetica, sans-serif;
+        }
+
+        .cs-right {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .cs-body {
+            font-size: 19px;
+            line-height: 1.8;
+            color: #94A3B8;
+            margin: 0;
+            font-family: 'Inter', Helvetica, sans-serif;
+        }
+
+        .cs-highlight {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #7670FE;
+            letter-spacing: 0.02em;
+            font-weight: 500;
+            font-size: 1.08em;
+            text-shadow: 0 0 15px rgba(118, 112, 254, 0.2);
+        }
+
+        @media (max-width: 900px) {
+            .cs-container {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .case-study-section {
+                padding: 100px 24px;
+            }
+        }
+
+        .cat-footer {
+            padding: 15vh 8vw 5vh;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: #000;
+        }
+
+        /* PROBLEM STATEMENT SECTION (GALAXY CHAOS) */
+        .problem-section {
+            background-color: #0A0A0B;
+            padding: 100px 40px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            overflow: visible;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .prob-atmosphere {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 15% 40%, rgba(118, 112, 254, 0.1) 0%, transparent 60%);
+            z-index: 1;
+        }
+
+        .problem-container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .problem-left {
+            position: relative;
+            z-index: 5;
+        }
+
+        .prob-label {
+            font-size: 13px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #6366f1;
+            /* Subtle blue */
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: block;
+            opacity: 0.7;
+        }
+
+        .prob-heading {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.35;
+            color: #FFFFFF;
+            margin-bottom: 24px;
+            letter-spacing: -0.015em;
+        }
+
+        .prob-desc {
+            font-size: 18px;
+            color: #94A3B8;
+            max-width: 540px;
+            line-height: 1.8;
+            opacity: 0.8;
+        }
+
+        .prob-highlight {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #7670FE;
+            font-weight: 500;
+            text-shadow: 0 0 15px rgba(118, 112, 254, 0.15);
+        }
+
+        /* RIGHT SIDE FLOATING TAGS */
+        .problem-right {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chaos-tag {
+            position: absolute;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, rgba(30, 30, 45, 0.6), rgba(15, 15, 25, 0.8));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(118, 112, 254, 0.15);
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            font-size: 15px;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+            opacity: 0;
+            user-select: none;
+        }
+
+        .chaos-tag::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(118, 112, 254, 0.1);
+            opacity: 0.5;
+        }
+
+        /* Initial positions for tags - PRECISE OVERLAPPING STACK */
+        .tag-1 {
+            top: 8%;
+            left: 42%;
+            transform: rotate(-8deg);
+            z-index: 5;
+        }
+
+        .tag-2 {
+            top: 22%;
+            left: 10%;
+            transform: rotate(4deg);
+            z-index: 4;
+        }
+
+        .tag-3 {
+            top: 32%;
+            left: 48%;
+            transform: rotate(-5deg);
+            z-index: 6;
+        }
+
+        .tag-4 {
+            top: 42%;
+            left: 22%;
+            transform: rotate(6deg);
+            z-index: 3;
+        }
+
+        .tag-5 {
+            top: 58%;
+            left: 5%;
+            transform: rotate(-12deg);
+            z-index: 2;
+        }
+
+        .tag-6 {
+            top: 62%;
+            left: 38%;
+            transform: rotate(3deg);
+            z-index: 5;
+        }
+
+        .tag-7 {
+            top: 72%;
+            left: 52%;
+            transform: rotate(-4deg);
+            z-index: 1;
+        }
+
+        .tag-8 {
+            top: 15%;
+            left: 5%;
+            transform: rotate(10deg);
+            z-index: 2;
+        }
+
+        .tag-9 {
+            top: 80%;
+            left: 15%;
+            transform: rotate(-6deg);
+            z-index: 4;
+        }
+
+        .tag-10 {
+            top: 48%;
+            left: 65%;
+            transform: rotate(5deg);
+            z-index: 1;
+        }
+
+        /* STORYBOARD SECTION (PAPER NOTES) */
+        .storyboard-section {
+            background-color: #000000;
+            padding: 54px 40px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .story-container {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        .story-header {
+            text-align: center;
+            margin-bottom: 0px;
+        }
+
+        .story-image-wrap {
+            position: relative;
+            z-index: 2;
+        }
+
+        .story-bg-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(118, 112, 254, 0.25) 0%, transparent 70%);
+            filter: blur(60px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .story-card {
+            background: #F3F4F6;
+            aspect-ratio: 4 / 3.2;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .story-card:hover {
+            transform: scale(1.03) rotate(0deg) !important;
+            z-index: 10;
+        }
+
+        .story-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://www.transparenttextures.com/patterns/cardboard.png');
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .story-sticker {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 24px;
+            background: rgba(118, 112, 254, 0.2);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(118, 112, 254, 0.3);
+            border-radius: 4px;
+            z-index: 5;
+        }
+
+        .story-illu-box {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            border: 1px dashed rgba(118, 112, 254, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.4);
+            position: relative;
+        }
+
+        .story-illu-box svg {
+            width: 70%;
+            height: 70%;
+            color: #7670FE;
+            opacity: 0.9;
+        }
+
+        .story-content {
+            margin-top: 10px;
+        }
+
+        .story-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 2px;
+        }
+
+        .story-num {
+            position: absolute;
+            bottom: 12px;
+            right: 18px;
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            font-size: 24px;
+            color: rgba(118, 112, 254, 0.3);
+            font-weight: 900;
+            user-select: none;
+        }
+
+        /* Random tilts for grid items */
+        .story-card:nth-child(odd) {
+            transform: rotate(-1.5deg);
+        }
+
+        .story-card:nth-child(even) {
+            transform: rotate(1.2deg);
+        }
+
+        .story-card:nth-child(3n) {
+            transform: rotate(2.2deg);
+        }
+
+        .story-card:nth-child(4n) {
+            transform: rotate(-2.5deg);
+        }
+
+        @media (max-width: 800px) {
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .story-card {
+                aspect-ratio: auto;
+                min-height: 280px;
+            }
+        }
+
+        /* SOLUTION SPLIT SECTION */
+        .sol-section {
+            background-color: #0A0A0B;
+            padding: 80px 40px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sol-container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 0.4fr 1px 0.6fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .sol-left {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sol-label {
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            color: #7670FE;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .sol-heading {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.35;
+            color: #FFFFFF;
+        }
+
+        .sol-divider {
+            align-self: stretch;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(118, 112, 254, 0.3), transparent);
+        }
+
+        .sol-right {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .sol-text {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #FFFFFF;
+        }
+
+        .sol-highlight {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #7670FE;
+            animation: highlight-glow 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes highlight-glow {
+
+            0%,
+            100% {
+                text-shadow: 0 0 0px transparent;
+            }
+
+            50% {
+                text-shadow: 0 0 15px rgba(118, 112, 254, 0.4);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sol-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .sol-divider {
+                display: none;
+            }
+        }
+
+        .insight-section {
+            background-color: #0A0A0B;
+            padding: 60px 40px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .ins-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+            position: relative;
+        }
+
+        .ins-pill-header {
+            display: flex;
+            gap: 12px;
+        }
+
+        .ins-chip {
+            background: rgba(255, 255, 255, 0.06);
+            color: #FFFFFF;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .ins-chip:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .ins-pill-body {
+            display: grid;
+            grid-template-columns: 0.4fr 1px 0.6fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .ins-divider-ghost {
+            width: 1px;
+            visibility: hidden;
+        }
+
+        .ins-pill-left {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .ins-pill-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFFFF;
+            line-height: 1.25;
+            letter-spacing: -0.015em;
+        }
+
+        .ins-notion-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            width: fit-content;
+            background: rgba(255, 255, 255, 0.05);
+            transition: background 0.3s;
+        }
+
+        .ins-notion-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .ins-pill-right {
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .ins-stat-white {
+            font-weight: 800;
+            color: #FFFFFF;
+            font-size: 20px;
+        }
+
+        .ins-highlight {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #7670FE;
+            font-weight: 500;
+        }
+
+        @media (max-width: 900px) {
+            .ins-pill-card {
+                padding: 40px 30px;
+            }
+
+            .ins-pill-body {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        .ins-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
+            background: rgba(118, 112, 254, 0.1);
+            border: 1px solid rgba(118, 112, 254, 0.3);
+            border-radius: 100px;
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            width: fit-content;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        /* USER INSIGHTS SECTION (CARD GRID) */
+        .insights-grid-section {
+            background-color: #0A0A0B;
+            padding: 100px 40px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .ig-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .ig-header {
+            text-align: center;
+            max-width: 700px;
+        }
+
+        .ig-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #E5E7EB;
+            margin-bottom: 16px;
+            letter-spacing: -0.015em;
+        }
+
+        .ig-subtext {
+            font-size: 17px;
+            color: #94A3B8;
+            line-height: 1.6;
+        }
+
+        .ig-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        .ig-card {
+            background: rgba(17, 24, 39, 0.4);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 40px 32px;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            cursor: default;
+        }
+
+        .ig-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: #7670FE;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(118, 112, 254, 0.1);
+        }
+
+        .ig-card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #7670FE;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .ig-card-body {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #CBD5F5;
+        }
+
+        .ig-highlight {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #7670FE;
+            font-weight: 500;
+            animation: highlight-glow 3s ease-in-out infinite;
+            display: inline-block;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .ig-highlight:hover {
+            color: #9089ff;
+            text-shadow: 0 0 15px rgba(118, 112, 254, 0.6);
+        }
+
+        @media (max-width: 900px) {
+            .ig-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* LANDSCAPE TOOLS SECTION (REFINED BAR) */
+        .landscape-section {
+            background-color: #0A0A0B;
+            padding: 56px 40px 0px 40px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .ls-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 60px;
+        }
+
+        .ls-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFFFF;
+            line-height: 1.2;
+            max-width: 800px;
+        }
+
+        .ls-subtext {
+            font-size: 18px;
+            color: #7670FE;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .ls-refined-bar {
+            display: flex;
+            align-items: center;
+            width: fit-content;
+            margin: 0 auto;
+        }
+
+        .ls-tool-item {
+            padding: 10px 48px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #FFFFFF;
+            font-weight: 500;
+            font-size: 15px;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .ls-tool-item:last-child {
+            border-right: none;
+        }
+
+        .ls-tool-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #7670FE;
+        }
+
+        @media (max-width: 1000px) {
+            .ls-refined-bar {
+                border-radius: 24px;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .ls-tool-item {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                width: 100%;
+                justify-content: center;
+            }
+
+            .ls-tool-item:last-child {
+                border-bottom: none;
+            }
+        }
+
+        .opp-section {
+            background-color: #0A0A0B;
+            padding: 54px 40px 100px 40px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .opp-container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .opp-col {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .opp-label {
+            font-size: 28px;
+            font-weight: 500;
+            color: #7670FE;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            margin-bottom: 24px;
+        }
+
+        .opp-text {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #CBD5F5;
+        }
+
+        .opp-highlight {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #7670FE;
+            animation: highlight-glow 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @media (max-width: 900px) {
+            .opp-container {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+        }
+
+        /* IDEATION SECTION (REFINED) */
+        .ideation-section {
+            background: radial-gradient(circle at 50% 50%, #0B1120 0%, #0A0A0B 100%);
+            padding: 120px 40px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .id-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 80px;
+        }
+
+        .id-header {
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .id-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 24px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .id-subtext {
+            font-size: 18px;
+            color: #94A3B8;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .id-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        .id-card {
+            background: #05070A;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 48px 40px;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            cursor: default;
+        }
+
+        .id-card:hover {
+            transform: translateY(-10px);
+            border-color: #7670FE;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        .id-card-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #94A3B8;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.6;
+        }
+
+        .id-card-body {
+            font-size: 20px;
+            line-height: 1.4;
+            color: #FFFFFF;
+            font-weight: 500;
+        }
+
+        .id-highlight {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #7670FE;
+            font-weight: 500;
+            animation: highlight-glow 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @media (max-width: 900px) {
+            .id-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .ins-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-section {
+            background-color: #0A0A0B;
+            padding: 80px 60px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            overflow: visible;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+        }
+
+        .timeline-atmosphere {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 106, 0, 0.03) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .timeline-container {
+            max-width: 1300px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: visible;
+        }
+
+        .timeline-title-wrap {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .timeline-label-top {
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #7670FE;
+            margin-bottom: 20px;
+            display: block;
+            font-weight: 700;
+            opacity: 0.8;
+        }
+
+        .timeline-main-h {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.01em;
+            color: #fff;
+        }
+
+        .timeline-desc {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.5);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* THE AXIS & GRID */
+        .timeline-visual-area {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            margin-top: 20px;
+            overflow: visible;
+        }
+
+        /* Horizontal Glowing Line */
+        .timeline-glowing-line {
+            position: absolute;
+            top: 20%;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #7670FE 15%, #bbb7ff 50%, #7670FE 85%, transparent);
+            box-shadow: 0 0 15px rgba(118, 112, 254, 0.8), 0 0 40px rgba(118, 112, 254, 0.4), 0 0 60px rgba(118, 112, 254, 0.2);
+            z-index: 5;
+            transform-origin: left;
+        }
+
+        /* Flare points */
+        .timeline-flare {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #fff, 0 0 40px #7670FE, 0 0 60px #7670FE;
+            top: -4px;
+            z-index: 6;
+        }
+
+        /* Vertical Dashed Lines */
+        .timeline-v-lines {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: space-between;
+            z-index: 1;
+        }
+
+        .v-line-item {
+            position: relative;
+            height: 100%;
+            width: 1px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .v-line-dashed {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: repeating-linear-gradient(to bottom, transparent, transparent 5px, rgba(255, 255, 255, 0.08) 5px, rgba(255, 255, 255, 0.08) 10px);
+        }
+
+        .axis-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 1px;
+            margin: 10px 0;
+            white-space: nowrap;
+        }
+
+        .axis-label.bottom {
+            margin-top: auto;
+            padding-bottom: 20px;
+        }
+
+        .axis-label.top {
+            padding-top: 20px;
+        }
+
+        /* CARDS LAYER */
+        .timeline-cards-wrap {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+        }
+
+        /* STAGGERED PILL CARDS */
+        .case-card {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, rgba(30, 30, 40, 0.7), rgba(15, 15, 20, 0.9));
+            backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 100px;
+            min-width: 200px;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        .case-card:hover {
+            border-color: #7670FE;
+            box-shadow: 0 0 20px rgba(118, 112, 254, 0.2);
+            transform: translateY(-5px) scale(1.02) !important;
+        }
+
+        .cc-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cc-icon svg {
+            width: 18px;
+            height: 18px;
+            color: #7670FE;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        .cc-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            flex-grow: 1;
+        }
+
+        .cc-days {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 100px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* Positioning the cards (Manual offset to match staircase layout) */
+        .card-1 {
+            top: 22%;
+            left: 8%;
+        }
+
+        .card-2 {
+            top: 32%;
+            left: 15%;
+        }
+
+        .card-3 {
+            top: 42%;
+            left: 22%;
+        }
+
+        .card-4 {
+            top: 52%;
+            left: 32%;
+        }
+
+        .card-5 {
+            top: 32%;
+            left: 45%;
+        }
+
+        .card-6 {
+            top: 20%;
+            left: 60%;
+        }
+
+        .card-7 {
+            top: 30%;
+            left: 68%;
+        }
+
+        .card-8 {
+            top: 58%;
+            left: 74%;
+        }
+
+        @media (max-width: 1000px) {
+            .timeline-visual-area {
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .case-card {
+                position: static;
+                transform: none;
+                opacity: 1;
+                width: 100%;
+            }
+
+            .timeline-glowing-line,
+            .timeline-v-lines,
+            .timeline-flare {
+                display: none;
+            }
+        }
+
+        /* VALIDATION STATS SECTION */
+        .stats-section {
+            background-color: #0A0A0B;
+            padding: 80px 40px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            perspective: 1000px;
+        }
+
+        .stat-card {
+            background: #111827;
+            border: 1px solid #1F2937;
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            cursor: default;
+            transform-style: preserve-3d;
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px) scale(1.03) rotateX(2deg) rotateY(2deg) !important;
+            border-color: #7670FE;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 20px rgba(118, 112, 254, 0.1);
+            animation-play-state: paused;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #7670FE;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .stat-number-wrap {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .stat-num {
+            font-size: 64px;
+            font-weight: 700;
+            color: #FFFFFF;
+            line-height: 1;
+        }
+
+        .stat-unit {
+            font-size: 24px;
+            color: #FFFFFF;
+            opacity: 0.6;
+        }
+
+        .stat-body {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #CBD5F5;
+        }
+
+        .stat-highlight {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #7670FE;
+            font-weight: 500;
+            animation: highlight-glow 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @media (max-width: 900px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                animation: none;
+            }
+        }
+
+        .cat-footer {
+            padding: 15vh 8vw 5vh;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: #000;
+        }
+
+        /* TESTING ASSUMPTIONS SECTION */
+        .testing-section {
+            background-color: #0A0A0B;
+            padding: 100px 40px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .test-container {
+            max-width: 1100px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 120px;
+        }
+
+        .test-header {
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .test-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFFFF;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.015em;
+        }
+
+        .test-subtext {
+            font-size: 18px;
+            color: #7670FE;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .test-content-block {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .test-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #7670FE;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .test-main-text {
+            font-size: 26px;
+            line-height: 1.4;
+            color: #E5E7EB;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        .test-highlight {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #7670FE;
+            animation: highlight-glow 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .test-container {
+                gap: 48px;
+            }
+
+            .test-main-text {
+                font-size: 20px;
+            }
+        }
+
+        /* SURVEY SECTION */
+        .survey-section {
+            background-color: #0A0A0B;
+            padding: 100px 40px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .survey-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .survey-header {
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .survey-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 16px;
+        }
+
+        .survey-subtext {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.6;
+        }
+
+        /* Re-use stat styles for survey cards */
+        .survey-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            width: 100%;
+        }
+
+        .survey-card {
+            background: #111827;
+            border: 1px solid #1F2937;
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            cursor: default;
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        .survey-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            border-color: #7670FE;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 20px rgba(118, 112, 254, 0.1);
+        }
+
+        .scat-word {
+            font-size: 48px;
+            font-weight: 700;
+            color: #FFFFFF;
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        @media (max-width: 900px) {
+            .survey-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* INTERVIEW SECTION */
+        .interview-section {
+            background-color: #0A0A0B;
+            padding: 100px 40px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .int-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 80px;
+        }
+
+        .int-header {
+            max-width: 800px;
+        }
+
+        .int-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #7670FE;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .int-insight-text {
+            font-size: 24px;
+            color: #FFFFFF;
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+        }
+
+        .int-grid {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr 1fr;
+            gap: 32px;
+            align-items: stretch;
+        }
+
+        .int-card {
+            background: #111827;
+            border: 1px solid #1F2937;
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+        }
+
+        .int-card:hover {
+            transform: translateY(-6px);
+            border-color: #7670FE;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 20px rgba(118, 112, 254, 0.1);
+        }
+
+        /* Persona Card */
+        .int-persona {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+        }
+
+        .persona-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #7670FE;
+            box-shadow: 0 0 20px rgba(118, 112, 254, 0.3);
+        }
+
+        .persona-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .persona-title {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Quote Card */
+        .int-quote-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .int-quote-text {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            font-size: 22px;
+            line-height: 1.5;
+            color: #CBD5F5;
+            text-align: center;
+            position: relative;
+        }
+
+        .int-quote-text::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 60px;
+            color: #7670FE;
+            opacity: 0.2;
+        }
+
+        /* Pain Points Card */
+        .int-points-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .int-point-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 15px;
+            color: #E5E7EB;
+            line-height: 1.4;
+        }
+
+        .int-point-item::before {
+            content: '→';
+            color: #7670FE;
+            font-weight: 700;
+        }
+
+        @media (max-width: 1000px) {
+            .int-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        /* NEW USER JOURNEY SECTION */
+        .user-journey-intro {
+            background-color: #0A0A0B;
+            padding: 80px 40px;
+            /* REDUCED FOR BETTER PROXIMITY */
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .uj-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 80px;
+        }
+
+        .uj-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            width: 100%;
+        }
+
+        .uj-label {
+            position: absolute;
+            left: 0;
+            top: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #7670FE;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            opacity: 0.8;
+        }
+
+        .uj-heading {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFFFF;
+            text-align: center;
+            margin: 0;
+            letter-spacing: -0.015em;
+            line-height: 1.25;
+            font-family: 'Inter', Helvetica, sans-serif;
+        }
+
+        .uj-body {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #CBD5F5;
+            max-width: 100%;
+            margin: 0;
+            text-align: left;
+            opacity: 0.9;
+        }
+
+        .uj-highlight {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #7670FE;
+            font-weight: 500;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .uj-highlight:hover {
+            color: #9089ff;
+            text-shadow: 0 0 20px rgba(118, 112, 254, 0.6);
+        }
+
+        /* USER HIGHLIGHT SECTION (PREMIUM) */
+        .user-highlight-section {
+            background-color: transparent;
+            padding: 80px 40px;
+            /* SAME AS JOURNEY INTRO */
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 6;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .uh-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .uh-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #7670FE;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .uh-statement {
+            font-size: 20px;
+            /* MATCHES USER JOURNEY BODY */
+            line-height: 1.6;
+            color: #CBD5F5;
+            margin: 0;
+            font-family: 'Inter', Helvetica, sans-serif;
+            font-weight: 400;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .uh-accent {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #7670FE;
+            position: relative;
+            display: inline-block;
+            white-space: nowrap;
+            /* PREVENT BREAKING HIGHLIGHTS */
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .uh-accent:hover {
+            transform: scale(1.1) translateY(-5px);
+            text-shadow: 0 0 20px rgba(118, 112, 254, 0.8);
+            color: #ffffff;
+        }
+
+        .uh-char {
+            display: inline;
+            opacity: 0;
+            will-change: opacity;
+        }
+
+        .uh-word {
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .uh-cursor {
+            display: inline;
+            color: #7670FE;
+            font-weight: 300;
+            font-size: 1.1em;
+            vertical-align: middle;
+            margin-left: -2px;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .uh-underline-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .uh-underline {
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            height: 3px;
+            background: #7670FE;
+            width: 0;
+        }
+
+        /* ITERATION & EVOLUTION SECTION - UPDATED TO MATCH SCREENSHOT */
+        .iteration-section {
+            background-color: transparent;
+            padding: 60px 40px;
+            /* REDUCED PADDING */
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+
+        .it-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            /* REDUCED GAP FOR GESTALT PROXIMITY */
+        }
+
+        .it-header {
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .it-title {
+            font-size: 28px;
+            /* CONSISTENT HEADING SIZE */
+            font-weight: 800;
+            color: #FFFFFF;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .it-subtext {
+            font-size: 16px;
+            color: #CBD5E1;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .it-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            /* INCREASED GAP FOR CLEANER LAYOUT */
+            width: 100%;
+            position: relative;
+        }
+
+        .it-card {
+            background: transparent;
+            /* FULLY TRANSPARENT */
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            /* BASE BORDER */
+            border-radius: 16px;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: border-color 0.4s ease;
+            transform-origin: top center;
+            /* FOR SWINGING EFFECT */
+        }
+
+        /* ROPE EFFECT */
+        .it-card::before {
+            content: '';
+            position: absolute;
+            top: -62px;
+            /* ADJUSTED FOR NEW SPACING */
+            left: 50%;
+            width: 2px;
+            height: 60px;
+            background: linear-gradient(to top, rgba(118, 112, 254, 0.4), transparent);
+            z-index: -1;
+        }
+
+        /* ANIMATED BORDER STROKE */
+        .it-card-stroke {
+            position: absolute;
+            inset: -2px;
+            border-radius: 16px;
+            padding: 2px;
+            background: linear-gradient(90deg, #7670FE, transparent, #7670FE, transparent);
+            background-size: 200% 200%;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .it-card:hover .it-card-stroke {
+            opacity: 1;
+            animation: borderRotate 3s linear infinite;
+        }
+
+        @keyframes borderRotate {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+        .it-card:hover {
+            border-color: transparent;
+        }
+
+        .it-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(18, 28, 66, 0.7);
+        }
+
+        .it-card-tag {
+            font-size: 11px;
+            font-weight: 600;
+            color: #94A3B8;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+        }
+
+        .it-card-h {
+            font-size: 28px;
+            /* MATCHES USER JOURNEY HEADINGS */
+            font-weight: 700;
+            color: #FFFFFF;
+            line-height: 1.25;
+            letter-spacing: -0.015em;
+            font-family: 'Inter', Helvetica, sans-serif;
+        }
+
+        .it-card-p {
+            font-size: 20px;
+            /* MATCHES USER JOURNEY BODY TEXT */
+            line-height: 1.6;
+            color: #CBD5F5;
+            opacity: 0.9;
+            font-family: 'Inter', Helvetica, sans-serif;
+        }
+
+        .it-highlight {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #7670FE;
+            letter-spacing: 0.02em;
+            font-weight: 500;
+        }
+
+        /* REJECTED CARD STYLE */
+        .it-card.rejected {
+            border-color: rgba(239, 68, 68, 0.1);
+        }
+
+        /* REJECTED CARD STYLE - SCREENSHOT STYLE */
+        .it-card.rejected .it-card-h,
+        .it-card.rejected .it-card-p {
+            opacity: 0.3;
+        }
+
+        .it-cross {
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            z-index: 20;
+            opacity: 0;
+            transform: scale(0.4) rotate(-15deg);
+        }
+
+        .it-rejected-tag {
+            position: absolute;
+            top: -15px;
+            right: -10px;
+            background: #11388D;
+            color: #FFFFFF;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 6px;
+            transform: rotate(6deg);
+            z-index: 20;
+            white-space: nowrap;
+            opacity: 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* CASE STUDY INTRO SECTION (TRANSITION TO SOLUTION) */
+        .cs-intro-section {
+            background-color: transparent;
+            padding: 40px 40px 100px;
+            /* REDUCED TOP PADDING, KEPT BOTTOM FOR FOOTER GAP */
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* PRODUCT SHOWCASE BENTO GRID (KLAY) */
+        .showcase-section {
+            background-color: transparent;
+            padding: 20px 40px 120px;
+            /* MINIMAL TOP PADDING */
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            font-family: 'Inter', sans-serif;
+            color: #FFFFFF;
+        }
+
+        .showcase-container {
+            max-width: 1200px;
+            width: 100%;
+            height: 832px;
+            /* TOTAL HEIGHT */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+
+        /* BENTO GRID AREA - MATCHING REFERENCE */
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* 2 MAIN COLUMNS LIKE THE IMAGE */
+            gap: 24px;
+        }
+
+        .sh-card {
+            background: rgba(18, 28, 66, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .sh-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(118, 112, 254, 0.4);
+            background: rgba(18, 28, 66, 0.6);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(118, 112, 254, 0.1);
+        }
+
+        .sh-card-tag {
+            font-size: 12px;
+            font-weight: 700;
+            color: #7670FE;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .sh-card-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .sh-card-text {
+            font-size: 15px;
+            color: #CBD5F5;
+            opacity: 0.7;
+            line-height: 1.5;
+        }
+
+        .sh-card-img-wrap {
+            margin-top: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+            flex: 1;
+        }
+
+        .sh-card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        /* PRECISE HEIGHTS TO FIT 832PX (Header Gap + Grid Gap accounted) */
+        .sh-tall {
+            grid-row: span 2;
+            min-height: 520px !important;
+        }
+
+        .sh-wide {
+            grid-column: span 2;
+            min-height: 292px !important;
+        }
+
+        .sh-card.medium {
+            min-height: 250px;
+        }
+
+        .sh-card.small {
+            min-height: 180px;
+        }
+
+        /* PREMIUM CTA BUTTON - REDESIGNED */
+        .sh-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #7670FE;
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 18px;
+            /* LARGER FOR SERIF READABILITY */
+            font-family: 'Times New Roman', Times, serif;
+            /* UPDATED AS REQUESTED */
+            font-style: italic;
+            /* SIGNATURE STYLE */
+            letter-spacing: 0.02em;
+            margin-top: auto;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 10px 20px rgba(118, 112, 254, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sh-cta-btn svg {
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .sh-cta-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            background: #8781FF;
+            box-shadow: 0 20px 40px rgba(118, 112, 254, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .sh-cta-btn:hover svg {
+            transform: translate(4px, -4px);
+        }
+
+        @media (max-width: 1024px) {
+            .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sh-tall,
+            .sh-wide {
+                grid-column: span 1;
+                grid-row: span 1;
+                min-height: auto !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .showcase-full {
+                grid-column: span 1;
+                flex-direction: column;
+                height: auto;
+                padding: 40px;
+            }
+
+            .hero-image-wrap {
+                position: relative;
+                right: 0;
+                width: 100%;
+                transform: none;
+                top: 0;
+                margin-top: 40px;
+            }
+
+            .showcase-hero {
+                flex-direction: column;
+                padding: 40px;
+                height: auto;
+                min-height: 0;
+            }
+
+            .hero-title {
+                font-size: 32px;
+            }
+        }
+
+        /* TRANSITION ARROW - BOLD & CONNECTED OVERLAP */
+        .it-arrow-container {
+            width: 100%;
+            height: 100px;
+            /* INCREASED HEIGHT FOR BETTER SPACING */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin: 20px 0;
+            /* CLEAN MARGINS */
+            z-index: 30;
+        }
+
+        .it-arrow-white {
+            width: 40px;
+            height: 40px;
+            background: #FFFFFF;
+            /* Precise Bold Downward Arrow (Stem + Head) */
+            clip-path: polygon(30% 0%, 70% 0%, 70% 50%, 100% 50%, 50% 100%, 0% 50%, 30% 50%);
+            opacity: 0;
+            transform: translateY(-20px);
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        /* REFINED CARDS */
+        .it-card.refined,
+        .it-card.hmw {
+            background: #081026;
+            /* Same color as top */
+        }
+
+        .sol-intro-section {
+            background: transparent;
+            padding: 60px 40px 20px;
+            /* TIGHTER SPACING */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 40vh;
+            /* REDUCED HEIGHT */
+            position: relative;
+            z-index: 5;
+        }
+
+        .sol-intro-container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            /* TIGHTER LEADING GAP */
+        }
+
+        .sol-intro-heading {
+            font-size: 42px;
+            /* MATCHED PREVIOUS HEADING STYLE */
+            font-weight: 800;
+            color: #FFFFFF;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin: 0;
+            position: relative;
+        }
+
+        .sol-intro-heading .line {
+            display: block;
+            height: 1.25em;
+            margin-bottom: -0.1em;
+            overflow: hidden;
+            /* MASK BY DEFAULT */
+        }
+
+        .sol-intro-heading .line.allow-emoji {
+            overflow: visible;
+            /* ALLOW EMOJI TO FLOAT OUTSIDE */
+        }
+
+        .sol-intro-heading .word {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+        }
+
+        .sol-intro-emoji {
+            display: inline-block;
+            font-size: 0.9em;
+            margin-left: 10px;
+            transform: rotate(-10deg);
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+            vertical-align: middle;
+            position: relative;
+            top: -5px;
+            /* SLIGHT OFFSET */
+        }
+
+        .sol-intro-subtext {
+            font-size: 28px;
+            /* UPDATED AS REQUESTED */
+            color: #7670FE;
+            /* BLUE ACCENT */
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(10px);
+            letter-spacing: 0.02em;
+        }
+
+        .sol-intro-final {
+            margin-top: 0px;
+            /* ZERO MARGIN FOR TIGHTNESS */
+            font-size: 12px;
+            /* SMALL TAG STYLE FOR CONSISTENCY */
+            font-family: 'Space Mono', monospace;
+            color: #7670FE;
+            opacity: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            /* MORE SPACED OUT */
+        }
+
+        .uh-grain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* FINAL CLOSING SECTION - LOGO ASSEMBLY */
+        .final-closing-section {
+            background-color: #050506;
+            width: 100%;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+            padding: 80px 40px;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            perspective: 2000px;
+            /* ENABLE DEEP 3D TILT */
+        }
+
+        .final-closing-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* ASSEMBLY WRAPPER */
+        .logo-assembly-wrap {
+            position: relative;
+            width: 150px;
+            /* SLIGHTLY LARGER */
+            height: 150px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-part {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(118, 112, 254, 0.3));
+            will-change: transform, opacity;
+            top: 0;
+            left: 0;
+        }
+
+        .logo-assembly-wrap {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1200px;
+        }
+
+        /* DILATION WARP BACKGROUND */
+        .reveal-bg-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(118, 112, 254, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+            transform: scale(0);
+            opacity: 0;
+            z-index: -1;
+        }
+
+        .final-main-text {
+            font-size: 64px;
+            font-weight: 500;
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #FFFFFF;
+            letter-spacing: -0.02em;
+            text-align: center;
+            opacity: 0;
+            filter: blur(15px);
+            transform: translateY(40px) scale(1.3);
+            text-shadow: 0 0 0 rgba(118, 112, 254, 0);
+            transition: text-shadow 1s ease;
+        }
+
+        .final-main-text.revealed {
+            text-shadow: 0 0 30px rgba(118, 112, 254, 0.4);
+        }
+
+        /* LOADING BAR */
+        .system-loader-wrap {
+            width: 240px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 100px;
+            overflow: hidden;
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .loader-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: #7670FE;
+            box-shadow: 0 0 20px #7670FE;
+        }
+
+
+        /* --- DYNAMIC DISCOVERY SECTION (SYNCED 1:1 FROM BRANDING) --- */
+        .more-work-section {
+            background: #000;
+            padding: 120px 8vw;
+            position: relative;
+            z-index: 20;
+        }
+
+        .more-work-label {
+            font-size: 11px;
+            letter-spacing: 4px;
+            opacity: 0.4;
+            display: block;
+            margin-bottom: 48px;
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        .more-work-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .more-work-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 56px 48px;
+            text-decoration: none;
+            transition: background 0.4s ease;
+            position: relative;
+        }
+
+        .more-work-card:last-child {
+            border-right: none;
+        }
+
+        .more-work-card:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .mw-cat {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .mw-title {
+            font-size: 28px;
+            font-weight: 500;
+            color: #fff;
+            opacity: 0.4;
+            margin: 0;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .more-work-card:hover .mw-title {
+            color: #7670FE;
+            /* CASE ACCENT */
+            opacity: 1;
+            transform: translateX(12px);
+        }
+
+        /* FLOATING PREVIEW */
+        #id-preview {
+            position: fixed;
+            width: 320px;
+            height: 200px;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 10000;
+            opacity: 0;
+            transform: scale(0.9) translate(-50%, -50%);
+            /* SYNCED SCALE WITH BRANDING */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #id-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .loader-percent {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: #7670FE;
+            font-weight: 700;
+        }
+
+        .final-main-text {
+            font-size: 52px;
+            font-weight: 500;
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #FFFFFF;
+            letter-spacing: -0.01em;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.4s ease;
+        }
+
+        .status-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: #7670FE;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 800px) {
+            .uh-container {
+                padding: 0 24px;
+            }
+
+            .uh-statement {
+                font-size: 26px;
+            }
+        }
+
+        /* JOURNEY MAP REFRESH (CLIP FIX) */
+        .journey-map-section {
+            background-color: #0A0A0B;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            font-family: 'Inter', sans-serif;
+            padding: 32px 0;
+            box-sizing: border-box;
+        }
+
+        .jm-pinned-section {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .jm-scroll-master {
+            display: flex;
+            height: auto;
+            padding-top: 180px;
+            padding-bottom: 80px;
+            padding-left: 40px;
+            padding-right: 40px;
+            /* SYMMETRICAL PADDING */
+            will-change: transform;
+        }
+
+        .jm-table-container {
+            background: rgba(255, 255, 255, 0.012);
+            border: 1px solid rgba(118, 112, 254, 0.15);
+            border-radius: 20px;
+            padding: 60px 40px;
+            /* MORE VERTICAL PADDING INSIDE TABLE */
+            backdrop-filter: blur(20px);
+            position: relative;
+            min-width: fit-content;
+            overflow: visible;
+        }
+
+        .jm-grid {
+            display: grid;
+            grid-template-columns: 120px repeat(8, 300px);
+            grid-template-rows: 60px 180px 200px 180px;
+            /* REMOVED 5TH ROW */
+            gap: 15px;
+            position: relative;
+        }
+
+        /* Labels (Left) */
+        .jm-row-label {
+            grid-column: 1;
+            display: flex;
+            align-items: center;
+            color: rgba(118, 112, 254, 0.7);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            position: sticky;
+            left: 0;
+            z-index: 10;
+        }
+
+        /* Cells */
+        .jm-cell {
+            background: rgba(17, 24, 39, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 24px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 28px;
+            /* REQUESTED SIZE 28PX */
+            line-height: 1.4;
+            transition: all 0.4s ease;
+        }
+
+        /* Phase Headers */
+        .jm-phase-header {
+            grid-row: 1;
+            background: rgba(118, 112, 254, 0.08);
+            border: 1px solid rgba(118, 112, 254, 0.2);
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .jm-phase-header.active {
+            background: #7670FE;
+            border-color: #7670FE;
+        }
+
+        .jm-column-highlight {
+            position: absolute;
+            background: rgba(118, 112, 254, 0.05);
+            border: 1px solid rgba(118, 112, 254, 0.4);
+            border-radius: 14px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Emojis (The "Tapke" Animation Target) */
+        .jm-emotion-wrapper {
+            grid-row: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            margin-top: var(--y-offset);
+            transform: translateY(-40px);
+            /* Initial state for dropping */
+            opacity: 0;
+        }
+
+        .jm-emotion-icon {
+            font-size: 32px;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+        }
+
+        .jm-emotion-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-top: 8px;
+        }
+
+        .jm-thought-cell {
+            grid-row: 5;
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.4);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-style: dashed;
+        }
+
+        @media (max-width: 900px) {
+            .journey-map-section {
+                height: auto;
+                overflow: visible;
+                padding: 60px 20px;
+            }
+
+            .jm-pinned-section {
+                display: block;
+            }
+
+            .jm-scroll-master {
+                flex-direction: column;
+                padding: 0;
+                height: auto;
+            }
+
+            .jm-table-container {
+                padding: 20px;
+                overflow-x: auto;
+                max-width: 100%;
+                border: none;
+                background: transparent;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="cursor-canvas"></canvas>
+    <div id="cursor"></div>
+
+    <nav class="cat-nav">
+        <a href="index.html?skipLoader=true" class="back-link">BACK TO HOME</a>
+        <a href="https://your-resume-link.com" target="_blank" class="resume-btn">RESUME ↗</a>
+    </nav>
+
+    <main>
+        <!-- HERO SECTION (BRANDING STYLE) -->
+        <section class="hero-full">
+            <div class="hero-bg-container">
+                <div class="space-bg-branding"></div>
+                <div class="hero-bg-image" style="background-image: url('UI case study new page/hero (2).png');"></div>
+                <div class="hero-purple-glow"></div>
+                <div class="hero-grain"></div>
+            </div>
+        </section>
+
+        <!-- PREMIUM CASE STUDY SECTION -->
+        <section class="case-study-section">
+            <div class="cs-atmosphere"></div>
+            <div class="cs-container">
+                <div class="cs-left" data-reveal="up">
+                    <div class="cs-badge">Project Brief</div>
+                    <span class="cs-label">INTRODUCTION</span>
+                    <h2 class="cs-heading">What we built for modern designers</h2>
+                </div>
+                <div class="cs-right" data-reveal="up">
+                    <p class="cs-body">
+                        Klay is a <span class="cs-highlight" data-typewrite="Chrome extension"></span> designed to help
+                        designers capture <span class="cs-highlight" data-typewrite="design inspiration"></span>
+                        directly from live websites, without breaking their flow or relying on scattered screenshots.
+                    </p>
+                    <p class="cs-body">
+                        Instead of switching between multiple tools, Klay allows users to extract <span
+                            class="cs-highlight" data-typewrite="real typography"></span>, <span class="cs-highlight"
+                            data-typewrite="color palettes"></span>, and <span class="cs-highlight"
+                            data-typewrite="UI components"></span> in a way that stays structured and easy to revisit.
+                    </p>
+                    <p class="cs-body">
+                        What this really means is that inspiration is no longer just saved — it becomes <span
+                            class="cs-highlight" data-typewrite="usable knowledge"></span> that designers can apply
+                        instantly in their work.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- PROJECT TIMELINE SECTION (ADVANCED STAGGERED) -->
+        <section class="timeline-section">
+            <div class="timeline-atmosphere"></div>
+            <div class="timeline-container">
+                <div class="timeline-title-wrap">
+                    <span class="timeline-label-top">PROJECT TIMELINE</span>
+                    <h2 class="timeline-main-h">Project timeline across 5 weeks</h2>
+                    <p class="timeline-desc">Here's the structured timeline we followed, guiding the project from
+                        initial concept to MVP delivery.</p>
+                </div>
+
+                <div class="timeline-visual-area">
+                    <div class="timeline-glowing-line">
+                        <div class="timeline-flare" style="left: 0%;"></div>
+                        <div class="timeline-flare" style="left: 25%;"></div>
+                        <div class="timeline-flare" style="left: 50%;"></div>
+                        <div class="timeline-flare" style="left: 75%;"></div>
+                        <div class="timeline-flare" style="left: 100%;"></div>
+                    </div>
+
+                    <div class="timeline-v-lines">
+                        <div class="v-line-item">
+                            <span class="axis-label top">Week 1</span>
+                            <div class="v-line-dashed"></div>
+                            <span class="axis-label bottom">Week 1</span>
+                        </div>
+                        <div class="v-line-item">
+                            <span class="axis-label top">Week 2</span>
+                            <div class="v-line-dashed"></div>
+                            <span class="axis-label bottom">Week 2</span>
+                        </div>
+                        <div class="v-line-item">
+                            <span class="axis-label top">UI</span>
+                            <div class="v-line-dashed"></div>
+                            <span class="axis-label bottom">Week 3</span>
+                        </div>
+                        <div class="v-line-item">
+                            <span class="axis-label top">Testing/ Improvement</span>
+                            <div class="v-line-dashed"></div>
+                            <span class="axis-label bottom">Week 4</span>
+                        </div>
+                        <div class="v-line-item">
+                            <span class="axis-label top">The Finals</span>
+                            <div class="v-line-dashed"></div>
+                            <span class="axis-label bottom">Week 5</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-cards-wrap">
+                        <div class="case-card card-1">
+                            <div class="cc-icon"><svg viewBox="0 0 24 24">
+                                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg></div>
+                            <span class="cc-title">Research & User Analysis</span>
+                            <span class="cc-days">2d</span>
+                        </div>
+                        <div class="case-card card-2">
+                            <div class="cc-icon"><svg viewBox="0 0 24 24">
+                                    <path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                                    <path d="M20.488 9H15V3.152A9.003 9.003 0 0120.488 9z" />
+                                </svg></div>
+                            <span class="cc-title">UX Stage</span>
+                            <span class="cc-days">2d</span>
+                        </div>
+                        <div class="case-card card-3">
+                            <div class="cc-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                                </svg></div>
+                            <span class="cc-title">Wireframes & Prototyping</span>
+                            <span class="cc-days">2d</span>
+                        </div>
+                        <div class="case-card card-4">
+                            <div class="cc-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                                </svg></div>
+                            <span class="cc-title">Design System</span>
+                            <span class="cc-days">2d</span>
+                        </div>
+                        <div class="case-card card-5">
+                            <div class="cc-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg></div>
+                            <span class="cc-title">UI Stage</span>
+                            <span class="cc-days">2d</span>
+                        </div>
+                        <div class="case-card card-6">
+                            <div class="cc-icon"><svg viewBox="0 0 24 24">
+                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg></div>
+                            <span class="cc-title">User Testing</span>
+                            <span class="cc-days">2d</span>
+                        </div>
+                        <div class="case-card card-7">
+                            <div class="cc-icon"><svg viewBox="0 0 24 24">
+                                    <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg></div>
+                            <span class="cc-title">Improvements</span>
+                            <span class="cc-days">2d</span>
+                        </div>
+                        <div class="case-card card-8">
+                            <div class="cc-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg></div>
+                            <span class="cc-title">Case Study Preparation</span>
+                            <span class="cc-days">2d</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROBLEM STATEMENT SECTION -->
+        <section class="problem-section">
+            <div class="prob-atmosphere"></div>
+            <div class="problem-container">
+                <div class="problem-left" data-reveal="up">
+                    <span class="prob-label">WHAT WE’RE SOLVING</span>
+                    <h2 class="prob-heading">Found something <span class="prob-highlight">inspiring</span>,<br>but <span
+                            class="prob-highlight">lost it</span> later in the noise?</h2>
+                    <p class="prob-desc">Designers face a similar challenge — inspiration is everywhere, but without
+                        <span class="prob-highlight">structure</span>, it quickly becomes overwhelming and hard to use.
+                    </p>
+                </div>
+                <div class="problem-right">
+                    <div class="chaos-tag tag-1">Screenshots</div>
+                    <div class="chaos-tag tag-2">Pinterest</div>
+                    <div class="chaos-tag tag-3">Dribbble</div>
+                    <div class="chaos-tag tag-4">Bookmarks</div>
+                    <div class="chaos-tag tag-5">Notion</div>
+                    <div class="chaos-tag tag-6">Random Links</div>
+                    <div class="chaos-tag tag-7">Behance</div>
+                    <div class="chaos-tag tag-8">Asset Library</div>
+                    <div class="chaos-tag tag-9">Design Specs</div>
+                    <div class="chaos-tag tag-10">Style Guide</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STORYBOARD SECTION -->
+        <section class="storyboard-section">
+            <div class="story-container">
+                <div class="story-header" data-reveal="up">
+                    <span class="prob-label">STORYBOARD</span>
+                    <h2 class="prob-heading" style="margin-bottom: 0; line-height: 1;">The struggle of <span
+                            class="prob-highlight">unorganized</span> inspiration</h2>
+                </div>
+
+                <div class="story-image-wrap" data-reveal="up"
+                    style="margin-top: 28px; width: 100%; display: flex; justify-content: center; position: relative;">
+                    <div class="story-bg-glow"></div>
+                    <img src="UI case study new page/storyboard.png" alt="Storyboard"
+                        style="width: 100%; max-width: 900px; border-radius: 24px; box-shadow: 0 40px 100px rgba(0,0,0,0.5); object-fit: contain; position: relative; z-index: 2;">
+                </div>
+            </div>
+        </section>
+
+
+        <!-- INSIGHT SECTION -->
+        <section class="insight-section">
+            <div class="ins-container" data-reveal="up">
+                <div class="ins-pill-body">
+                    <div class="ins-pill-left">
+                        <h2 class="ins-pill-title">Let’s look at what’s<br>actually happening</h2>
+                        <a href="https://www.figma.com/design/dMmhtOAur9jg4vcdJTwdOZ/crome-extension?node-id=0-1&t=LFedTGlggaP1SWe5-1"
+                            target="_blank" rel="noopener noreferrer" class="ins-notion-btn">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 38 57">
+                                <path
+                                    d="M19 28.5a9.5 9.5 0 1119 0 9.5 9.5 0 01-19 0zM0 47.5a9.5 9.5 0 009.5 9.5 9.5 9.5 0 009.5-9.5V38H9.5A9.5 9.5 0 000 47.5zM19 0v19h9.5a9.5 9.5 0 000-19H19zM0 9.5A9.5 9.5 0 009.5 19H19V0H9.5A9.5 9.5 0 000 9.5zM0 28.5A9.5 9.5 0 009.5 38H19V19H9.5A9.5 9.5 0 000 28.5z" />
+                            </svg>
+                            <span style="border-bottom: 1px solid rgba(255,255,255,0.4);">More on Figma</span>
+                        </a>
+                    </div>
+
+                    <div class="ins-divider-ghost"></div>
+
+                    <div class="ins-pill-right">
+                        <p>Approximately <span class="ins-stat-white" data-count="78">0</span>% of designers use more
+                            than <span class="ins-highlight">three different tools</span> to save references, leading to
+                            a <span class="ins-highlight">scattered workflow.</span></p>
+                        <p>The <span class="ins-highlight">screenshot</span> reliance generated a habit worth <span
+                                class="ins-stat-white" data-count="64">0</span>%, which capture visuals but lose <span
+                                class="ins-highlight">fonts, colors, and structure.</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOLUTION SECTION -->
+        <section class="sol-section">
+            <div class="sol-container">
+                <div class="sol-left" data-reveal="sol-left">
+                    <span class="sol-label">THE SOLUTION</span>
+                    <h2 class="sol-heading">The smarter way to<br>capture inspiration</h2>
+                </div>
+
+                <div class="sol-divider" data-reveal="fade"></div>
+
+                <div class="sol-right" data-reveal="sol-right">
+                    <p class="sol-text">Klay replaces scattered workflows with a <span class="sol-highlight">structured
+                            system</span> for capturing inspiration.</p>
+                    <p class="sol-text">Instead of saving screenshots or bookmarks, it extracts <span
+                            class="sol-highlight">real design data</span> including fonts, colors, and UI elements
+                        directly from live websites.</p>
+                    <p class="sol-text">This keeps every reference connected, organized, and ready to <span
+                            class="sol-highlight">use instantly.</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- USER INSIGHTS SECTION -->
+        <section class="insights-grid-section">
+            <div class="ig-container">
+                <div class="ig-header" data-reveal="up">
+                    <h2 class="ig-title">Stepping into the user’s shoes</h2>
+                    <p class="ig-subtext">We analyzed how designers actually collect, save, and reuse inspiration in
+                        real workflows.</p>
+                </div>
+
+                <div class="ig-grid">
+                    <div class="ig-card" data-reveal="insight-card">
+                        <span class="ig-card-title">Scattered references</span>
+                        <p class="ig-card-body">Designers save inspiration across <span
+                                class="ig-highlight">screenshots, bookmarks, and multiple tools</span>. This makes it
+                            hard to keep everything in one place.</p>
+                    </div>
+
+                    <div class="ig-card" data-reveal="insight-card">
+                        <span class="ig-card-title">Loss of context</span>
+                        <p class="ig-card-body">Saved references often miss <span class="ig-highlight">fonts, colors,
+                                and structure</span>, making them difficult to reuse later.</p>
+                    </div>
+
+                    <div class="ig-card" data-reveal="insight-card">
+                        <span class="ig-card-title">Broken workflow</span>
+                        <p class="ig-card-body">Switching between tools <span class="ig-highlight">breaks focus</span>
+                            and slows down the creative process.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LANDSCAPE TOOLS SECTION (REFINED) -->
+        <section class="landscape-section">
+            <div class="ls-container">
+                <div class="ls-header" data-reveal="up">
+                    <h2 class="ls-title">Okay So, What Is Happening In 🏪 The Market Right Now Anyway?</h2>
+                    <p class="ls-subtext">We did competitive analysis to figure out what is already there in the market.
+                    </p>
+                </div>
+
+                <div class="ls-refined-bar" data-reveal="up">
+                    <div class="ls-tool-item">
+                        <svg class="ls-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0C5.373 0 0 5.373 0 12c0 4.59 2.574 8.583 6.392 10.635-.094-.858-.178-2.174.037-3.111.194-.842 1.25-5.3 1.25-5.3s-.319-.638-.319-1.579c0-1.481.859-2.585 1.927-2.585 1.053 0 1.56 0.79 1.56 1.74 0 1.058-.675 2.641-1.022 3.513-.291 1.228.618 2.228 1.83 2.228 2.197 0 3.886-2.316 3.886-5.659 0-2.959-2.126-5.029-5.163-5.029-3.519 0-5.586 2.639-5.586 5.367 0 1.063.409 2.203.921 2.825.101.123.116.23.085.353l-.341 1.401c-.055.228-.182.285-.42.175C3.12 18.064 2.251 15.658 2.251 12.8c0-4.062 2.951-7.79 8.508-7.79 4.464 0 7.935 3.181 7.935 7.435 0 4.435-2.796 8.003-6.677 8.003-1.303 0-2.528-.677-2.946-1.474l-.8 3.048c-.289 1.106-1.071 2.5-1.594 3.35C7.942 23.864 9.914 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z" />
+                        </svg>
+                        Pinterest
+                    </div>
+                    <div class="ls-tool-item">
+                        <svg class="ls-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 24C5.373 24 0 18.627 0 12S5.373 0 12 0s12 5.373 12 12-5.373 12-12 12zm10.12-10.458c-.322-.092-.637-.174-.947-.248 1.06-4.08.622-6.505-.653-8.232-1.285-1.74-3.857-2.678-7.79-2.905-.03-.002-.061-.003-.092-.003-3.044 0-5.733.911-7.55 2.56-1.812 1.643-2.651 4.032-2.528 7.05h.001c.123 3.018 1.085 5.518 2.972 7.155 1.888 1.637 4.675 2.54 7.915 2.54h.023c3.24 0 6.002-.857 7.848-2.392 1.847-1.536 2.825-3.805 2.846-6.6a14.772 14.772 0 00-.044.204v.001l-.001.001.002.269c.001 0 .001.001 0 0z" />
+                        </svg>
+                        Dribbble
+                    </div>
+                    <div class="ls-tool-item">
+                        <svg class="ls-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M4 3h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1zm1 2v14h14V5H5zm3 3h8v2H8V8zm0 4h8v2H8v-2zm0 4h5v2H8v-2z" />
+                        </svg>
+                        Notion
+                    </div>
+                    <div class="ls-tool-item">
+                        <svg class="ls-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2 .9 2 2v3.41l3.5 3.5c.31-.63.5-1.34.5-2.11 0-2.43-1.63-4.48-3.83-5.07z" />
+                        </svg>
+                        Chrome
+                    </div>
+                    <div class="ls-tool-item">
+                        <svg class="ls-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Screenshots
+                    </div>
+                </div>
+
+                <p class="ls-subtext" style="color: #94A3B8; font-size: 15px; margin-top: 20px; font-style: italic;">
+                    Each tool solves a part of the problem, but none brings everything together.</p>
+            </div>
+        </section>
+
+        <!-- FRAGMENTED VS OPPORTUNITY SECTION -->
+        <section class="opp-section">
+            <div class="opp-container">
+                <div class="opp-col" data-reveal="left-slide">
+                    <span class="opp-label">FRAGMENTED WORKFLOWS</span>
+                    <p class="opp-text">
+                        Most tools focus on saving inspiration, not organizing it. Designers end up using multiple
+                        platforms including screenshots and bookmarks without a clear system, leading to <span
+                            class="opp-highlight">scattered and disconnected workflows</span>.
+                    </p>
+                </div>
+                <div class="opp-col" data-reveal="right-slide">
+                    <span class="opp-label" style="color: #FFFFFF; opacity: 0.6;">THE OPPORTUNITY</span>
+                    <p class="opp-text">
+                        What’s missing is a way to turn inspiration into something <span
+                            class="opp-highlight">usable</span>. By capturing <span class="opp-highlight">real design
+                            data</span> and keeping everything structured, designers can move from collecting ideas to
+                        actually applying them in their work.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- IDEATION SECTION (REFINED) -->
+        <section class="ideation-section">
+            <div class="id-container">
+                <div class="id-header" data-reveal="up">
+                    <h2 class="id-title">Is It Too Early To 🤔 Ideate?<br>Maybe Or Maybe Not.</h2>
+                    <p class="id-subtext">Based on our research, we explored different directions to understand how
+                        designers can better capture and use inspiration.</p>
+                </div>
+
+                <div class="id-grid">
+                    <div class="id-card" data-reveal="id-card">
+                        <span class="id-card-label">MAIN IDEA #1</span>
+                        <p class="id-card-body">Providing a more guided way to capture inspiration instead of saving
+                            random screenshots, helping designers keep context and structure.</p>
+                    </div>
+
+                    <div class="id-card" data-reveal="id-card">
+                        <span class="id-card-label">MAIN IDEA #2</span>
+                        <p class="id-card-body">Extracting <span class="id-highlight">fonts, colors, and UI
+                                elements</span> to turn visual inspiration into something actually <span
+                                class="id-highlight">usable</span> in the design process.</p>
+                    </div>
+
+                    <div class="id-card" data-reveal="id-card">
+                        <span class="id-card-label">MAIN IDEA #3</span>
+                        <p class="id-card-body">Creating a single system where all inspiration stays organized and easy
+                            to <span class="id-highlight">reuse</span>, without switching between multiple tools.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTING ASSUMPTIONS SECTION -->
+        <section class="testing-section" style="padding-bottom: 0;">
+            <div class="test-container" style="gap: 80px;">
+                <div class="test-header" data-reveal="up">
+                    <h2 class="test-title">Testing Our Assumptions<br>Made When Ideating, Through 📃 Research</h2>
+                    <p class="test-subtext">Revealing The Truth Through Interviews & Real Designer Workflows.</p>
+                </div>
+
+                <div class="test-content-block" data-reveal="up">
+                    <span class="test-label">WHAT WE WANTED TO KNOW</span>
+                    <p class="test-main-text" style="margin-bottom: 38px;">
+                        Do current methods of capturing inspiration really work, or do they <span
+                            class="test-highlight">lack a clear structure</span> and make it harder to <span
+                            class="test-highlight">reuse inspiration effectively</span>?
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VALIDATION STATS SECTION -->
+        <section class="stats-section" style="padding-top: 0;">
+            <div class="stats-container">
+                <div class="stats-grid" style="margin-bottom: 60px;">
+                    <div class="stat-card" data-reveal="stat-card" data-parallax>
+                        <span class="stat-label">SCATTERED TOOLS</span>
+                        <div class="stat-number-wrap">
+                            <span class="stat-num" data-stat-target="78">0</span>
+                            <span class="stat-unit">%</span>
+                        </div>
+                        <p class="stat-body">Designers use <span class="stat-highlight">multiple tools</span> like
+                            screenshots, bookmarks, and apps to save inspiration.</p>
+                    </div>
+
+                    <div class="stat-card" data-reveal="stat-card" data-parallax>
+                        <span class="stat-label">FRAGMENTED PROCESS</span>
+                        <div class="stat-number-wrap">
+                            <span class="stat-num" data-stat-target="3">0</span>
+                            <span class="stat-unit">+</span>
+                        </div>
+                        <p class="stat-body">Tools are used before a single reference is properly organized.</p>
+                    </div>
+
+                    <div class="stat-card" data-reveal="stat-card" data-parallax>
+                        <span class="stat-label">LOW REUSABILITY</span>
+                        <div class="stat-number-wrap">
+                            <span class="stat-num" data-stat-target="64">0</span>
+                            <span class="stat-unit">%</span>
+                        </div>
+                        <p class="stat-body">Saved inspiration often <span class="stat-highlight">lacks context</span>,
+                            making it hard to <span class="stat-highlight">reuse</span> in actual design work.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR OWN SURVEY SECTION -->
+        <section class="survey-section">
+            <div class="survey-container">
+                <div class="survey-header" data-reveal="up">
+                    <h2 class="survey-title">Our own survey</h2>
+                    <p class="survey-subtext">We spoke with designers to understand how they capture and use
+                        inspiration.<br>[~30–40 participants]</p>
+                </div>
+
+                <div class="survey-grid">
+                    <div class="survey-card" data-reveal="survey-card">
+                        <span class="stat-label">INSIGHTS</span>
+                        <div class="stat-number-wrap">
+                            <span class="stat-num" data-stat-target="68">0</span>
+                            <span class="stat-unit">%</span>
+                        </div>
+                        <p class="stat-body">Designers rely on <span class="stat-highlight">screenshots</span> to save
+                            inspiration during browsing.</p>
+                    </div>
+
+                    <div class="survey-card" data-reveal="survey-card">
+                        <span class="stat-label">INSIGHTS</span>
+                        <div class="stat-number-wrap">
+                            <span class="stat-num" data-stat-target="91">0</span>
+                            <span class="stat-unit">%</span>
+                        </div>
+                        <p class="stat-body">Users said they struggle to <span class="stat-highlight">organize</span>
+                            and revisit saved references.</p>
+                    </div>
+
+                    <div class="survey-card" data-reveal="survey-card">
+                        <span class="stat-label">INSIGHTS</span>
+                        <div class="scat-word">Scattered</div>
+                        <p class="stat-body">Inspiration is spread across tools, making it harder to <span
+                                class="stat-highlight">reuse</span> effectively.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERVIEW SECTION -->
+        <section class="interview-section">
+            <div class="int-container">
+                <div class="int-header" data-reveal="up">
+                    <span class="int-label">SOME INFORMAL INTERVIEWS [8 SAMPLE SIZE]</span>
+                    <p class="int-insight-text">
+                        A common pattern we observed was that designers often don’t know how to <span
+                            class="stat-highlight">properly manage inspiration</span>, and <span
+                            class="stat-highlight">organizing references</span> becomes time-consuming.
+                    </p>
+                    <p class="int-insight-text" style="margin-top: 16px; opacity: 0.7; font-size: 18px;">
+                        Many end up switching between tools, while some even rely on AI just to structure their ideas.
+                    </p>
+                </div>
+
+                <div class="int-grid">
+                    <div class="int-card int-persona" data-reveal="int-card">
+                        <img src="ui_designer_aarav_mehta.png" alt="Aarav Mehta" class="persona-img">
+                        <div class="persona-info">
+                            <h3 class="persona-name">Aarav Mehta, 25</h3>
+                            <span class="persona-title">UI Designer</span>
+                        </div>
+                    </div>
+
+                    <div class="int-card int-quote-card" data-reveal="int-card">
+                        <p class="int-quote-text">
+                            "I keep saving screenshots from different places, but when I need them later, I either can’t
+                            find them or don’t know how to <span class="stat-highlight">use them properly</span>."
+                        </p>
+                    </div>
+
+                    <div class="int-card" data-reveal="int-card">
+                        <span class="stat-label" style="margin-bottom: 24px; display: block;">MAIN PAIN POINTS</span>
+                        <ul class="int-points-list">
+                            <li class="int-point-item">Constant switching between tools</li>
+                            <li class="int-point-item">Difficulty <span class="stat-highlight">organizing
+                                    references</span></li>
+                            <li class="int-point-item"><span class="stat-highlight">Losing context</span> behind
+                                references</li>
+                            <li class="int-point-item">Wasting time searching for ideas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- SECOND PERSONA: ADITYA MEHTA -->
+                <div class="int-grid">
+                    <div class="int-card int-persona" data-reveal="int-card">
+                        <img src="ui_ux_designer_aditya_mehta.png" alt="Aditya Mehta" class="persona-img">
+                        <div class="persona-info">
+                            <h3 class="persona-name">Aditya Mehta, 27</h3>
+                            <span class="persona-title">UI/UX Designer</span>
+                        </div>
+                    </div>
+
+                    <div class="int-card int-quote-card" data-reveal="int-card">
+                        <p class="int-quote-text">
+                            "As a designer, I collect a lot of inspiration, but managing it becomes messy. I often
+                            forget where I saved things or how to actually use them later."
+                        </p>
+                    </div>
+
+                    <div class="int-card" data-reveal="int-card">
+                        <span class="stat-label" style="margin-bottom: 24px; display: block;">MAIN PAIN POINTS</span>
+                        <ul class="int-points-list">
+                            <li class="int-point-item">Too many <span class="stat-highlight">scattered references</span>
+                            </li>
+                            <li class="int-point-item">Difficulty finding saved inspiration</li>
+                            <li class="int-point-item"><span class="stat-highlight">Losing context</span> behind designs
+                            </li>
+                            <li class="int-point-item">No clear system to <span class="stat-highlight">organize</span>
+                                ideas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- NEW USER JOURNEY SECTION -->
+        <section class="user-journey-intro">
+            <div class="uj-container">
+                <div class="uj-top">
+                    <span class="uj-label" data-reveal="uj-reveal">Here’s a scenario of our user</span>
+                    <h2 class="uj-heading" data-reveal="uj-reveal">Our user’s journey</h2>
+                </div>
+                <div class="uj-content" data-reveal="uj-paragraph">
+                    <p class="uj-body">
+                        Arjun is a UI designer who often explores websites to find inspiration. He comes across layouts,
+                        <span class="uj-highlight">typography</span>, and <span class="uj-highlight">color styles</span>
+                        that he wants to save for later. He starts collecting them using screenshots, bookmarks, and
+                        different tools. Over time, everything gets scattered, and when he needs those references again,
+                        he struggles to find or <span class="uj-highlight">reuse them effectively</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- JOURNEY MAP SECTION -->
+        <section class="journey-map-section" id="journey-pin-trigger">
+            <div class="jm-pinned-section">
+                <div class="jm-scroll-master" id="jm-horizontal-track">
+                    <div class="jm-table-container">
+                        <div class="jm-grid">
+                            <!-- COLUMN HIGHLIGHT -->
+                            <div id="jm-active-col" class="jm-column-highlight"></div>
+
+                            <!-- ROW LABELS -->
+                            <div class="jm-row-label" style="grid-row: 1;">Phases</div>
+                            <div class="jm-row-label" style="grid-row: 2;">Actions</div>
+                            <div class="jm-row-label" style="grid-row: 3;">Emotions</div>
+                            <div class="jm-row-label" style="grid-row: 4;">Touchpoints</div>
+
+                            <!-- STEPS -->
+                            <!-- Exploration -->
+                            <div class="jm-cell jm-phase-header" style="grid-column: 2;">Exploration</div>
+                            <div class="jm-cell" style="grid-row: 2; grid-column: 2;">Browses websites, portfolios
+                                checks Dribbble / Pinterest items.</div>
+                            <div class="jm-emotion-wrapper" style="grid-column: 2; --y-offset: -30px;">
+                                <span class="jm-emotion-icon">😍</span>
+                                <span class="jm-emotion-title">Excitement</span>
+                            </div>
+                            <div class="jm-cell" style="grid-row: 4; grid-column: 2;">Dribbble, Pinterest, Bookmarks
+                            </div>
+
+                            <!-- Saving Inspiration -->
+                            <div class="jm-cell jm-phase-header" style="grid-column: 3;">Saving Inspiration</div>
+                            <div class="jm-cell" style="grid-row: 2; grid-column: 3;">Takes screenshots, saves
+                                bookmarks, copies links.</div>
+                            <div class="jm-emotion-wrapper" style="grid-column: 3; --y-offset: -10px;">
+                                <span class="jm-emotion-icon">🤔</span>
+                                <span class="jm-emotion-title">Curiosity</span>
+                            </div>
+                            <div class="jm-cell" style="grid-row: 4; grid-column: 3;">Chrome, Desktop</div>
+
+                            <!-- Organizing -->
+                            <div class="jm-cell jm-phase-header" style="grid-column: 4;">Organizing</div>
+                            <div class="jm-cell" style="grid-row: 2; grid-column: 4;">Stores in folders / Notion with
+                                generic names.</div>
+                            <div class="jm-emotion-wrapper" style="grid-column: 4; --y-offset: 20px;">
+                                <span class="jm-emotion-icon">😵</span>
+                                <span class="jm-emotion-title">Overload</span>
+                            </div>
+                            <div class="jm-cell" style="grid-row: 4; grid-column: 4;">Notion, Folders</div>
+
+                            <!-- Search Later -->
+                            <div class="jm-cell jm-phase-header" style="grid-column: 5;">Search Later</div>
+                            <div class="jm-cell" style="grid-row: 2; grid-column: 5;">Tries to find old references,
+                                scrolls through files.</div>
+                            <div class="jm-emotion-wrapper" style="grid-column: 5; --y-offset: 40px;">
+                                <span class="jm-emotion-icon">😑</span>
+                                <span class="jm-emotion-title">Stress</span>
+                            </div>
+                            <div class="jm-cell" style="grid-row: 4; grid-column: 5;">Desktop, Files</div>
+
+                            <!-- Searching Later -->
+                            <div class="jm-cell jm-phase-header" style="grid-column: 6;">Searching Later</div>
+                            <div class="jm-cell" style="grid-row: 2; grid-column: 6;">More scrolling and frustrated
+                                attempts.</div>
+                            <div class="jm-emotion-wrapper" style="grid-column: 6; --y-offset: 60px;">
+                                <span class="jm-emotion-icon">😕</span>
+                                <span class="jm-emotion-title">Confusion</span>
+                            </div>
+                            <div class="jm-cell" style="grid-row: 4; grid-column: 6;">Folders, Chrome</div>
+
+                            <!-- Trying to Reuse -->
+                            <div class="jm-cell jm-phase-header" style="grid-column: 7;">Trying to Reuse</div>
+                            <div class="jm-cell" style="grid-row: 2; grid-column: 7;">Identifies font styles and hex
+                                colors manually.</div>
+                            <div class="jm-emotion-wrapper" style="grid-column: 7; --y-offset: 80px;">
+                                <span class="jm-emotion-icon">😣</span>
+                                <span class="jm-emotion-title">Frustration</span>
+                            </div>
+                            <div class="jm-cell" style="grid-row: 4; grid-column: 7;">Figma, Photos</div>
+
+                            <!-- Frustration -->
+                            <div class="jm-cell jm-phase-header" style="grid-column: 8;">Frustration</div>
+                            <div class="jm-cell" style="grid-row: 2; grid-column: 8;">Re-searches everything or uses AI
+                                guesses.</div>
+                            <div class="jm-emotion-wrapper" style="grid-column: 8; --y-offset: 100px;">
+                                <span class="jm-emotion-icon">😤</span>
+                                <span class="jm-emotion-title">Annoyance</span>
+                            </div>
+                            <div class="jm-cell" style="grid-row: 4; grid-column: 8;">AI tools, Search</div>
+
+                            <!-- Workaround -->
+                            <div class="jm-cell jm-phase-header" style="grid-column: 9;">Workaround</div>
+                            <div class="jm-cell" style="grid-row: 2; grid-column: 9;">Starts from scratch, needs a
+                                better system.</div>
+                            <div class="jm-emotion-wrapper" style="grid-column: 9; --y-offset: -40px;">
+                                <span class="jm-emotion-icon">💡</span>
+                                <span class="jm-emotion-title">Realization</span>
+                            </div>
+                            <div class="jm-cell" style="grid-row: 4; grid-column: 9;">Klay Solution</div>
+
+                        </div> <!-- End Grid -->
+                    </div> <!-- End Table Container -->
+                </div> <!-- End Horizontal Track -->
+            </div>
+        </section>
+
+
+        <!-- USER HIGHLIGHT SECTION (MOVED TO BOTTOM) -->
+        <section class="user-highlight-section">
+            <div class="uh-grain"></div>
+            <div class="uh-gradient-blob" id="uh-blob"></div>
+
+            <div class="uh-container">
+                <div class="uh-label">OUR PRIMARY USER</div>
+                <h2 class="uh-statement">
+                    Aditya’s <span class="uh-accent">Typical Experience</span> : <span class="uh-accent">Confused
+                        Planning</span> leading to last minute commitments and <span class="uh-accent">scarcity of
+                        availability</span> with convenience due to it
+                </h2>
+            </div>
+        </section>
+
+
+
+
+        <!-- ITERATION & EVOLUTION SECTION -->
+        <section class="iteration-section">
+            <div class="it-container">
+                <div class="it-header">
+                    <h2 class="it-title">Let’s look back 👀 at our earlier ideation after this enlightenment</h2>
+                    <p class="it-subtext">What we got wrong, what we refined, and how <span class="it-highlight">Klay
+                            evolved</span>.</p>
+                </div>
+
+                <!-- TOP ROW: INITIAL IDEAS -->
+                <div class="it-grid top-row">
+                    <!-- Idea 1 -->
+                    <div class="it-card top-card">
+                        <div class="it-card-stroke"></div>
+                        <div class="it-card-tag">MAIN IDEA #1</div>
+                        <h3 class="it-card-h">Saving inspiration through <span class="it-highlight">screenshots and
+                                bookmarks</span> while browsing.</h3>
+                    </div>
+
+                    <!-- Idea 2 (REJECTED) -->
+                    <div class="it-card top-card rejected">
+                        <div class="it-card-stroke"></div>
+                        <!-- Red Cross -->
+                        <div class="it-cross">
+                            <svg width="80" height="80" viewBox="0 0 80 80">
+                                <line x1="10" y1="10" x2="70" y2="70" stroke="#FF3131" stroke-width="15"
+                                    stroke-linecap="round" />
+                                <line x1="70" y1="10" x2="10" y2="70" stroke="#FF3131" stroke-width="15"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <div class="it-card-tag">MAIN IDEA #2</div>
+                        <h3 class="it-card-h">Manually organizing <span class="it-highlight">references into
+                                folders</span> and collections.</h3>
+                        <div class="it-rejected-tag">Unnecessarily Complex</div>
+                    </div>
+
+                    <!-- Idea 3 -->
+                    <div class="it-card top-card">
+                        <div class="it-card-stroke"></div>
+                        <div class="it-card-tag">MAIN IDEA #3</div>
+                        <h3 class="it-card-h">Using a browser extension to <span class="it-highlight">quickly save
+                                links</span> and visuals.</h3>
+                    </div>
+                </div>
+
+                <!-- TRANSITION ARROW -->
+                <div class="it-arrow-container">
+                    <div class="it-arrow-white"></div>
+                </div>
+
+                <!-- BOTTOM ROW: REFINED DIRECTIONS -->
+                <div class="it-grid bottom-row">
+                    <!-- Iteration Again -->
+                    <div class="it-card bottom-card refined">
+                        <div class="it-card-stroke"></div>
+                        <div class="it-card-tag">IDEATING AGAIN</div>
+                        <h3 class="it-card-h">We realized the problem wasn’t saving inspiration — it was <span
+                                class="it-highlight">losing context</span> and structure.</h3>
+                    </div>
+
+                    <!-- Main Refined Idea -->
+                    <div class="it-card bottom-card refined">
+                        <div class="it-card-stroke"></div>
+                        <div class="it-card-tag">MAIN IDEA #2</div>
+                        <h3 class="it-card-h">Capturing inspiration directly from <span class="it-highlight">live
+                                websites</span> with its full context — including typography, colors, and UI elements.
+                        </h3>
+                    </div>
+
+                    <!-- HMW -->
+                    <div class="it-card bottom-card hmw">
+                        <div class="it-card-stroke"></div>
+                        <div class="it-card-tag">HMW</div>
+                        <h3 class="it-card-h">How might we help designers capture inspiration in a way that stays <span
+                                class="it-highlight">structured, understandable, and ready to use</span>?</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOLUTION TRANSITION SECTION -->
+        <section class="sol-intro-section" id="sol-intro-trigger">
+            <div class="sol-intro-container">
+                <h1 class="sol-intro-heading">
+                    <span class="line">
+                        <span class="word">Alright So, What Is</span>
+                    </span>
+                    <span class="line allow-emoji">
+                        <span class="word">Our <b>Solution?</b></span>
+                        <span class="sol-intro-emoji" id="sol-emoji-float">🫠</span>
+                    </span>
+                </h1>
+                <p class="sol-intro-subtext" id="sol-intro-sub">How Did We Define The Experience?</p>
+                <div class="sol-intro-final" id="sol-intro-ui">Our Final UI</div>
+            </div>
+        </section>
+
+        <!-- PRODUCT SHOWCASE SECTION -->
+        <section class="showcase-section">
+            <div class="showcase-container">
+                <div class="showcase-grid" style="height: 100%;">
+                    <!-- CARD 1 (TALL LEFT - CONTAINS TITLE & CTA) -->
+                    <div class="sh-card sh-tall" data-reveal="up" style="padding-bottom: 0;">
+                        <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-start;">
+                            <div class="sh-card-tag" style="color: #FFFFFF; opacity: 0.4; margin-bottom: 24px;">PRODUCT
+                                SHOWCASE</div>
+                            <h2 class="sh-card-title"
+                                style="font-size: 48px; line-height: 1.1; margin-bottom: 24px; letter-spacing: -0.02em;">
+                                Built for the <span class="uh-accent">Hustle</span>.
+                                <br>Inspired by the Streets.
+                            </h2>
+                            <p class="sh-card-text"
+                                style="font-size: 17px; margin-bottom: 32px; opacity: 0.6; line-height: 1.6; max-width: 90%;">
+                                Every piece is crafted to move with your lifestyle and amplify your voice. Capture
+                                inspiration directly from the live web with a single click.
+                            </p>
+                            <a href="https://chromewebstore.google.com/detail/gnkkkehipacaajldfmijffidmlaonepm?utm_source=item-share-cb"
+                                target="_blank" rel="noopener noreferrer" class="sh-cta-btn">
+                                Try Extension
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </a>
+                        </div>
+                        <!-- LARGE IMPACTFUL IMAGE -->
+                        <div class="sh-card-img-wrap"
+                            style="flex: 1.2; border: none; background: transparent; display: flex; justify-content: center; align-items: flex-end; margin-top: 40px;">
+                            <img src="UI case study new page/11.png" alt="Klay Macbook Preview"
+                                style="width: 100%; height: auto; transform: translateY(20px) scale(1.1); filter: drop-shadow(0 30px 60px rgba(0,0,0,0.6));">
+                        </div>
+                    </div>
+
+                    <!-- CARD 2 (TOP RIGHT - FUEL YOUR HUSTLE STYLE) -->
+                    <div class="sh-card medium ai-special" data-reveal="up"
+                        style="flex-direction: row; align-items: center;">
+                        <div style="flex: 1;">
+                            <div class="sh-card-tag">AI INSIGHT ✨</div>
+                            <h3 class="sh-card-title">Understand the design</h3>
+                            <p class="sh-card-text">Know why something works, not just how it looks. AI-powered
+                                analysis.</p>
+                        </div>
+                        <div class="sh-card-img-wrap" style="flex: 1; height: 100%; margin-top: 0; margin-left: 20px;">
+                            <img src="UI case study new page/9.png" alt="AI Analysis">
+                        </div>
+                    </div>
+
+                    <!-- CARD 3 (MIDDLE RIGHT - SOUND OF STREETS STYLE) -->
+                    <div class="sh-card medium" data-reveal="up" style="flex-direction: row; align-items: center;">
+                        <div style="flex: 1;">
+                            <div class="sh-card-tag">TYPOGRAPHY</div>
+                            <h3 class="sh-card-title">Extract real design data</h3>
+                            <p class="sh-card-text">Capture fonts, styles, and hierarchy instantly.</p>
+                        </div>
+                        <div class="sh-card-img-wrap" style="flex: 1; height: 100%; margin-top: 0; margin-left: 20px;">
+                            <img src="UI case study new page/4.png" alt="Typography Analysis">
+                        </div>
+                    </div>
+
+                    <!-- CARD 4 (BOTTOM FULL - STEP UP YOUR GAME STYLE) -->
+                    <div class="sh-card sh-wide" data-reveal="up" style="flex-direction: row; align-items: center;">
+                        <div style="flex: 1; padding: 0 40px;">
+                            <div class="sh-card-tag">ORGANISE</div>
+                            <h3 class="sh-card-title" style="font-size: 32px;">From chaos to clarity</h3>
+                            <p class="sh-card-text">Turn scattered inspiration into a structured, reusable design
+                                system. Structured, searchable, and easy to revisit.</p>
+                        </div>
+                        <div class="sh-card-img-wrap" style="flex: 2; height: 100%; margin-top: 0;">
+                            <img src="UI case study new page/12.png" alt="Multi Browser Collage">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CLOSING SECTION -->
+        <section class="final-closing-section">
+            <div class="final-closing-container">
+                <!-- LOGO ASSEMBLY PIECES -->
+                <div class="logo-assembly-wrap">
+                    <div class="reveal-bg-glow" id="warp-glow"></div>
+                    <!-- Vector Fragments as provided in the folder -->
+                    <img src="UI case study new page/Vector-1.png" class="logo-part part-1" alt="Logo Vector 1">
+                    <img src="UI case study new page/Vector-2.png" class="logo-part part-2" alt="Logo Vector 2">
+                    <!-- The full logo to snap into -->
+                    <img src="UI case study new page/full logo.png" class="logo-part part-main-img"
+                        alt="Full Klay Logo">
+                </div>
+
+                <div class="status-text"><span class="status-dot"></span>INITIALIZING v2.0</div>
+
+                <div class="system-loader-wrap">
+                    <div class="loader-fill" id="final-loader"></div>
+                </div>
+
+                <div class="loader-stats">
+                    <span class="loader-percent" id="load-count">0%</span>
+                    <span class="loader-percent" style="opacity: 0.3;">K_CORE v4.2</span>
+                </div>
+
+                <h2 class="final-main-text" id="final-text-reveal">MVP v2 is in progress…</h2>
+            </div>
+        </section>
+
+
+        <!-- EXPLORE MORE PROJECTS SECTION (SYNCED 1:1) -->
+        <section class="more-work-section">
+            <span class="more-work-label">EXPLORE MORE PROJECTS</span>
+            <div class="more-work-grid">
+                <a href="branding.html" class="more-work-card" data-preview="branding new page/culture-bg-hero.png">
+                    <span class="mw-cat">BRAND IDENTITY</span>
+                    <h3 class="mw-title">Branding <span>↗</span></h3>
+                </a>
+                <a href="illustration.html" class="more-work-card"
+                    data-preview="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800">
+                    <span class="mw-cat">DIGITAL ART</span>
+                    <h3 class="mw-title">Illustration <span>↗</span></h3>
+                </a>
+                <a href="motion.html" class="more-work-card"
+                    data-preview="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800">
+                    <span class="mw-cat">VISUAL MOTION</span>
+                    <h3 class="mw-title">Motion Graphics <span>↗</span></h3>
+                </a>
+            </div>
+        </section>
+
+        <!-- FLOATING PREVIEW CONTAINER -->
+        <div id="id-preview">
+            <img src="" id="id-preview-img">
+        </div>
+
+        <footer class="cat-footer">
+            <div class="footer-links-row" style="display: flex; justify-content: space-between; align-items: flex-end;">
+                <div class="footer-col" style="display: flex; gap: 40px;">
+                    <a href="#" class="f-link monospaced"
+                        style="text-decoration: none; color: #fff; opacity: 0.5; font-size: 0.7rem;">INSTAGRAM</a>
+                    <a href="#" class="f-link monospaced"
+                        style="text-decoration: none; color: #fff; opacity: 0.5; font-size: 0.7rem;">BEHANCE</a>
+                </div>
+                <button class="top-btn" onclick="lenis.scrollTo(0)"
+                    style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 20px; border-radius: 100px; cursor: pointer; font-size: 0.6rem; letter-spacing: 2px;">BACK
+                    TO TOP ↑</button>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+        gsap.registerPlugin(ScrollTrigger);
+
+        // PROBLEM SECTION ANIMATIONS (JELLY DROP EFFECT)
+        const probTL = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".problem-section",
+                start: "top 80%",
+            }
+        });
+
+        // Set initial state for "rain drop" (higher and invisible)
+        gsap.set(".chaos-tag", {
+            y: -800,
+            opacity: 0,
+            scale: 0.5,
+            rotation: "random(-20, 20)"
+        });
+
+        probTL.to(".chaos-tag", {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            rotation: (i, target) => {
+                // Return to their original CSS rotation
+                const currentRot = gsap.getProperty(target, "rotation");
+                return currentRot;
+            },
+            stagger: 0.2, // Clear sequential drop
+            duration: 1.8,
+            ease: "elastic.out(1, 0.4)" // High-fidelity jelly bounce
+        });
+
+        // Loop removed - tags land and STAY
+
+        // ADVANCED TIMELINE ANIMATION (DREAMY REVEAL)
+        const timelineTL = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".timeline-section",
+                start: "top 60%",
+            }
+        });
+
+        timelineTL.from(".timeline-glowing-line", { scaleX: 0, duration: 1.5, ease: "expo.inOut" })
+            .from(".timeline-flare", { opacity: 0, scale: 0, stagger: 0.1, duration: 0.5 }, "-=1")
+            .to(".v-line-dashed", { opacity: 1, duration: 1, stagger: 0.1 }, "-=0.8")
+            .to(".case-card", {
+                opacity: 1,
+                x: 0,
+                stagger: {
+                    each: 0.15,
+                    from: "end" // Right-most cards appear first
+                },
+                duration: 0.8,
+                ease: "power3.out"
+            }, "-=1");
+
+        // INSIGHT SECTION ANIMATIONS
+        const insStats = gsap.utils.toArray('.ins-stat-white[data-count]');
+        insStats.forEach((stat) => {
+            const targetValue = parseInt(stat.getAttribute('data-count'));
+            gsap.to(stat, {
+                innerText: targetValue,
+                duration: 1.5,
+                snap: { innerText: 1 },
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: stat,
+                    start: "top 90%",
+                }
+            });
+        });
+
+        // Floating Tags (Insight Cloud)
+        gsap.utils.toArray('.ins-tag').forEach((tag, i) => {
+            gsap.to(tag, {
+                y: "random(-8, 8)",
+                x: "random(-4, 4)",
+                duration: "random(2, 4)",
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                delay: i * 0.2
+            });
+        });
+
+        // HYPER-TACTILE REVEAL SYSTEM
+        const closingSec = document.querySelector('.final-closing-section');
+        const assemblyWrap = document.querySelector('.logo-assembly-wrap');
+
+        // 1. Initial State (Deep Space)
+        gsap.set(".part-1", { x: -500, y: -200, opacity: 0, rotationZ: -720 });
+        gsap.set(".part-2", { x: 500, y: 200, opacity: 0, rotationZ: 720 });
+        gsap.set(".part-main-img", { opacity: 0, scale: 0.5 });
+
+        // 2. Scroll-Linked Assembly (Macro Control)
+        const assemblyTL = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".final-closing-section",
+                start: "top 95%",
+                end: "center 30%",
+                scrub: 1.2,
+                onUpdate: (self) => {
+                    const prog = Math.min(95, Math.round(self.progress * 100));
+                    const countEl = document.getElementById('load-count');
+                    if (countEl) countEl.innerText = prog + "%";
+                    if (self.progress > 0.85) {
+                        document.getElementById('final-text-reveal').classList.add('revealed');
+                    }
+                }
+            }
+        });
+
+        assemblyTL.to(".part-1", { x: 0, y: 0, opacity: 1, rotationZ: 0, ease: "none" }, 0)
+            .to(".part-2", { x: 0, y: 0, opacity: 1, rotationZ: 0, ease: "none" }, 0)
+            .to("#warp-glow", { scale: 3, opacity: 0.5, ease: "none" }, 0)
+            .to("#final-loader", { width: "95%", ease: "none" }, 0);
+
+        assemblyTL.to(".part-main-img", { opacity: 1, scale: 1, ease: "expo.out" }, 0.85)
+            .to(".part-1, .part-2", { opacity: 0, scale: 2, filter: "blur(20px)", ease: "expo.out" }, 0.85)
+            .to("#final-text-reveal", { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", ease: "expo.out" }, 0.9);
+
+        // 3. CURSOR-DRIVEN PARALLAX & TACTILE RESPONSIVITY
+        closingSec.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            const rect = closingSec.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            // 3D Tilt for the whole wrap
+            const rotX = (clientY - centerY) / 25;
+            const rotY = (centerX - clientX) / 25;
+
+            gsap.to(assemblyWrap, {
+                rotationX: rotX,
+                rotationY: rotY,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+
+            // If not fully merged, make parts jitter towards cursor
+            const dist = Math.hypot(clientX - centerX, clientY - centerY);
+            if (dist < 300) {
+                gsap.to(".logo-part", {
+                    filter: `drop-shadow(0 0 ${40 - dist / 10}px rgba(118,112,254,0.8))`,
+                    duration: 0.3
+                });
+            }
+        });
+
+        closingSec.addEventListener('mouseleave', () => {
+            gsap.to(assemblyWrap, { rotationX: 0, rotationY: 0, duration: 1.5, ease: "elastic.out(1, 0.3)" });
+        });
+
+        // Floating Glow for finalized assembly
+        gsap.to(".part-main-img", {
+            filter: "drop-shadow(0 0 60px rgba(118,112,254,1))",
+            scale: 1.05,
+            duration: 3,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        // STAGGER REVEAL FOR MORE WORK
+        gsap.from(".more-work-card", {
+            opacity: 0,
+            y: 40,
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "expo.out",
+            scrollTrigger: {
+                trigger: ".more-work-section",
+                start: "top 80%"
+            }
+        });
+
+        // SOLUTION SECTION REVEALS
+        gsap.from('[data-reveal="sol-left"]', {
+            x: -30,
+            opacity: 0,
+            duration: 0.6,
+            ease: "power3.out",
+            scrollTrigger: { trigger: ".sol-section", start: "top 85%" }
+        });
+
+        gsap.from('[data-reveal="sol-right"]', {
+            x: 30,
+            opacity: 0,
+            duration: 0.6,
+            ease: "power3.out",
+            scrollTrigger: { trigger: ".sol-section", start: "top 85%" }
+        });
+
+        gsap.from('[data-reveal="fade"]', {
+            scaleY: 0,
+            opacity: 0,
+            duration: 1.5,
+            ease: "power3.inOut",
+            scrollTrigger: { trigger: ".sol-section", start: "top 80%" }
+        });
+
+        // REVEAL ANIMATION + TYPEWRITER (BRANDING STYLE)
+        const reveals = gsap.utils.toArray('[data-reveal="up"]');
+        reveals.forEach((el) => {
+            gsap.from(el, {
+                opacity: 0,
+                y: 60,
+                duration: 1.2,
+                ease: "expo.out",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 85%",
+                    onEnter: () => {
+                        const typeSpans = el.querySelectorAll('[data-typewrite]');
+                        typeSpans.forEach((span, i) => {
+                            const text = span.getAttribute('data-typewrite');
+                            let current = ""; span.innerText = "";
+                            gsap.delayedCall(i * 0.5 + 0.5, () => {
+                                const itv = setInterval(() => {
+                                    if (current.length < text.length) {
+                                        current += text[current.length];
+                                        span.innerText = current;
+                                    } else {
+                                        clearInterval(itv);
+                                    }
+                                }, 60);
+                            });
+                        });
+                    }
+                }
+            });
+        });
+
+        // CURSOR LOGIC
+        const setupCursor = () => {
+            const cursor = document.getElementById('cursor');
+            const canvas = document.getElementById('cursor-canvas');
+            const ctx = canvas.getContext('2d');
+            if (!cursor || !canvas) return;
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            let mx = window.innerWidth / 2, my = window.innerHeight / 2, history = [];
+            window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+            document.addEventListener('mousemove', (e) => {
+                mx = e.clientX; my = e.clientY;
+                gsap.to(cursor, { x: mx, y: my, duration: 0.1, ease: "none" });
+                history.push({ x: mx, y: my, age: 0 });
+            });
+            gsap.ticker.add(() => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (history.length < 2) return;
+                for (let i = 0; i < history.length - 1; i++) {
+                    let p1 = history[i], p2 = history[i + 1]; p1.age += 1;
+                    let alpha = Math.max(0, 1 - (history.length - i) * 0.04), lineWidth = Math.max(0.5, i * 0.5);
+                    ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+                    ctx.strokeStyle = `rgba(118, 112, 254, ${alpha})`;
+                    ctx.lineWidth = lineWidth; ctx.lineCap = 'round'; ctx.stroke();
+                }
+                history = history.filter(p => p.age < 20);
+            });
+        };
+        setupCursor();
+
+        const cards = gsap.utils.toArray('.window-card');
+        cards.forEach((card, i) => {
+            const tilt = (i % 2 === 0) ? -2 : 2;
+            gsap.set(card, { rotationZ: tilt });
+            gsap.from(card, { y: 150, autoAlpha: 0, scale: 0.9, scrollTrigger: { trigger: card, start: 'top 95%', end: 'top 60%', scrub: true } });
+            gsap.to(card, { y: -100, scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: 1.5 } });
+        });
+        // STORYBOARD GLOW PULSE
+        gsap.to(".story-bg-glow", {
+            opacity: 0.6,
+            scale: 1.2,
+            duration: 4,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        // USER INSIGHTS ANIMATIONS (INDIVIDUAL REVEALS)
+        const igCards = gsap.utils.toArray('.ig-card[data-reveal="insight-card"]');
+        igCards.forEach((card, index) => {
+            gsap.from(card, {
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                delay: index * 0.1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 95%",
+                    toggleActions: "play none none none"
+                }
+            });
+        });
+
+        // LANDSCAPE TOOLS ANIMATIONS
+        gsap.from('.ls-tool-card[data-reveal="ls-card"]', {
+            y: 20,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".landscape-section",
+                start: "top 85%",
+            }
+        });
+
+        // FRAGMENTED VS OPPORTUNITY ANIMATIONS
+        gsap.from('[data-reveal="left-slide"]', {
+            x: -30,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".opp-section",
+                start: "top 80%",
+            }
+        });
+
+        gsap.from('[data-reveal="right-slide"]', {
+            x: 30,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".opp-section",
+                start: "top 80%",
+            }
+        });
+
+        // IDEATION CARDS ANIMATION
+        const idCards = gsap.utils.toArray('.id-card[data-reveal="id-card"]');
+        idCards.forEach((card, index) => {
+            gsap.from(card, {
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                delay: index * 0.1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 95%",
+                    toggleActions: "play none none none"
+                }
+            });
+        });
+
+        // STATS SECTION ANIMATIONS
+        const statCards = gsap.utils.toArray('.stat-card[data-reveal="stat-card"]');
+        statCards.forEach((card, index) => {
+            gsap.from(card, {
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                delay: index * 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 90%",
+                    onEnter: () => {
+                        const num = card.querySelector('.stat-num');
+                        const target = parseInt(num.getAttribute('data-stat-target'));
+                        gsap.to(num, {
+                            innerText: target,
+                            duration: 1.5,
+                            snap: { innerText: 1 },
+                            ease: "power2.out"
+                        });
+                        if (target === 3) {
+                            gsap.fromTo(num, { scale: 1 }, { scale: 1.2, duration: 0.3, yoyo: true, repeat: 1 });
+                        }
+                    }
+                }
+            });
+
+            // Parallax Tilt Effect
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                gsap.to(card, {
+                    rotationY: x * 10,
+                    rotationX: -y * 10,
+                    ease: "power2.out",
+                    duration: 0.5
+                });
+            });
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, { rotationY: 0, rotationX: 0, ease: "power2.out", duration: 0.5 });
+            });
+        });
+
+        // SURVEY SECTION ANIMATIONS
+        const surveyCards = gsap.utils.toArray('.survey-card[data-reveal="survey-card"]');
+        surveyCards.forEach((card, index) => {
+            gsap.from(card, {
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                delay: index * 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 90%",
+                    onEnter: () => {
+                        const num = card.querySelector('.stat-num');
+                        if (num) {
+                            const target = parseInt(num.getAttribute('data-stat-target'));
+                            gsap.to(num, {
+                                innerText: target,
+                                duration: 1,
+                                snap: { innerText: 1 },
+                                ease: "power2.out"
+                            });
+                        }
+                    }
+                }
+            });
+        });
+
+        // INTERVIEW SECTION ANIMATIONS
+        const intCards = gsap.utils.toArray('.int-card[data-reveal="int-card"]');
+        intCards.forEach((card, index) => {
+            gsap.from(card, {
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                delay: index * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 90%",
+                }
+            });
+        });
+
+        // Quote Glow Pulse
+        gsap.to('.int-quote-text', {
+            textShadow: "0 0 10px rgba(118, 112, 254, 0.4)",
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+
+        // NEW USER JOURNEY ANIMATIONS
+        gsap.from('[data-reveal="uj-reveal"]', {
+            opacity: 0,
+            y: 20,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".user-journey-intro",
+                start: "top 80%",
+            }
+        });
+
+        gsap.from('[data-reveal="uj-paragraph"]', {
+            opacity: 0,
+            y: 20,
+            duration: 1,
+            delay: 0.4,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".user-journey-intro",
+                start: "top 80%",
+            }
+        });
+
+        // Highlight Glow Pulse
+        gsap.to(".uj-highlight", {
+            textShadow: "0 0 15px rgba(118, 112, 254, 0.3)",
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+
+        // CINEMATIC USER HIGHLIGHT + TYPEWRITER VERSION
+        const initIterationAnim = () => {
+            const itTL = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".iteration-section",
+                    start: "top 60%"
+                }
+            });
+
+            itTL.to(".top-card", { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "back.out(1.4)" })
+                .to(".it-cross", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" })
+                .to(".it-rejected-tag", { opacity: 1, rotate: 10, duration: 0.4 }, "-=0.2")
+                .to(".it-arrow-white", { opacity: 1, y: 0, duration: 0.4 })
+                .to(".bottom-card", { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "back.out(1.4)" }, "-=0.2");
+
+            // Physics-based hanging effect (Subtle swinging)
+            gsap.to(".it-card", {
+                rotation: "random(-1.5, 1.5)",
+                x: "random(-2, 2)",
+                duration: "random(2.5, 4)",
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                stagger: {
+                    each: 0.2,
+                    from: "random"
+                }
+            });
+        };
+
+        const initUserHighlight = () => {
+            initIterationAnim();
+            gsap.to(".uh-label", {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: ".user-highlight-section",
+                    start: "top 85%"
+                }
+            });
+            gsap.to(".uh-statement", {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                delay: 0.3,
+                scrollTrigger: {
+                    trigger: ".user-highlight-section",
+                    start: "top 85%"
+                }
+            });
+
+            // Subtle blob animation
+            gsap.to("#uh-blob", {
+                xPercent: 20, yPercent: 10,
+                duration: 12, repeat: -1, yoyo: true, ease: "sine.inOut"
+            });
+        };
+
+        // CINEMATIC JOURNEY MAP (SCROLL-LINKED PINNING)
+        const jmTrack = document.getElementById('jm-horizontal-track');
+        if (jmTrack) {
+            initUserHighlight();
+            // SCROLL EXACTLY TO THE LAST COLUMN (WIDTH - VIEWPORT + PADDING)
+            const jmWidth = jmTrack.offsetWidth - window.innerWidth;
+
+            // 1. PIN & HORIZONTAL SCROLL
+            gsap.to(jmTrack, {
+                x: () => -jmWidth,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#journey-pin-trigger",
+                    start: "top top",
+                    end: () => `+=${jmWidth}`,
+                    pin: true,
+                    scrub: 1,
+                    invalidateOnRefresh: true,
+                    onUpdate: (self) => {
+                        const progress = self.progress;
+                        const colCount = 8;
+                        const rawIndex = progress * colCount;
+                        const activeIndex = Math.min(Math.floor(rawIndex), colCount - 1);
+
+                        // 2. HIGHLIGHT & EMOJI DROP ("TAPKE")
+                        const wrappers = gsap.utils.toArray('.jm-emotion-wrapper');
+                        const headers = gsap.utils.toArray('.jm-phase-header');
+                        const highlight = document.getElementById('jm-active-col');
+
+                        if (highlight) {
+                            const colW = 300, gap = 15;
+                            const leftPos = 120 + 40 + (activeIndex * (colW + gap));
+                            gsap.to(highlight, { left: leftPos, width: colW, opacity: 1, duration: 0.3, overwrite: "auto" });
+                        }
+
+                        headers.forEach((h, i) => h.classList.toggle('active', i === activeIndex));
+
+                        wrappers.forEach((wrap, i) => {
+                            if (activeIndex === i) {
+                                gsap.to(wrap, { y: 0, opacity: 1, duration: 0.8, ease: "bounce.out", overwrite: "auto" });
+                            } else {
+                                gsap.to(wrap, { y: -40, opacity: 0.2, duration: 0.4, overwrite: "auto" });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+
+        // SOLUTION TRANSITION ANIMATIONS ( Alright So, What Is... )
+        const solIntroTL = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#sol-intro-trigger",
+                start: "top 70%",
+            }
+        });
+
+        solIntroTL.to(".sol-intro-heading .word", {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.1,
+            ease: "expo.out"
+        })
+            .to(".sol-intro-subtext", {
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                duration: 1,
+                ease: "power3.out"
+            }, "-=0.6")
+            .to(".sol-intro-final", {
+                opacity: 1,
+                duration: 0.8,
+                ease: "power2.out"
+            }, "-=0.4");
+
+        // Floating Emoji Animation
+        gsap.to(".sol-intro-emoji", {
+            y: -15,
+            rotation: 10,
+            duration: 2.5,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+    </script>
+</body>
+
+</html>
