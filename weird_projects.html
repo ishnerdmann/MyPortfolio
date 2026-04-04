@@ -197,9 +197,13 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            perspective: 1200px;
         }
-        .bento-card:hover { transform: scale(0.98); }
+        .bento-card:hover { 
+            transform: translateY(-8px) scale(0.99); 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
 
         .b-purple { background: #9d66ff; }
         .b-lime { background: #ccff66; color: #000; }
@@ -208,6 +212,13 @@
 
         .bento-img {
             position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s ease;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+        .bento-card:hover .bento-img {
+            transform: scale(1.15);
+            opacity: 1;
         }
 
         .b-text-big { font-family: 'Epilogue', sans-serif; font-weight: 900; font-size: 2.5rem; text-transform: uppercase; line-height: 0.9; }
@@ -343,15 +354,6 @@
         .mw-title { font-size: clamp(24px, 2.5vw, 32px); font-weight: 500; color: #fff; opacity: 0.4; margin: 0; transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
         .more-work-card:hover .mw-title { color: #ff6a00; opacity: 1; transform: translateX(12px); }
 
-        #id-preview {
-            position: fixed; width: 340px; height: 210px; top: 0; left: 0;
-            pointer-events: none; z-index: 10000; opacity: 0;
-            transform: scale(0.9) translate(-50%, -50%);
-            border-radius: 4px; overflow: hidden;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        #id-preview img { width: 100%; height: 100%; object-fit: cover; }
     </style>
 </head>
 <body>
@@ -406,90 +408,62 @@
             <div class="bento-grid">
                 <!-- Row 1 -->
                 <div class="bento-card b-purple" data-reveal="up">
-                    <img src="weird_project/10.JPG" class="bento-img">
+                    <img src="weird_project/10.JPG" class="bento-img" loading="lazy">
                 </div>
 
-                <div class="bento-card b-dark" style="align-items: center; justify-content: center;" data-reveal="up">
-                    <div class="b-circular-text">
-                        <svg viewBox="0 0 100 100" width="100" height="100">
+                <div class="bento-card" style="align-items: center; justify-content: center; background: transparent; border: 1px solid rgba(255,255,255,0.05);" data-reveal="up">
+                    <div class="b-circular-text" style="width: 140px; height: 140px; border-color: rgba(255, 106, 0, 0.2);">
+                        <svg viewBox="0 0 100 100" width="140" height="140">
                             <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
-                            <text font-family="Space Mono" font-size="10" fill="white">
-                                <textPath xlink:href="#circlePath">MORE PROJECTS • MORE PROJECTS •</textPath>
+                            <text font-family="'Times New Roman', serif" font-style="italic" font-size="9" fill="#ff6a00" font-weight="600">
+                                <textPath xlink:href="#circlePath">WEIRD PROJECTS • WEIRD PROJECTS •</textPath>
                             </text>
                         </svg>
                     </div>
                 </div>
 
                 <div class="bento-card b-dark card-large-v" data-reveal="up">
-                    <ul class="bento-list">
-                        <li>CATEGORIES</li>
-                        <li>PAYMENT</li>
-                        <li>AUTHORS</li>
-                        <li style="color: #ff6a00; opacity: 1;">AUCTION ↗</li>
-                        <li>SALES</li>
-                        <li>REVIEWS</li>
-                    </ul>
-                    <span class="b-mono">CONTACTS</span>
+                    <img src="weird_project/6.JPG" class="bento-img" loading="lazy">
                 </div>
 
-                <div class="bento-card b-purple" style="padding: 20px; flex-direction: row; align-items: center; gap: 15px;" data-reveal="up">
-                    <div style="background: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">☺</div>
-                    <span class="b-mono" style="font-size: 8px; line-height: 1.2;">Only exclusive illustrations.</span>
+                <div class="bento-card b-purple" data-reveal="up">
+                    <img src="weird_project/3.JPG" class="bento-img" loading="lazy">
                 </div>
 
                 <!-- Row 2 -->
                 <div class="bento-card b-dark card-large-v" data-reveal="up">
-                    <img src="weird_project/8.JPG" class="bento-img">
+                    <img src="weird_project/8.JPG" class="bento-img" loading="lazy">
                 </div>
 
                 <div class="bento-card b-dark" data-reveal="up">
-                    <span class="b-mono">1217 PURRWEB STREET, LA</span>
-                    <h3 class="b-text-big" style="font-size: 1.2rem; margin-top: 20px;">FIRST EXHIBITION OF ILLUSTRATIONS OFFLINE</h3>
+                    <img src="weird_project/9.JPG" class="bento-img" loading="lazy">
                 </div>
 
                 <div class="bento-card b-lime card-large-v" data-reveal="up">
-                    <img src="weird_project/11.PNG" class="bento-img">
+                    <img src="weird_project/11.PNG" class="bento-img" loading="lazy">
                 </div>
 
                 <!-- Row 3 -->
-                <div class="bento-card b-dark" style="justify-content: center; align-items: center;" data-reveal="up">
-                   <div style="display: flex; gap: 10px;">
-                        <span style="font-size: 30px;">☺</span>
-                        <span style="font-size: 30px;">☺</span>
-                        <span style="font-size: 30px;">☺</span>
-                   </div>
+                <div class="bento-card b-dark" data-reveal="up">
+                    <img src="weird_project/12.JPG" class="bento-img" loading="lazy">
                 </div>
 
                 <div class="bento-card b-purple" data-reveal="up">
-                    <span class="b-mono">VISUAL EXPERIMENTS</span>
-                    <h3 class="b-text-big" style="font-size: 1.1rem; margin-top: 15px;">ARTIFACT_09</h3>
+                    <img src="weird_project/2.JPG" class="bento-img" loading="lazy">
                 </div>
 
-                <div class="bento-card b-white card-large-h" data-reveal="up">
-                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                        <div>
-                            <h2 class="b-text-big" style="font-size: 1.8rem; color: #000;">ONLY THE BEST AUTHORS</h2>
-                            <p class="b-mono" style="color: #000; opacity: 0.5;">184 guys with a unique vision</p>
-                        </div>
-                        <div style="text-align: right;">
-                            <span style="font-size: 4rem; font-weight: 900;">4.97</span>
-                        </div>
+                <div class="bento-card card-large-h" style="background: transparent; border: 1px solid rgba(255,106,0,0.05); justify-content: center;" data-reveal="up">
+                    <div style="text-align: center;">
+                        <h2 style="font-family: 'Inter', sans-serif; font-size: 2.5rem; color: #fff; letter-spacing: 6px; font-weight: 600; text-transform: uppercase; margin: 0;">WEIRD BY DESIGN</h2>
                     </div>
-                    <button style="align-self: flex-end; background: #9d66ff; color: #fff; border: none; padding: 10px 20px; border-radius: 100px; font-family: 'Space Mono'; font-size: 0.6rem;">BEST REVIEWS</button>
                 </div>
 
                 <div class="bento-card b-lime" data-reveal="up">
-                    <span class="b-mono">APPSTORE ↗</span>
-                    <p style="font-size: 0.7rem; font-weight: 600; margin-top: 10px;">Download the app and get 10% off your first purchase.</p>
+                    <img src="weird_project/7.JPG" class="bento-img" loading="lazy">
                 </div>
 
                 <div class="bento-card b-dark" data-reveal="up">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 8px; height: 8px; background: #ff6a00; border-radius: 50%; box-shadow: 0 0 10px #ff6a00; animation: scanGlow 1s infinite alternate;"></div>
-                        <span class="b-mono" style="color: #ff6a00;">SYSTEM ACTIVE</span>
-                    </div>
-                    <h3 class="b-text-big" style="font-size: 1.2rem; margin-top: 15px;">EXPERIMENTAL PHASE 04</h3>
-                    <p class="b-mono" style="margin-top: 10px;">LATENCY: 12ms</p>
+                    <img src="weird_project/4.JPG" class="bento-img" loading="lazy">
                 </div>
 
 
@@ -499,15 +473,15 @@
         <section class="more-work-section">
             <span class="more-work-label">EXPLORE MORE</span>
             <div class="more-work-grid">
-                <a href="branding.html" class="more-work-card" data-preview="branding_assets/culture-bg-hero.png">
+                <a href="branding.html" class="more-work-card">
                     <span class="mw-cat">BRAND IDENTITY</span>
                     <h3 class="mw-title">Branding <span>↗</span></h3>
                 </a>
-                <a href="ui-ux.html" class="more-work-card" data-preview="ui_case_study/hero (2).png">
+                <a href="ui-ux.html" class="more-work-card">
                     <span class="mw-cat">INTERFACE DESIGN</span>
-                    <h3 class="mw-title">UI / UX <span>↗</span></h3>
+                    <h3 class="mw-title">UI / UX DESIGN <span>↗</span></h3>
                 </a>
-                <a href="illustration.html" class="more-work-card" data-preview="ill.JPG">
+                <a href="illustration.html" class="more-work-card">
                     <span class="mw-cat">DIGITAL ART</span>
                     <h3 class="mw-title">Illustration <span>↗</span></h3>
                 </a>
@@ -515,19 +489,11 @@
         </section>
     </main>
 
-    <div id="id-preview"><img src="" id="id-preview-img"></div>
 
     <script>
         const lenis = new Lenis();
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
-
-        // GSAP CONFIG
-        gsap.registerPlugin(ScrollTrigger);
-
-        // PREVIEW LOGIC
-        const preview = document.getElementById('id-preview');
-        const previewImg = document.getElementById('id-preview-img');
 
         // GSAP CONFIG
         gsap.registerPlugin(ScrollTrigger);
@@ -561,6 +527,38 @@
             if(navItems[index]) navItems[index].classList.add('active');
         }
 
+        // BENTO TILT EFFECT
+        document.querySelectorAll('.bento-card').forEach(card => {
+            const img = card.querySelector('.bento-img');
+            if(!img) return;
+
+            card.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = card.getBoundingClientRect();
+                const x = (e.clientX - left) / width - 0.5;
+                const y = (e.clientY - top) / height - 0.5;
+
+                gsap.to(img, {
+                    x: x * 30,
+                    y: y * 30,
+                    rotationY: x * 10,
+                    rotationX: -y * 10,
+                    duration: 0.6,
+                    ease: "power2.out"
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                gsap.to(img, {
+                    x: 0,
+                    y: 0,
+                    rotationY: 0,
+                    rotationX: 0,
+                    duration: 0.6,
+                    ease: "power2.out"
+                });
+            });
+        });
+
         // STAGGER PROJECTS REVEAL
         gsap.from(".more-work-card", {
             opacity: 0, y: 40, duration: 1.2, stagger: 0.15, ease: "expo.out",
@@ -578,17 +576,6 @@
                     trigger: el,
                     start: "top 90%",
                 }
-            });
-        });
-
-        document.querySelectorAll('.more-work-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const img = card.getAttribute('data-preview');
-                previewImg.src = img;
-                gsap.to(preview, { opacity: 1, x: e.clientX, y: e.clientY, scale: 1, duration: 0.4, ease: "power2.out" });
-            });
-            card.addEventListener('mouseleave', () => {
-                gsap.to(preview, { opacity: 0, scale: 0.9, duration: 0.3 });
             });
         });
 

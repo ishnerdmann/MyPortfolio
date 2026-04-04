@@ -86,20 +86,20 @@ const init = () => {
     let greetingsDone = false;
     let loaderGreetingTimer = null;
     
-    const typeWord = (word, callback) => {
+        const typeWord = (word, callback) => {
         let i = 0;
         greetingEl.innerText = "";
-        gsap.to(greetingEl, { opacity: 1, duration: 0.3 }); // Make it visible
+        gsap.to(greetingEl, { opacity: 1, duration: 0.3 });
         
         loaderGreetingTimer = setInterval(() => {
             if (i >= word.length) {
                 clearInterval(loaderGreetingTimer);
-                setTimeout(callback, 1200); // Wait 1.2s before erasing
+                setTimeout(callback, 1000); 
                 return;
             }
             greetingEl.innerText += word[i];
             i++;
-        }, 180); // Slower typing (180ms per char)
+        }, 150); 
     };
 
     const eraseWord = (callback) => {
@@ -107,11 +107,11 @@ const init = () => {
             let text = greetingEl.innerText;
             if (text.length === 0) {
                 clearInterval(loaderGreetingTimer);
-                setTimeout(callback, 400); // Brief pause before next typing
+                setTimeout(callback, 300);
                 return;
             }
             greetingEl.innerText = text.substring(0, text.length - 1);
-        }, 100); // Speed of erasing
+        }, 80);
     };
 
     const checkFinalReveal = () => {
@@ -130,41 +130,38 @@ const init = () => {
         if (loaderGreetingTimer) clearInterval(loaderGreetingTimer);
         document.getElementById('loader').style.display = 'none';
         
-        gsap.to(camera.position, { z: 10, duration: 2, ease: 'expo.out' });
-        gsap.to(camera, { fov: 75, duration: 2, ease: 'expo.out', onUpdate: () => camera.updateProjectionMatrix() });
+        gsap.to(camera.position, { z: 10, duration: 1.5, ease: 'expo.out' });
+        gsap.to(camera, { fov: 75, duration: 1.5, ease: 'expo.out', onUpdate: () => camera.updateProjectionMatrix() });
 
         const tl = gsap.timeline();
-        tl.from('.sub-heading', { y: 20, opacity: 0, duration: 1, ease: 'power3.out' })
-          .from('.main-heading', { y: 100, opacity: 0, duration: 1, ease: 'expo.out' }, '-=0.5')
-          .from('.italic', { x: -20, opacity: 0, duration: 1, ease: 'power2.out' }, '-=0.8')
-          .from('.scroll-hint', { y: -20, opacity: 0, duration: 1 }, '-=0.5');
+        tl.from('.sub-heading', { y: 20, opacity: 0, duration: 0.8, ease: 'power3.out' })
+          .from('.main-heading', { y: 100, opacity: 0, duration: 1, ease: 'expo.out' }, '-=0.4')
+          .from('.italic', { x: -20, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.6')
+          .from('.scroll-hint', { y: -20, opacity: 0, duration: 0.8 }, '-=0.3');
 
-        setTimeout(type, 1000);
+        setTimeout(type, 800);
         ScrollTrigger.refresh();
     };
 
     const startGreetingSequence = () => {
         if (!greetingEl) return;
 
-        // DYNAMIC FONT SWITCH
         const currentWord = greetings[currentGreetingIdx];
         if (currentWord === "Olá") {
             greetingEl.style.fontFamily = "'Caveat', cursive";
         } else if (currentWord === "नमस्ते") {
-            greetingEl.style.fontFamily = "'Kalam', cursive"; // Beautiful Hindi Handwritten
+            greetingEl.style.fontFamily = "'Kalam', cursive"; 
         } else {
             greetingEl.style.fontFamily = "'Momo Signature', cursive";
         }
         
         typeWord(currentWord, () => {
-            // Typing finished, update progress for this milestone
             const progressPerWord = 100 / greetings.length;
             const targetProgress = Math.round((currentGreetingIdx + 1) * progressPerWord);
             
             gsap.to(window, {
-                duration: 1,
+                duration: 0.8,
                 onUpdate: () => {
-                    // Gradual move to target %
                     if (currentProgress < targetProgress) {
                         currentProgress++;
                         const percentEl = document.getElementById('side-percent');
@@ -178,26 +175,24 @@ const init = () => {
                 currentGreetingIdx++;
                 if (currentGreetingIdx >= greetings.length) {
                     greetingsDone = true;
-                    currentProgress = 100; // Force final
+                    currentProgress = 100;
                     document.getElementById('side-percent').innerText = '100%';
                     gsap.set('#loader-bar', { width: '100%' });
                     
-                    // SHOW WAVING HAND 👋
                     greetingEl.innerText = "👋";
                     greetingEl.style.fontFamily = "sans-serif";
-                    greetingEl.style.fontSize = "60px";
+                    greetingEl.style.fontSize = "50px";
                     gsap.fromTo(greetingEl, 
                         { rotation: -20 }, 
-                        { rotation: 20, duration: 0.5, repeat: -1, yoyo: true, ease: 'power1.inOut' }
+                        { rotation: 20, duration: 0.4, repeat: -1, yoyo: true, ease: 'power1.inOut' }
                     );
-                    gsap.to(greetingEl, { opacity: 1, y: 0, duration: 0.5 });
+                    gsap.to(greetingEl, { opacity: 1, y: 0, duration: 0.4 });
 
                     checkFinalReveal();
                     
-                    // AUTO REVEAL AFTER 2 SECONDS (CINEMATIC)
                     setTimeout(() => {
                         triggerParticleReveal();
-                    }, 2500);
+                    }, 1500);
 
                     return;
                 }
