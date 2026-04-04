@@ -25,53 +25,49 @@
             cursor: none;
         }
 
-        .cat-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 30px 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .back-link {
-            text-decoration: none;
-            color: #fff;
-            font-size: 0.65rem;
-            letter-spacing: 3px;
-            font-weight: 900;
-            opacity: 0.5;
-            transition: opacity 0.3s;
-        }
-
-        .back-link:hover {
-            opacity: 1;
-        }
-
         /* CUSTOM COMET CURSOR */
         #cursor-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 9998;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9998;
+        }
+        #cursor {
+            position: fixed; width: 10px; height: 10px; background: #fff;
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            box-shadow: 0 0 15px #fff, 0 0 30px #ff6a00;
+            transform: translate(-50%, -50%);
+            left: 0; top: 0;
         }
 
-        #cursor {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #fff;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            box-shadow: 0 0 15px #fff, 0 0 30px var(--secondary-accent-hero);
-            transform: translate(-50%, -50%);
+        /* CASE-SPECIFIC LIQUID GLASS NAV */
+        .liquid-nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 25px 8vw; z-index: 10000;
+            background: rgba(0, 0, 0, 0.05); backdrop-filter: blur(25px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.5s ease; border-radius: 0; transform: none;
+        }
+        
+        .ln-left { display: flex; align-items: center; gap: 15px; }
+        .ln-logo { font-size: 16px; font-weight: 700; letter-spacing: 2px; color: #fff; text-transform: uppercase; text-decoration: none; font-family: 'Space Mono', monospace; }
+        .ln-project { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; font-family: 'Space Mono', monospace; }
+
+        .ln-right { display: flex; align-items: center; gap: 40px; }
+        .ln-item {
+            text-decoration: none; font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.5); text-transform: uppercase; 
+            transition: all 0.4s ease; padding: 0; background: none; border-radius: 0;
+            font-family: 'Space Mono', monospace;
+        }
+        .ln-item:hover, .ln-item.active { color: #fff; transform: none; background: none; }
+        .ln-item.active { color: #ff8800; border-bottom: 1.5px solid #ff8800; padding-bottom: 5px; }
+
+        .ln-resume { color: #ff8800 !important; font-weight: 900; }
+        .ln-resume:hover { text-shadow: 0 0 15px rgba(255,136,0,0.5); }
+
+        @media (max-width: 800px) {
+            .ln-right { gap: 20px; }
+            .ln-project { display: none; }
         }
 
         /* HERO FULL (BRANDING STYLE) */
@@ -3037,9 +3033,19 @@
     <canvas id="cursor-canvas"></canvas>
     <div id="cursor"></div>
 
-    <nav class="cat-nav">
-        <a href="index.html?skipLoader=true" class="back-link">BACK TO HOME</a>
-        <a href="https://your-resume-link.com" target="_blank" class="resume-btn">RESUME ↗</a>
+    <!-- CASE-SPECIFIC LIQUID GLASS NAV -->
+    <nav class="liquid-nav">
+        <div class="ln-left">
+            <a href="index.html?skipLoader=true" class="ln-logo">← BACK</a>
+            <span class="ln-project">/ KLAY CASE STUDY</span>
+        </div>
+        <div class="ln-right">
+            <a href="#overview-trigger" class="ln-item active">Overview</a>
+            <a href="#research-trigger" class="ln-item">Research</a>
+            <a href="#process-trigger" class="ln-item">Process</a>
+            <a href="#solution-trigger" class="ln-item">Interface</a>
+            <a href="https://your-resume-link.com" target="_blank" class="ln-item ln-resume">RESUME ↗</a>
+        </div>
     </nav>
 
     <main>
@@ -3047,14 +3053,14 @@
         <section class="hero-full">
             <div class="hero-bg-container">
                 <div class="space-bg-branding"></div>
-                <div class="hero-bg-image" style="background-image: url('UI case study new page/hero (2).png');"></div>
+                <div class="hero-bg-image" style="background-image: url('ui_case_study/hero (2).png');"></div>
                 <div class="hero-purple-glow"></div>
                 <div class="hero-grain"></div>
             </div>
         </section>
 
         <!-- PREMIUM CASE STUDY SECTION -->
-        <section class="case-study-section">
+        <section class="case-study-section" id="overview-trigger">
             <div class="cs-atmosphere"></div>
             <div class="cs-container">
                 <div class="cs-left" data-reveal="up">
@@ -3086,7 +3092,7 @@
 
 
         <!-- PROJECT TIMELINE SECTION (ADVANCED STAGGERED) -->
-        <section class="timeline-section">
+        <section class="timeline-section" id="research-trigger">
             <div class="timeline-atmosphere"></div>
             <div class="timeline-container">
                 <div class="timeline-title-wrap">
@@ -3239,7 +3245,7 @@
                 <div class="story-image-wrap" data-reveal="up"
                     style="margin-top: 28px; width: 100%; display: flex; justify-content: center; position: relative;">
                     <div class="story-bg-glow"></div>
-                    <img src="UI case study new page/storyboard.png" alt="Storyboard"
+                    <img src="ui_case_study/storyboard.png" alt="Storyboard"
                         style="width: 100%; max-width: 900px; border-radius: 24px; box-shadow: 0 40px 100px rgba(0,0,0,0.5); object-fit: contain; position: relative; z-index: 2;">
                 </div>
             </div>
@@ -3633,7 +3639,7 @@
 
 
         <!-- JOURNEY MAP SECTION -->
-        <section class="journey-map-section" id="journey-pin-trigger">
+        <section class="journey-map-section" id="process-trigger">
             <div class="jm-pinned-section">
                 <div class="jm-scroll-master" id="jm-horizontal-track">
                     <div class="jm-table-container">
@@ -3836,7 +3842,7 @@
         </section>
 
         <!-- SOLUTION TRANSITION SECTION -->
-        <section class="sol-intro-section" id="sol-intro-trigger">
+        <section class="sol-intro-section" id="solution-trigger">
             <div class="sol-intro-container">
                 <h1 class="sol-intro-heading">
                     <span class="line">
@@ -3884,7 +3890,7 @@
                         <!-- LARGE IMPACTFUL IMAGE -->
                         <div class="sh-card-img-wrap"
                             style="flex: 1.2; border: none; background: transparent; display: flex; justify-content: center; align-items: flex-end; margin-top: 40px;">
-                            <img src="UI case study new page/11.png" alt="Klay Macbook Preview"
+                            <img src="ui_case_study/11.png" alt="Klay Macbook Preview"
                                 style="width: 100%; height: auto; transform: translateY(20px) scale(1.1); filter: drop-shadow(0 30px 60px rgba(0,0,0,0.6));">
                         </div>
                     </div>
@@ -3899,7 +3905,7 @@
                                 analysis.</p>
                         </div>
                         <div class="sh-card-img-wrap" style="flex: 1; height: 100%; margin-top: 0; margin-left: 20px;">
-                            <img src="UI case study new page/9.png" alt="AI Analysis">
+                            <img src="ui_case_study/9.png" alt="AI Analysis">
                         </div>
                     </div>
 
@@ -3911,7 +3917,7 @@
                             <p class="sh-card-text">Capture fonts, styles, and hierarchy instantly.</p>
                         </div>
                         <div class="sh-card-img-wrap" style="flex: 1; height: 100%; margin-top: 0; margin-left: 20px;">
-                            <img src="UI case study new page/4.png" alt="Typography Analysis">
+                            <img src="ui_case_study/4.png" alt="Typography Analysis">
                         </div>
                     </div>
 
@@ -3924,7 +3930,7 @@
                                 system. Structured, searchable, and easy to revisit.</p>
                         </div>
                         <div class="sh-card-img-wrap" style="flex: 2; height: 100%; margin-top: 0;">
-                            <img src="UI case study new page/12.png" alt="Multi Browser Collage">
+                            <img src="ui_case_study/12.png" alt="Multi Browser Collage">
                         </div>
                     </div>
                 </div>
@@ -3938,10 +3944,10 @@
                 <div class="logo-assembly-wrap">
                     <div class="reveal-bg-glow" id="warp-glow"></div>
                     <!-- Vector Fragments as provided in the folder -->
-                    <img src="UI case study new page/Vector-1.png" class="logo-part part-1" alt="Logo Vector 1">
-                    <img src="UI case study new page/Vector-2.png" class="logo-part part-2" alt="Logo Vector 2">
+                    <img src="ui_case_study/Vector-1.png" class="logo-part part-1" alt="Logo Vector 1">
+                    <img src="ui_case_study/Vector-2.png" class="logo-part part-2" alt="Logo Vector 2">
                     <!-- The full logo to snap into -->
-                    <img src="UI case study new page/full logo.png" class="logo-part part-main-img"
+                    <img src="ui_case_study/full logo.png" class="logo-part part-main-img"
                         alt="Full Klay Logo">
                 </div>
 
@@ -3965,7 +3971,7 @@
         <section class="more-work-section">
             <span class="more-work-label">EXPLORE MORE PROJECTS</span>
             <div class="more-work-grid">
-                <a href="branding.html" class="more-work-card" data-preview="branding new page/culture-bg-hero.png">
+                <a href="branding.html" class="more-work-card" data-preview="branding_assets/culture-bg-hero.png">
                     <span class="mw-cat">BRAND IDENTITY</span>
                     <h3 class="mw-title">Branding <span>↗</span></h3>
                 </a>
@@ -3974,10 +3980,10 @@
                     <span class="mw-cat">DIGITAL ART</span>
                     <h3 class="mw-title">Illustration <span>↗</span></h3>
                 </a>
-                <a href="motion.html" class="more-work-card"
-                    data-preview="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800">
-                    <span class="mw-cat">VISUAL MOTION</span>
-                    <h3 class="mw-title">Motion Graphics <span>↗</span></h3>
+                <a href="weird_projects.html" class="more-work-card"
+                    data-preview="weird_project/1.jpg">
+                    <span class="mw-cat">SPECIAL EXPERIMENTS</span>
+                    <h3 class="mw-title">Weird Projects <span>↗</span></h3>
                 </a>
             </div>
         </section>
@@ -3987,19 +3993,7 @@
             <img src="" id="id-preview-img">
         </div>
 
-        <footer class="cat-footer">
-            <div class="footer-links-row" style="display: flex; justify-content: space-between; align-items: flex-end;">
-                <div class="footer-col" style="display: flex; gap: 40px;">
-                    <a href="#" class="f-link monospaced"
-                        style="text-decoration: none; color: #fff; opacity: 0.5; font-size: 0.7rem;">INSTAGRAM</a>
-                    <a href="#" class="f-link monospaced"
-                        style="text-decoration: none; color: #fff; opacity: 0.5; font-size: 0.7rem;">BEHANCE</a>
-                </div>
-                <button class="top-btn" onclick="lenis.scrollTo(0)"
-                    style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 20px; border-radius: 100px; cursor: pointer; font-size: 0.6rem; letter-spacing: 2px;">BACK
-                    TO TOP ↑</button>
-            </div>
-        </footer>
+
     </main>
 
     <script>
@@ -4260,7 +4254,7 @@
                     let p1 = history[i], p2 = history[i + 1]; p1.age += 1;
                     let alpha = Math.max(0, 1 - (history.length - i) * 0.04), lineWidth = Math.max(0.5, i * 0.5);
                     ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
-                    ctx.strokeStyle = `rgba(118, 112, 254, ${alpha})`;
+                    ctx.strokeStyle = `rgba(255, 106, 0, ${alpha})`;
                     ctx.lineWidth = lineWidth; ctx.lineCap = 'round'; ctx.stroke();
                 }
                 history = history.filter(p => p.age < 20);
@@ -4636,6 +4630,28 @@
             ease: "sine.inOut"
         });
 
+        // --- LIQUID NAV ACTIVE STATE ---
+        const sections = ['overview-trigger', 'research-trigger', 'process-trigger', 'solution-trigger'];
+        const navItems = document.querySelectorAll('.ln-item');
+
+        sections.forEach((id) => {
+            ScrollTrigger.create({
+                trigger: `#${id}`,
+                start: "top 20%",
+                end: "bottom 20%",
+                onEnter: () => setActive(id),
+                onEnterBack: () => setActive(id),
+            });
+        });
+
+        function setActive(id) {
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === `#${id}`) {
+                    item.classList.add('active');
+                }
+            });
+        }
     </script>
 </body>
 

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weird Projects | Design Nerd</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;600;900&family=Playfair+Display:ital,wght@1,400..900&family=Inter:wght@100..900&family=Space+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <style>
+        body { background: #000; overflow-x: hidden; font-family: 'Inter', sans-serif; cursor: none; }
+        
+        /* CUSTOM COMET CURSOR */
+        #cursor-canvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9998;
+        }
+        #cursor {
+            position: fixed; width: 10px; height: 10px; background: #fff;
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            box-shadow: 0 0 15px #fff, 0 0 30px #ff6a00;
+            transform: translate(-50%, -50%);
+            left: 0; top: 0;
+        }
+        .cat-nav { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; mix-blend-mode: difference; }
+        .back-link { text-decoration: none; color: #fff; font-size: 0.65rem; letter-spacing: 3px; font-weight: 900; opacity: 1; transition: opacity 0.3s; font-family: 'Space Mono', monospace; }
+        .back-link:hover { opacity: 0.7; }
+
+        /* --- HERO SECTION --- */
+        /* CASE-SPECIFIC LIQUID GLASS NAV */
+        .liquid-nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 25px 8vw; z-index: 10000;
+            background: rgba(0, 0, 0, 0.05); backdrop-filter: blur(25px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.5s ease;
+        }
+        
+        .ln-left { display: flex; align-items: center; gap: 15px; }
+        .ln-logo { font-size: 16px; font-weight: 700; letter-spacing: 2px; color: #fff; text-transform: uppercase; text-decoration: none; font-family: 'Space Mono', monospace; }
+        .ln-project { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; font-family: 'Space Mono', monospace; }
+
+        .ln-right { display: flex; align-items: center; gap: 40px; }
+        .ln-item {
+            text-decoration: none; font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.5); text-transform: uppercase; 
+            transition: all 0.4s ease; font-family: 'Space Mono', monospace;
+        }
+        .ln-item:hover, .ln-item.active { color: #fff; }
+        .ln-item.active { color: #ff8800; border-bottom: 2px solid #ff8800; padding-bottom: 5px; }
+
+        @media (max-width: 800px) {
+            .ln-right { gap: 20px; }
+            .ln-project { display: none; }
+        }
+
+        .hero-full {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .bg-image-container {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: #000;
+        }
+
+        .bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            background-image: url('weird_project/1.jpg');
+            background-position: center;
+            background-size: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.6) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            width: 84vw;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .hero-title {
+            font-family: 'Epilogue', sans-serif;
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            line-height: 1;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            color: #fff;
+            position: relative;
+            animation: weirdGlitch 3s infinite alternate;
+        }
+
+        .hero-title::before,
+        .hero-title::after {
+            content: 'WEIRD PROJECTS';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0.9;
+            pointer-events: none;
+        }
+
+        .hero-title::before {
+            color: #ff00ff;
+            z-index: -1;
+            animation: glitchSlicing 0.4s infinite alternate;
+            mix-blend-mode: screen;
+            clip-path: rect(10% auto 40% auto);
+        }
+
+        .hero-title::after {
+            color: #00ffff;
+            z-index: -2;
+            animation: glitchSlicing 0.3s infinite reverse alternate;
+            mix-blend-mode: screen;
+            clip-path: rect(60% auto 90% auto);
+        }
+
+        @keyframes weirdGlitch {
+            0%, 80%, 100% { transform: skew(0deg); filter: contrast(1); }
+            82% { transform: skew(5deg); filter: contrast(2); }
+            84% { transform: skew(-5deg) scale(1.05); filter: hue-rotate(90deg); }
+            86% { transform: skew(15deg); filter: blur(2px); }
+            88% { transform: skew(-15deg) scale(0.95); filter: contrast(3); }
+            90% { transform: translateX(10px); }
+            92% { transform: translateX(-10px); }
+        }
+
+        @keyframes glitchSlicing {
+            0% { clip-path: inset(10% 0 85% 0); transform: translate(-2px, 2px); }
+            20% { clip-path: inset(33% 0 45% 0); transform: translate(2px, -2px); }
+            40% { clip-path: inset(50% 0 10% 0); transform: translate(-5px, 5px); }
+            60% { clip-path: inset(80% 0 5% 0); transform: translate(5px, -5px); }
+            80% { clip-path: inset(15% 0 70% 0); transform: translate(-2px, 2px); }
+            100% { clip-path: inset(45% 0 30% 0); transform: translate(2px, -2px); }
+        }
+
+        @keyframes fluidColor {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+
+        /* --- MORE WORK SECTION --- */
+        .more-work-section {
+            background: #000;
+            padding: 120px 8vw;
+            position: relative;
+            z-index: 20;
+        }
+        .more-work-label { font-size: 11px; letter-spacing: 4px; opacity: 0.4; display: block; margin-bottom: 48px; font-family: 'Space Mono', monospace; text-transform: uppercase; }
+        /* BENTO GRID SECTION */
+        .bento-section {
+            padding: 80px 8vw;
+            background: #000;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(180px, auto);
+            gap: 20px;
+        }
+
+        .bento-card {
+            border-radius: 40px;
+            padding: 30px;
+            background: #111;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .bento-card:hover { transform: scale(0.98); }
+
+        .b-purple { background: #9d66ff; }
+        .b-lime { background: #ccff66; color: #000; }
+        .b-dark { background: #1a1a1a; }
+        .b-white { background: #fff; color: #000; }
+
+        .bento-img {
+            position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .b-text-big { font-family: 'Epilogue', sans-serif; font-weight: 900; font-size: 2.5rem; text-transform: uppercase; line-height: 0.9; }
+        .b-mono { font-family: 'Space Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; }
+
+        .b-circular-text {
+            width: 120px; height: 120px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            animation: rotate 10s linear infinite;
+        }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes scanGlow { from { opacity: 0.2; transform: scaleX(0.8); } to { opacity: 1; transform: scaleX(1); } }
+
+        /* AREAS */
+        .card-large-v { grid-row: span 2; }
+        .card-large-h { grid-column: span 2; }
+        .card-full-h { grid-column: span 3; }
+
+        .bento-list { list-style: none; padding: 0; margin-top: 20px; }
+        .bento-list li { margin-bottom: 12px; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; opacity: 0.5; transition: opacity 0.3s; }
+        .bento-list li:hover { opacity: 1; color: #ff6a00; cursor: pointer; }
+
+        .barcode { width: 100%; height: 40px; margin-top: 20px; opacity: 0.8; }
+
+        @media (max-width: 900px) {
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .card-full-h { grid-column: span 2; }
+        }
+        @media (max-width: 600px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .card-large-h, .card-full-h { grid-column: span 1; }
+        }
+
+        .showcase-card {
+            background: linear-gradient(135deg, #111 0%, #222 100%);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 60px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8), 0 0 40px rgba(255, 106, 0, 0.05);
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .showcase-card:hover { transform: translateY(-10px); }
+
+        .showcase-img-wrap {
+            flex: 1;
+            border-radius: 40px;
+            overflow: hidden;
+            height: 350px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+        }
+
+        .showcase-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s ease;
+        }
+
+        .showcase-card:hover .showcase-img { transform: scale(1.05); }
+
+        .showcase-info {
+            flex: 1;
+            color: #fff;
+        }
+
+        .showcase-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+            font-size: clamp(1.8rem, 3.5vw, 3.5rem);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .showcase-title span {
+            color: #ff6a00;
+        }
+
+        .showcase-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 500px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .showcase-arrow {
+            font-size: 2.5rem;
+            display: inline-block;
+            transition: transform 0.4s ease, color 0.4s ease;
+            color: #fff;
+            opacity: 0.6;
+        }
+        .showcase-card:hover .showcase-arrow { 
+            transform: translateX(15px); 
+            color: #ff6a00;
+            opacity: 1;
+        }
+
+        .showcase-link-wrap {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .showcase-behance-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            text-transform: uppercase;
+            color: #fff;
+            transition: all 0.4s ease;
+        }
+
+        .showcase-card:hover .showcase-behance-text {
+            opacity: 1;
+            color: #ff6a00;
+        }
+
+        .more-work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+        .more-work-card { display: flex; flex-direction: column; align-items: flex-start; padding: 56px 48px; text-decoration: none; transition: background 0.4s ease; position: relative; }
+        .more-work-card:hover { background: rgba(255,255,255,0.02); }
+        .mw-cat { font-family: 'Space Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+        .mw-title { font-size: clamp(24px, 2.5vw, 32px); font-weight: 500; color: #fff; opacity: 0.4; margin: 0; transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
+        .more-work-card:hover .mw-title { color: #ff6a00; opacity: 1; transform: translateX(12px); }
+
+        #id-preview {
+            position: fixed; width: 340px; height: 210px; top: 0; left: 0;
+            pointer-events: none; z-index: 10000; opacity: 0;
+            transform: scale(0.9) translate(-50%, -50%);
+            border-radius: 4px; overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        #id-preview img { width: 100%; height: 100%; object-fit: cover; }
+    </style>
+</head>
+<body>
+    <nav class="liquid-nav">
+        <div class="ln-left">
+            <a href="index.html?skipLoader=true" class="ln-logo">DESIGN NERD</a>
+            <span class="ln-project">/ WEIRD PROJECTS</span>
+        </div>
+        <div class="ln-right">
+            <a href="#hero" class="ln-item active">OVERVIEW</a>
+            <a href="#showcase" class="ln-item">SHOWCASE</a>
+            <a href="#bento" class="ln-item">BENTO</a>
+            <a href="https://your-resume-link.com" target="_blank" class="ln-item" style="color: #ff8800;">RESUME ↗</a>
+        </div>
+    </nav>
+
+    <canvas id="cursor-canvas"></canvas>
+    <div id="cursor"></div>
+
+    <main>
+        <section id="hero" class="hero-full">
+            <div class="bg-image-container">
+                <div class="bg-image"></div>
+            </div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title" data-gsap="reveal-hero">WEIRD PROJECTS</h1>
+            </div>
+        </section>
+
+        <!-- NEW SHOWCASE SECTION -->
+        <section id="showcase" class="project-showcase">
+            <a href="https://www.behance.net/gallery/230499187/Nirdesh" target="_blank" style="text-decoration: none;">
+                <div class="showcase-card" data-reveal="up">
+                    <div class="showcase-img-wrap">
+                        <img src="weird_project/13.jpg" class="showcase-img" alt="Accessibility Project">
+                    </div>
+                    <div class="showcase-info">
+                        <h2 class="showcase-title">Touch-Enabled Ecosystem:  <span>Accessibility Improvement</span> for the Visually Impaired</h2>
+                        <p class="showcase-desc">This special experiment focuses on haptic feedback and tactile design to bridge the digital divide for users with visual impairments.</p>
+                        <div class="showcase-link-wrap">
+                            <div class="showcase-arrow">→</div>
+                            <span class="showcase-behance-text">See full project on Behance</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </section>
+
+        <!-- BENTO GRID SECTION -->
+        <section id="bento" class="bento-section">
+            <div class="bento-grid">
+                <!-- Row 1 -->
+                <div class="bento-card b-purple" data-reveal="up">
+                    <img src="weird_project/10.JPG" class="bento-img">
+                </div>
+
+                <div class="bento-card b-dark" style="align-items: center; justify-content: center;" data-reveal="up">
+                    <div class="b-circular-text">
+                        <svg viewBox="0 0 100 100" width="100" height="100">
+                            <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
+                            <text font-family="Space Mono" font-size="10" fill="white">
+                                <textPath xlink:href="#circlePath">MORE PROJECTS • MORE PROJECTS •</textPath>
+                            </text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="bento-card b-dark card-large-v" data-reveal="up">
+                    <ul class="bento-list">
+                        <li>CATEGORIES</li>
+                        <li>PAYMENT</li>
+                        <li>AUTHORS</li>
+                        <li style="color: #ff6a00; opacity: 1;">AUCTION ↗</li>
+                        <li>SALES</li>
+                        <li>REVIEWS</li>
+                    </ul>
+                    <span class="b-mono">CONTACTS</span>
+                </div>
+
+                <div class="bento-card b-purple" style="padding: 20px; flex-direction: row; align-items: center; gap: 15px;" data-reveal="up">
+                    <div style="background: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">☺</div>
+                    <span class="b-mono" style="font-size: 8px; line-height: 1.2;">Only exclusive illustrations.</span>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="bento-card b-dark card-large-v" data-reveal="up">
+                    <img src="weird_project/8.JPG" class="bento-img">
+                </div>
+
+                <div class="bento-card b-dark" data-reveal="up">
+                    <span class="b-mono">1217 PURRWEB STREET, LA</span>
+                    <h3 class="b-text-big" style="font-size: 1.2rem; margin-top: 20px;">FIRST EXHIBITION OF ILLUSTRATIONS OFFLINE</h3>
+                </div>
+
+                <div class="bento-card b-lime card-large-v" data-reveal="up">
+                    <img src="weird_project/11.PNG" class="bento-img">
+                </div>
+
+                <!-- Row 3 -->
+                <div class="bento-card b-dark" style="justify-content: center; align-items: center;" data-reveal="up">
+                   <div style="display: flex; gap: 10px;">
+                        <span style="font-size: 30px;">☺</span>
+                        <span style="font-size: 30px;">☺</span>
+                        <span style="font-size: 30px;">☺</span>
+                   </div>
+                </div>
+
+                <div class="bento-card b-purple" data-reveal="up">
+                    <span class="b-mono">VISUAL EXPERIMENTS</span>
+                    <h3 class="b-text-big" style="font-size: 1.1rem; margin-top: 15px;">ARTIFACT_09</h3>
+                </div>
+
+                <div class="bento-card b-white card-large-h" data-reveal="up">
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <div>
+                            <h2 class="b-text-big" style="font-size: 1.8rem; color: #000;">ONLY THE BEST AUTHORS</h2>
+                            <p class="b-mono" style="color: #000; opacity: 0.5;">184 guys with a unique vision</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="font-size: 4rem; font-weight: 900;">4.97</span>
+                        </div>
+                    </div>
+                    <button style="align-self: flex-end; background: #9d66ff; color: #fff; border: none; padding: 10px 20px; border-radius: 100px; font-family: 'Space Mono'; font-size: 0.6rem;">BEST REVIEWS</button>
+                </div>
+
+                <div class="bento-card b-lime" data-reveal="up">
+                    <span class="b-mono">APPSTORE ↗</span>
+                    <p style="font-size: 0.7rem; font-weight: 600; margin-top: 10px;">Download the app and get 10% off your first purchase.</p>
+                </div>
+
+                <div class="bento-card b-dark" data-reveal="up">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 8px; height: 8px; background: #ff6a00; border-radius: 50%; box-shadow: 0 0 10px #ff6a00; animation: scanGlow 1s infinite alternate;"></div>
+                        <span class="b-mono" style="color: #ff6a00;">SYSTEM ACTIVE</span>
+                    </div>
+                    <h3 class="b-text-big" style="font-size: 1.2rem; margin-top: 15px;">EXPERIMENTAL PHASE 04</h3>
+                    <p class="b-mono" style="margin-top: 10px;">LATENCY: 12ms</p>
+                </div>
+
+
+            </div>
+        </section>
+
+        <section class="more-work-section">
+            <span class="more-work-label">EXPLORE MORE</span>
+            <div class="more-work-grid">
+                <a href="branding.html" class="more-work-card" data-preview="branding_assets/culture-bg-hero.png">
+                    <span class="mw-cat">BRAND IDENTITY</span>
+                    <h3 class="mw-title">Branding <span>↗</span></h3>
+                </a>
+                <a href="ui-ux.html" class="more-work-card" data-preview="ui_case_study/hero (2).png">
+                    <span class="mw-cat">INTERFACE DESIGN</span>
+                    <h3 class="mw-title">UI / UX <span>↗</span></h3>
+                </a>
+                <a href="illustration.html" class="more-work-card" data-preview="ill.JPG">
+                    <span class="mw-cat">DIGITAL ART</span>
+                    <h3 class="mw-title">Illustration <span>↗</span></h3>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <div id="id-preview"><img src="" id="id-preview-img"></div>
+
+    <script>
+        const lenis = new Lenis();
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // GSAP CONFIG
+        gsap.registerPlugin(ScrollTrigger);
+
+        // PREVIEW LOGIC
+        const preview = document.getElementById('id-preview');
+        const previewImg = document.getElementById('id-preview-img');
+
+        // GSAP CONFIG
+        gsap.registerPlugin(ScrollTrigger);
+
+        // HERO REVEAL
+        gsap.from('[data-gsap="reveal-hero"]', { y: 100, opacity: 0, duration: 1.5, ease: "expo.out", delay: 0.5 });
+        gsap.from('.bg-image', { scale: 1.1, opacity: 0, duration: 2, ease: "power2.out" });
+
+        // SHOWCASE REVEAL
+        gsap.from(".showcase-card", {
+            opacity: 0, scale: 0.95, y: 50, duration: 1.5, ease: "expo.out",
+            scrollTrigger: { trigger: "#showcase", start: "top 80%" }
+        });
+
+        // ACTIVE NAV TRACKING
+        const navItems = document.querySelectorAll('.ln-item');
+        const sections = ['#hero', '#showcase', '#bento'];
+
+        sections.forEach((id, i) => {
+            ScrollTrigger.create({
+                trigger: id,
+                start: "top 20%",
+                end: "bottom 20%",
+                onEnter: () => setActive(i),
+                onEnterBack: () => setActive(i),
+            });
+        });
+
+        function setActive(index) {
+            navItems.forEach(item => item.classList.remove('active'));
+            if(navItems[index]) navItems[index].classList.add('active');
+        }
+
+        // STAGGER PROJECTS REVEAL
+        gsap.from(".more-work-card", {
+            opacity: 0, y: 40, duration: 1.2, stagger: 0.15, ease: "expo.out",
+            scrollTrigger: { trigger: ".more-work-section", start: "top 80%" }
+        });
+        
+        // REVEAL ANIMATIONS
+        document.querySelectorAll('[data-reveal="up"]').forEach((el) => {
+            gsap.from(el, {
+                y: 50,
+                opacity: 0,
+                duration: 1.2,
+                ease: "expo.out",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 90%",
+                }
+            });
+        });
+
+        document.querySelectorAll('.more-work-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const img = card.getAttribute('data-preview');
+                previewImg.src = img;
+                gsap.to(preview, { opacity: 1, x: e.clientX, y: e.clientY, scale: 1, duration: 0.4, ease: "power2.out" });
+            });
+            card.addEventListener('mouseleave', () => {
+                gsap.to(preview, { opacity: 0, scale: 0.9, duration: 0.3 });
+            });
+        });
+
+        // CURSOR LOGIC
+        const setupCursor = () => {
+            const cursor = document.getElementById('cursor'); const canvas = document.getElementById('cursor-canvas'); const ctx = canvas.getContext('2d');
+            if(!cursor || !canvas) return; canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            let mx = window.innerWidth/2, my = window.innerHeight/2, history = [];
+            window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+            document.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; gsap.to(cursor, { x: mx, y: my, duration: 0.1, ease: "none" }); history.push({ x: mx, y: my, age: 0 }); });
+            gsap.ticker.add(() => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height); if (history.length < 2) return;
+                for(let i = 0; i < history.length - 1; i++) {
+                    let p1 = history[i], p2 = history[i+1]; p1.age += 1;
+                    let alpha = Math.max(0, 1 - (history.length - i) * 0.04), lineWidth = Math.max(0.5, i * 0.5);
+                    ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.strokeStyle = `rgba(255, 106, 0, ${alpha})`; ctx.lineWidth = lineWidth; ctx.lineCap = 'round'; ctx.stroke();
+                }
+                history = history.filter(p => p.age < 20);
+            });
+        };
+        setupCursor();
+    </script>
+</body>
+</html>

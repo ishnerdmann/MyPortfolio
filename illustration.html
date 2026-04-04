@@ -10,7 +10,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
     <style>
-        body { background: #000; overflow-x: hidden; font-family: 'Inter', sans-serif; }
+        body { background: #000; overflow-x: hidden; font-family: 'Inter', sans-serif; cursor: none; }
+        
+        /* CUSTOM COMET CURSOR */
+        #cursor-canvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9998;
+        }
+        #cursor {
+            position: fixed; width: 10px; height: 10px; background: #fff;
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            box-shadow: 0 0 15px #fff, 0 0 30px #ff6a00;
+            transform: translate(-50%, -50%);
+            left: 0; top: 0;
+        }
         .cat-nav { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; mix-blend-mode: difference; }
         .back-link { text-decoration: none; color: #fff; font-size: 0.65rem; letter-spacing: 3px; font-weight: 900; opacity: 1; transition: opacity 0.3s; font-family: 'Space Mono', monospace; }
         .back-link:hover { opacity: 0.7; }
@@ -186,6 +199,9 @@
         <a href="https://your-resume-link.com" target="_blank" class="resume-btn">RESUME ↗</a>
     </nav>
 
+    <canvas id="cursor-canvas"></canvas>
+    <div id="cursor"></div>
+
     <main>
         <section class="hero-full">
             <div class="bg-video-container">
@@ -205,7 +221,7 @@
         <section class="more-work-section">
             <span class="more-work-label">EXPLORE MORE PROJECTS</span>
             <div class="more-work-grid">
-                <a href="branding.html" class="more-work-card" data-preview="branding new page/culture-bg-hero.png">
+                <a href="branding.html" class="more-work-card" data-preview="branding_assets/culture-bg-hero.png">
                     <span class="mw-cat">BRAND IDENTITY</span>
                     <h3 class="mw-title">Branding <span>↗</span></h3>
                 </a>
@@ -213,9 +229,9 @@
                     <span class="mw-cat">INTERFACE DESIGN</span>
                     <h3 class="mw-title">UI/UX Design <span>↗</span></h3>
                 </a>
-                <a href="motion.html" class="more-work-card" data-preview="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800">
-                    <span class="mw-cat">VISUAL MOTION</span>
-                    <h3 class="mw-title">Motion Graphics <span>↗</span></h3>
+                <a href="weird_projects.html" class="more-work-card" data-preview="weird_project/1.jpg">
+                    <span class="mw-cat">SPECIAL EXPERIMENTS</span>
+                    <h3 class="mw-title">Weird Projects <span>↗</span></h3>
                 </a>
             </div>
         </section>
@@ -225,10 +241,7 @@
             <img src="" id="id-preview-img">
         </div>
 
-        <footer class="cat-footer">
-            <div class="footer-monogram">DA.</div>
-            <button class="top-btn" onclick="lenis.scrollTo(0)" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 20px; border-radius: 100px; cursor: pointer; font-size: 0.6rem; letter-spacing: 2px; float: right;">BACK TO TOP ↑</button>
-        </footer>
+
     </main>
 
     <script>
@@ -245,6 +258,25 @@
             opacity: 0, y: 40, duration: 1.2, stagger: 0.15, ease: "expo.out",
             scrollTrigger: { trigger: ".more-work-section", start: "top 80%" }
         });
+
+        // CURSOR LOGIC
+        const setupCursor = () => {
+            const cursor = document.getElementById('cursor'); const canvas = document.getElementById('cursor-canvas'); const ctx = canvas.getContext('2d');
+            if(!cursor || !canvas) return; canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            let mx = window.innerWidth/2, my = window.innerHeight/2, history = [];
+            window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+            document.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; gsap.to(cursor, { x: mx, y: my, duration: 0.1, ease: "none" }); history.push({ x: mx, y: my, age: 0 }); });
+            gsap.ticker.add(() => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height); if (history.length < 2) return;
+                for(let i = 0; i < history.length - 1; i++) {
+                    let p1 = history[i], p2 = history[i+1]; p1.age += 1;
+                    let alpha = Math.max(0, 1 - (history.length - i) * 0.04), lineWidth = Math.max(0.5, i * 0.5);
+                    ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.strokeStyle = `rgba(255, 106, 0, ${alpha})`; ctx.lineWidth = lineWidth; ctx.lineCap = 'round'; ctx.stroke();
+                }
+                history = history.filter(p => p.age < 20);
+            });
+        };
+        setupCursor();
     </script>
 </body>
 </html>
