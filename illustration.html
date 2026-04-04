@@ -5,15 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Illustration | Design Nerd</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;600;900&family=Inter:wght@100..900&family=Space+Mono&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
     <style>
-        body { background: #000; overflow-x: hidden; }
-        .cat-nav { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
-        .back-link { text-decoration: none; color: #fff; font-size: 0.65rem; letter-spacing: 3px; font-weight: 900; opacity: 0.5; transition: opacity 0.3s; }
-        .back-link:hover { opacity: 1; }
+        body { background: #000; overflow-x: hidden; font-family: 'Inter', sans-serif; }
+        .cat-nav { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; mix-blend-mode: difference; }
+        .back-link { text-decoration: none; color: #fff; font-size: 0.65rem; letter-spacing: 3px; font-weight: 900; opacity: 1; transition: opacity 0.3s; font-family: 'Space Mono', monospace; }
+        .back-link:hover { opacity: 0.7; }
+
+        /* --- HERO SECTION --- */
+        .hero-full {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .bg-video-container {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: #000;
+        }
+
+        .bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7; /* Adjust opacity for better text readability */
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.5) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            width: 84vw;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px; /* Space between title and label */
+        }
+
+        .hero-title {
+            font-family: 'Epilogue', sans-serif;
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            color: #fff;
+        }
+
+        @keyframes fluidColor {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .on-process-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 32px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 900;
+            
+            /* FLUID COLOR ANIMATION ON LABEL */
+            background: linear-gradient(
+                90deg, 
+                #ff3333, /* RED */
+                #33ff33, /* GREEN */
+                #ff3333, 
+                #33ff33
+            );
+            background-size: 400% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: fluidColor 6s ease-in-out infinite;
+        }
         /* --- DYNAMIC DISCOVERY SECTION (SYNCED 1:1 FROM BRANDING) --- */
         .more-work-section {
             background: #000;
@@ -105,44 +187,17 @@
     </nav>
 
     <main>
-        <section class="cat-hero">
-            <h1 class="cat-title">DIGITAL ART</h1>
-        </section>
-
-        <div class="ticker-wrap">
-            <div class="ticker-track">
-                <span>DIGITAL ILLUSTRATION • CHARACTER DESIGN • SURREALISM • FINE LINES • VISUAL STORYTELLING • </span>
-                <span>DIGITAL ILLUSTRATION • CHARACTER DESIGN • SURREALISM • FINE LINES • VISUAL STORYTELLING • </span>
+        <section class="hero-full">
+            <div class="bg-video-container">
+                <video class="bg-video" autoplay muted loop playsinline>
+                    <source src="vedio illustration (1).mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
-        </div>
-
-        <section class="window-stack-container">
-            <div class="window-card" data-gsap="reveal-card">
-                <div class="window-header">
-                    <div class="window-dot" style="background: #ff33cc;"></div>
-                    <div class="window-dot" style="background: #cc33ff;"></div>
-                    <div class="window-dot" style="background: #33ccff;"></div>
-                    <div class="window-title">Art_01 // COSMIC TRAVELER</div>
-                </div>
-                <div class="window-body">
-                    <img src="ill.JPG" class="window-img" alt="Illustration">
-                </div>
-                <div class="window-info">
-                    <h4>Elephant Illustration</h4>
-                    <p>A hand-drawn illustration featuring a characterful elephant in a vibrant blue setting.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="records-section">
-            <span class="section-tag" style="margin-bottom: 40px; display: block;">SKETCHES & PROCESS</span>
-            <div class="records-grid">
-                <div class="record-item">
-                    <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=800" class="record-img" alt="Sketch 1">
-                </div>
-                <div class="record-item">
-                    <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&q=80&w=800" class="record-img" alt="Sketch 2">
-                </div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title" data-gsap="reveal-hero">DIGITAL ART</h1>
+                <span class="on-process-label" data-gsap="reveal-hero">ON PROCESS</span>
             </div>
         </section>
 
@@ -181,14 +236,8 @@
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
         gsap.registerPlugin(ScrollTrigger);
-        gsap.from('.cat-title', { y: 200, autoAlpha: 0, duration: 1.5, ease: 'expo.out', delay: 0.5 });
-        const cards = gsap.utils.toArray('.window-card');
-        cards.forEach((card, i) => {
-            const tilt = (i % 2 === 0) ? -2 : 2;
-            gsap.set(card, { rotationZ: tilt });
-            gsap.from(card, { y: 150, autoAlpha: 0, scale: 0.9, scrollTrigger: { trigger: card, start: 'top 95%', end: 'top 60%', scrub: true } });
-            gsap.to(card, { y: -100, scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: 1.5 } });
-        });
+        gsap.from('[data-gsap="reveal-hero"]', { y: 100, opacity: 0, duration: 1.5, stagger: 0.2, ease: "expo.out", delay: 0.5 });
+        gsap.from('.bg-video', { scale: 1.1, opacity: 0, duration: 2, ease: "power2.out" });
         // PREVIEW LOGIC
 
         // STAGGER REVEAL
