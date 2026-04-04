@@ -68,7 +68,7 @@
             <nav class="main-nav">
                 <a href="javascript:void(0)" onclick="lenis.scrollTo('#work')" class="nav-link">WORK</a>
                 <a href="javascript:void(0)" onclick="lenis.scrollTo('#about')" class="nav-link">ABOUT</a>
-                <a href="https://your-resume-link.com" target="_blank" class="nav-btn resume-btn">
+                <a href="javascript:void(0)" onclick="openResume()" class="nav-btn resume-btn">
                     <span class="btn-text">RESUME</span>
                     <span class="arrow">↗</span>
                 </a>
@@ -588,6 +588,13 @@
     <!-- Custom Comet Cursor -->
     <canvas id="cursor-canvas"></canvas>
     <div id="cursor"></div>
+
+    <!-- RESUME VIEWER OVERLAY -->
+    <div id="resume-viewer">
+        <div class="resume-tip">INTERACTIVE RESUME VIEWER</div>
+        <button class="close-resume" onclick="closeResume()">✕</button>
+        <iframe id="resume-frame" src="Product Designer_Manish Joshi.pdf" frameborder="0"></iframe>
+    </div>
 
     <script src="script.js"></script>
 </body>

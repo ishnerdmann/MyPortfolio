@@ -1568,7 +1568,7 @@
             <a href="#mission-trigger" class="ln-item active">Overview</a>
             <a href="#visuals-trigger" class="ln-item">Visuals</a>
             <a href="#system-trigger" class="ln-item">System</a>
-            <a href="https://your-resume-link.com" target="_blank" class="ln-item ln-resume">RESUME ↗</a>
+            <a href="javascript:void(0)" onclick="openResume()" class="ln-item ln-resume">RESUME ↗</a>
         </div>
     </nav>
 
@@ -3009,6 +3009,33 @@
                 });
             });
         });
+
+        // --- RESUME VIEWER CORE ---
+        const openResume = () => {
+            const viewer = document.getElementById('resume-viewer');
+            viewer.classList.add('active');
+            gsap.to(viewer, { opacity: 1, duration: 0.8, ease: "power4.out" });
+            if (typeof lenis !== 'undefined') lenis.stop();
+        };
+
+        const closeResume = () => {
+            const viewer = document.getElementById('resume-viewer');
+            gsap.to(viewer, { 
+                opacity: 0, 
+                duration: 0.5, 
+                ease: "power4.in",
+                onComplete: () => {
+                    viewer.classList.remove('active');
+                    if (typeof lenis !== 'undefined') lenis.start();
+                }
+            });
+        };
     </script>
+    <!-- RESUME VIEWER OVERLAY -->
+    <div id="resume-viewer">
+        <div class="resume-tip">INTERACTIVE RESUME VIEWER</div>
+        <button class="close-resume" onclick="closeResume()">✕</button>
+        <iframe id="resume-frame" src="Product Designer_Manish Joshi.pdf" frameborder="0"></iframe>
+    </div>
 </body>
 </html>

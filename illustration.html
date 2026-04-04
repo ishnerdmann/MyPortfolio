@@ -196,7 +196,7 @@
 <body>
     <nav class="cat-nav">
         <a href="index.html?skipLoader=true" class="back-link">BACK TO HOME</a>
-        <a href="https://your-resume-link.com" target="_blank" class="resume-btn">RESUME ↗</a>
+        <a href="javascript:void(0)" onclick="openResume()" class="resume-btn">RESUME ↗</a>
     </nav>
 
     <canvas id="cursor-canvas"></canvas>
@@ -278,5 +278,34 @@
         };
         setupCursor();
     </script>
+    <script>
+        // --- RESUME VIEWER CORE ---
+        const openResume = () => {
+            const viewer = document.getElementById('resume-viewer');
+            viewer.classList.add('active');
+            gsap.to(viewer, { opacity: 1, duration: 0.8, ease: "power4.out" });
+            if (typeof lenis !== 'undefined') lenis.stop();
+        };
+
+        const closeResume = () => {
+            const viewer = document.getElementById('resume-viewer');
+            gsap.to(viewer, { 
+                opacity: 0, 
+                duration: 0.5, 
+                ease: "power4.in",
+                onComplete: () => {
+                    viewer.classList.remove('active');
+                    if (typeof lenis !== 'undefined') lenis.start();
+                }
+            });
+        };
+    </script>
+
+    <!-- RESUME VIEWER OVERLAY -->
+    <div id="resume-viewer">
+        <div class="resume-tip">INTERACTIVE RESUME VIEWER</div>
+        <button class="close-resume" onclick="closeResume()">✕</button>
+        <iframe id="resume-frame" src="Product Designer_Manish Joshi.pdf" frameborder="0"></iframe>
+    </div>
 </body>
 </html>

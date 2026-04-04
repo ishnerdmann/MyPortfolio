@@ -1929,3 +1929,74 @@ header.scrolled {
     .footer-col, .right-align { align-items: center; text-align: center; }
     .footer-large-link { font-size: 3.8rem; letter-spacing: -2px; }
 }
+
+/* -------------------------------------------------------------------------- */
+/* RESUME VIEWER OVERLAY                                                      */
+/* -------------------------------------------------------------------------- */
+#resume-viewer {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(25px);
+    z-index: 99999;
+    display: none; /* Controlled by JS */
+    opacity: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px 20px;
+}
+
+#resume-viewer.active {
+    display: flex;
+}
+
+#resume-frame {
+    width: 100%;
+    max-width: 1100px;
+    height: 90%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+    border-radius: 12px;
+    background: #000;
+}
+
+.close-resume {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 100;
+}
+
+.close-resume:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+    transform: rotate(90deg) scale(1.1);
+}
+
+.resume-tip {
+    position: absolute;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 5px;
+    opacity: 0.4;
+    text-transform: uppercase;
+}

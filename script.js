@@ -948,3 +948,24 @@ const animate = () => {
 
 // START
 window.onload = init;
+
+// --- RESUME VIEWER CORE ---
+const openResume = () => {
+    const viewer = document.getElementById('resume-viewer');
+    viewer.classList.add('active');
+    gsap.to(viewer, { opacity: 1, duration: 0.8, ease: "power4.out" });
+    if (typeof lenis !== 'undefined') lenis.stop();
+};
+
+const closeResume = () => {
+    const viewer = document.getElementById('resume-viewer');
+    gsap.to(viewer, { 
+        opacity: 0, 
+        duration: 0.5, 
+        ease: "power4.in",
+        onComplete: () => {
+            viewer.classList.remove('active');
+            if (typeof lenis !== 'undefined') lenis.start();
+        }
+    });
+};

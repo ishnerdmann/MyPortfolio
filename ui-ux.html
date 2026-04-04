@@ -3033,6 +3033,13 @@
     <canvas id="cursor-canvas"></canvas>
     <div id="cursor"></div>
 
+    <!-- RESUME VIEWER OVERLAY -->
+    <div id="resume-viewer">
+        <div class="resume-tip">INTERACTIVE RESUME VIEWER</div>
+        <button class="close-resume" onclick="closeResume()">✕</button>
+        <iframe id="resume-frame" src="Product Designer_Manish Joshi.pdf" frameborder="0"></iframe>
+    </div>
+
     <!-- CASE-SPECIFIC LIQUID GLASS NAV -->
     <nav class="liquid-nav">
         <div class="ln-left">
@@ -3044,7 +3051,7 @@
             <a href="#research-trigger" class="ln-item">Research</a>
             <a href="#process-trigger" class="ln-item">Process</a>
             <a href="#solution-trigger" class="ln-item">Interface</a>
-            <a href="https://your-resume-link.com" target="_blank" class="ln-item ln-resume">RESUME ↗</a>
+            <a href="javascript:void(0)" onclick="openResume()" class="ln-item ln-resume">RESUME ↗</a>
         </div>
     </nav>
 
@@ -4263,6 +4270,27 @@
             });
         };
         setupCursor();
+
+        // --- RESUME VIEWER CORE ---
+        const openResume = () => {
+            const viewer = document.getElementById('resume-viewer');
+            viewer.classList.add('active');
+            gsap.to(viewer, { opacity: 1, duration: 0.8, ease: "power4.out" });
+            if (typeof lenis !== 'undefined') lenis.stop();
+        };
+
+        const closeResume = () => {
+            const viewer = document.getElementById('resume-viewer');
+            gsap.to(viewer, { 
+                opacity: 0, 
+                duration: 0.5, 
+                ease: "power4.in",
+                onComplete: () => {
+                    viewer.classList.remove('active');
+                    if (typeof lenis !== 'undefined') lenis.start();
+                }
+            });
+        };
 
         const cards = gsap.utils.toArray('.window-card');
         cards.forEach((card, i) => {
