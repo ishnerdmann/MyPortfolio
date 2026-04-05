@@ -4576,17 +4576,15 @@
         const jmTrack = document.getElementById('jm-horizontal-track');
         if (jmTrack) {
             initUserHighlight();
-            // SCROLL EXACTLY TO THE LAST COLUMN (WIDTH - VIEWPORT + PADDING)
-            const jmWidth = jmTrack.offsetWidth - window.innerWidth;
-
+            
             // 1. PIN & HORIZONTAL SCROLL
             gsap.to(jmTrack, {
-                x: () => -jmWidth,
+                x: () => -(jmTrack.offsetWidth - window.innerWidth),
                 ease: "none",
                 scrollTrigger: {
-                    trigger: "#journey-pin-trigger",
+                    trigger: "#process-trigger",
                     start: "top top",
-                    end: () => `+=${jmWidth}`,
+                    end: () => `+=${jmTrack.offsetWidth - window.innerWidth}`,
                     pin: true,
                     scrub: 1,
                     invalidateOnRefresh: true,
@@ -4602,8 +4600,8 @@
                         const highlight = document.getElementById('jm-active-col');
 
                         if (highlight) {
-                            const colW = 300, gap = 15;
-                            const leftPos = 120 + 40 + (activeIndex * (colW + gap));
+                            const colW = 300, gap = 15, labelW = 120, paddingL = 40;
+                            const leftPos = labelW + paddingL + gap + (activeIndex * (colW + gap));
                             gsap.to(highlight, { left: leftPos, width: colW, opacity: 1, duration: 0.3, overwrite: "auto" });
                         }
 
