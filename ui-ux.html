@@ -1873,81 +1873,7 @@
         }
 
 
-        /* NEW USER JOURNEY SECTION */
-        .user-journey-intro {
-            background-color: #0A0A0B;
-            padding: 80px 40px;
-            /* REDUCED FOR BETTER PROXIMITY */
-            display: flex;
-            justify-content: center;
-            position: relative;
-            z-index: 5;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            font-family: 'Inter', sans-serif;
-        }
 
-        .uj-container {
-            max-width: 1200px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 80px;
-        }
-
-        .uj-top {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            width: 100%;
-        }
-
-        .uj-label {
-            position: absolute;
-            left: 0;
-            top: 10px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #7670FE;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            opacity: 0.8;
-        }
-
-        .uj-heading {
-            font-size: 28px;
-            font-weight: 700;
-            color: #FFFFFF;
-            text-align: center;
-            margin: 0;
-            letter-spacing: -0.015em;
-            line-height: 1.25;
-            font-family: 'Inter', Helvetica, sans-serif;
-        }
-
-        .uj-body {
-            font-size: 20px;
-            line-height: 1.6;
-            color: #CBD5F5;
-            max-width: 100%;
-            margin: 0;
-            text-align: left;
-            opacity: 0.9;
-        }
-
-        .uj-highlight {
-            font-family: 'Times New Roman', serif;
-            font-style: italic;
-            color: #7670FE;
-            font-weight: 500;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-
-        .uj-highlight:hover {
-            color: #9089ff;
-            text-shadow: 0 0 20px rgba(118, 112, 254, 0.6);
-        }
 
         /* USER HIGHLIGHT SECTION (PREMIUM) */
         .user-highlight-section {
@@ -2895,7 +2821,7 @@
 
         .jm-grid {
             display: grid;
-            grid-template-columns: 120px repeat(8, 300px);
+            grid-template-columns: 120px repeat(7, 300px);
             grid-template-rows: 60px 180px 200px 180px;
             /* REMOVED 5TH ROW */
             gap: 15px;
@@ -3626,24 +3552,7 @@
 
 
 
-        <!-- NEW USER JOURNEY SECTION -->
-        <section class="user-journey-intro">
-            <div class="uj-container">
-                <div class="uj-top">
-                    <span class="uj-label" data-reveal="uj-reveal">Here’s a scenario of our user</span>
-                    <h2 class="uj-heading" data-reveal="uj-reveal">Our user’s journey</h2>
-                </div>
-                <div class="uj-content" data-reveal="uj-paragraph">
-                    <p class="uj-body">
-                        Arjun is a UI designer who often explores websites to find inspiration. He comes across layouts,
-                        <span class="uj-highlight">typography</span>, and <span class="uj-highlight">color styles</span>
-                        that he wants to save for later. He starts collecting them using screenshots, bookmarks, and
-                        different tools. Over time, everything gets scattered, and when he needs those references again,
-                        he struggles to find or <span class="uj-highlight">reuse them effectively</span>.
-                    </p>
-                </div>
-            </div>
-        </section>
+
 
 
         <!-- JOURNEY MAP SECTION -->
@@ -3693,55 +3602,44 @@
                             </div>
                             <div class="jm-cell" style="grid-row: 4; grid-column: 4;">Notion, Folders</div>
 
-                            <!-- Search Later -->
-                            <div class="jm-cell jm-phase-header" style="grid-column: 5;">Search Later</div>
-                            <div class="jm-cell" style="grid-row: 2; grid-column: 5;">Tries to find old references,
-                                scrolls through files.</div>
+                            <!-- Search & Retrieval -->
+                            <div class="jm-cell jm-phase-header" style="grid-column: 5;">Search & Retrieval</div>
+                            <div class="jm-cell" style="grid-row: 2; grid-column: 5;">Tries to find old references, scrolls through files with frustrated attempts.</div>
                             <div class="jm-emotion-wrapper" style="grid-column: 5; --y-offset: 40px;">
-                                <span class="jm-emotion-icon">😑</span>
-                                <span class="jm-emotion-title">Stress</span>
-                            </div>
-                            <div class="jm-cell" style="grid-row: 4; grid-column: 5;">Desktop, Files</div>
-
-                            <!-- Searching Later -->
-                            <div class="jm-cell jm-phase-header" style="grid-column: 6;">Searching Later</div>
-                            <div class="jm-cell" style="grid-row: 2; grid-column: 6;">More scrolling and frustrated
-                                attempts.</div>
-                            <div class="jm-emotion-wrapper" style="grid-column: 6; --y-offset: 60px;">
-                                <span class="jm-emotion-icon">😕</span>
-                                <span class="jm-emotion-title">Confusion</span>
-                            </div>
-                            <div class="jm-cell" style="grid-row: 4; grid-column: 6;">Folders, Chrome</div>
-
-                            <!-- Trying to Reuse -->
-                            <div class="jm-cell jm-phase-header" style="grid-column: 7;">Trying to Reuse</div>
-                            <div class="jm-cell" style="grid-row: 2; grid-column: 7;">Identifies font styles and hex
-                                colors manually.</div>
-                            <div class="jm-emotion-wrapper" style="grid-column: 7; --y-offset: 80px;">
-                                <span class="jm-emotion-icon">😣</span>
+                                <span class="jm-emotion-icon">😵</span>
                                 <span class="jm-emotion-title">Frustration</span>
                             </div>
-                            <div class="jm-cell" style="grid-row: 4; grid-column: 7;">Figma, Photos</div>
+                            <div class="jm-cell" style="grid-row: 4; grid-column: 5;">Desktop, Files, Chrome</div>
 
-                            <!-- Frustration -->
-                            <div class="jm-cell jm-phase-header" style="grid-column: 8;">Frustration</div>
-                            <div class="jm-cell" style="grid-row: 2; grid-column: 8;">Re-searches everything or uses AI
+                            <!-- Trying to Reuse -->
+                            <div class="jm-cell jm-phase-header" style="grid-column: 6;">Trying to Reuse</div>
+                            <div class="jm-cell" style="grid-row: 2; grid-column: 6;">Identifies font styles and hex
+                                colors manually.</div>
+                            <div class="jm-emotion-wrapper" style="grid-column: 6; --y-offset: 80px;">
+                                <span class="jm-emotion-icon">😣</span>
+                                <span class="jm-emotion-title">Stress</span>
+                            </div>
+                            <div class="jm-cell" style="grid-row: 4; grid-column: 6;">Figma, Photos</div>
+
+                            <!-- Annoyance -->
+                            <div class="jm-cell jm-phase-header" style="grid-column: 7;">Frustration</div>
+                            <div class="jm-cell" style="grid-row: 2; grid-column: 7;">Re-searches everything or uses AI
                                 guesses.</div>
-                            <div class="jm-emotion-wrapper" style="grid-column: 8; --y-offset: 100px;">
+                            <div class="jm-emotion-wrapper" style="grid-column: 7; --y-offset: 100px;">
                                 <span class="jm-emotion-icon">😤</span>
                                 <span class="jm-emotion-title">Annoyance</span>
                             </div>
-                            <div class="jm-cell" style="grid-row: 4; grid-column: 8;">AI tools, Search</div>
+                            <div class="jm-cell" style="grid-row: 4; grid-column: 7;">AI tools, Search</div>
 
                             <!-- Workaround -->
-                            <div class="jm-cell jm-phase-header" style="grid-column: 9;">Workaround</div>
-                            <div class="jm-cell" style="grid-row: 2; grid-column: 9;">Starts from scratch, needs a
+                            <div class="jm-cell jm-phase-header" style="grid-column: 8;">Workaround</div>
+                            <div class="jm-cell" style="grid-row: 2; grid-column: 8;">Starts from scratch, needs a
                                 better system.</div>
-                            <div class="jm-emotion-wrapper" style="grid-column: 9; --y-offset: -40px;">
+                            <div class="jm-emotion-wrapper" style="grid-column: 8; --y-offset: -40px;">
                                 <span class="jm-emotion-icon">💡</span>
                                 <span class="jm-emotion-title">Realization</span>
                             </div>
-                            <div class="jm-cell" style="grid-row: 4; grid-column: 9;">Klay Solution</div>
+                            <div class="jm-cell" style="grid-row: 4; grid-column: 8;">Klay Solution</div>
 
                         </div> <!-- End Grid -->
                     </div> <!-- End Table Container -->
@@ -3750,20 +3648,7 @@
         </section>
 
 
-        <!-- USER HIGHLIGHT SECTION (MOVED TO BOTTOM) -->
-        <section class="user-highlight-section">
-            <div class="uh-grain"></div>
-            <div class="uh-gradient-blob" id="uh-blob"></div>
 
-            <div class="uh-container">
-                <div class="uh-label">OUR PRIMARY USER</div>
-                <h2 class="uh-statement">
-                    Aditya’s <span class="uh-accent">Typical Experience</span> : <span class="uh-accent">Confused
-                        Planning</span> leading to last minute commitments and <span class="uh-accent">scarcity of
-                        availability</span> with convenience due to it
-                </h2>
-            </div>
-        </section>
 
 
 
@@ -4478,39 +4363,7 @@
         });
 
 
-        // NEW USER JOURNEY ANIMATIONS
-        gsap.from('[data-reveal="uj-reveal"]', {
-            opacity: 0,
-            y: 20,
-            duration: 1,
-            stagger: 0.2,
-            ease: "power3.out",
-            scrollTrigger: {
-                trigger: ".user-journey-intro",
-                start: "top 80%",
-            }
-        });
 
-        gsap.from('[data-reveal="uj-paragraph"]', {
-            opacity: 0,
-            y: 20,
-            duration: 1,
-            delay: 0.4,
-            ease: "power3.out",
-            scrollTrigger: {
-                trigger: ".user-journey-intro",
-                start: "top 80%",
-            }
-        });
-
-        // Highlight Glow Pulse
-        gsap.to(".uj-highlight", {
-            textShadow: "0 0 15px rgba(118, 112, 254, 0.3)",
-            duration: 2,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
 
 
         // CINEMATIC USER HIGHLIGHT + TYPEWRITER VERSION
@@ -4590,7 +4443,7 @@
                     invalidateOnRefresh: true,
                     onUpdate: (self) => {
                         const progress = self.progress;
-                        const colCount = 8;
+                        const colCount = 7;
                         const rawIndex = progress * colCount;
                         const activeIndex = Math.min(Math.floor(rawIndex), colCount - 1);
 
